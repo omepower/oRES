@@ -1,0 +1,3709 @@
+/* ============================================================
+   REMS CENTRAL APPLICATION STYLING
+   Bootstrap 5 compatible
+   SaaS Glass Design System
+   ============================================================ */
+
+
+/* ============================================================
+   1. ROOT VARIABLES
+   ============================================================ */
+
+:root {
+
+    --rems-primary: #1f2937;
+    --rems-primary-soft: #374151;
+
+    --rems-accent: #2563eb;
+    --rems-accent-soft: rgba(37, 99, 235, 0.10);
+
+    --rems-success: #198754;
+    --rems-warning: #f59e0b;
+    --rems-danger: #dc3545;
+
+    --rems-text: #1f2937;
+    --rems-text-soft: #6b7280;
+    --rems-text-muted: #9ca3af;
+
+    --rems-border: rgba(255, 255, 255, 0.65);
+    --rems-border-soft: rgba(15, 23, 42, 0.08);
+
+    --rems-glass-bg: rgba(255, 255, 255, 0.72);
+    --rems-glass-bg-strong: rgba(255, 255, 255, 0.88);
+
+    --rems-page-bg: #f3f6fa;
+
+    --rems-shadow-sm:
+        0 4px 18px rgba(15, 23, 42, 0.06);
+
+    --rems-shadow:
+        0 12px 35px rgba(15, 23, 42, 0.08);
+
+    --rems-shadow-lg:
+        0 20px 55px rgba(15, 23, 42, 0.12);
+
+    --rems-sidebar-width: 270px;
+
+    --rems-radius-sm: 10px;
+    --rems-radius: 14px;
+    --rems-radius-lg: 20px;
+
+    --rems-transition:
+        0.22s ease;
+}
+
+
+/* ============================================================
+   2. GLOBAL RESET / BASE
+   ============================================================ */
+
+html,
+body,
+#root {
+
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+
+    color: var(--rems-text);
+
+    background:
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(37, 99, 235, 0.055),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 90%,
+            rgba(14, 165, 233, 0.045),
+            transparent 30%
+        ),
+        var(--rems-page-bg);
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+/* ============================================================
+   3. APPLICATION SHELL
+   ============================================================ */
+
+.rems-app-shell {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    width: 100%;
+
+    background: transparent;
+}
+
+.rems-main-area {
+
+    flex: 1;
+
+    min-width: 0;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    margin-left:
+        var(--rems-sidebar-width);
+}
+
+.rems-content {
+
+    flex: 1;
+
+    min-width: 0;
+
+    padding:
+        28px;
+}
+
+
+/* ============================================================
+   4. GLASS FOUNDATION
+   ============================================================ */
+
+.rems-glass {
+
+    background:
+        var(--rems-glass-bg);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    backdrop-filter:
+        blur(18px);
+
+    border:
+        1px solid var(--rems-border);
+
+    box-shadow:
+        var(--rems-shadow);
+}
+
+.rems-glass-card {
+
+    overflow: hidden;
+
+    background:
+        rgba(255, 255, 255, 0.72);
+
+    -webkit-backdrop-filter:
+        blur(16px);
+
+    backdrop-filter:
+        blur(16px);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.82);
+
+    border-radius:
+        var(--rems-radius-lg);
+
+    box-shadow:
+        var(--rems-shadow-sm);
+}
+
+
+/* ============================================================
+   5. SIDEBAR
+   ============================================================ */
+
+.rems-sidebar {
+
+    position: fixed;
+
+    z-index: 1050;
+
+    top: 0;
+    left: 0;
+    bottom: 0;
+
+    width:
+        var(--rems-sidebar-width);
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    background:
+        rgba(255, 255, 255, 0.78);
+
+    -webkit-backdrop-filter:
+        blur(22px);
+
+    backdrop-filter:
+        blur(22px);
+
+    border-right:
+        1px solid rgba(255, 255, 255, 0.85);
+
+    box-shadow:
+        8px 0 35px rgba(15, 23, 42, 0.06);
+
+    transition:
+        transform var(--rems-transition);
+}
+
+
+/* ============================================================
+   6. SIDEBAR BRAND
+   ============================================================ */
+
+.rems-sidebar-brand {
+
+    min-height:
+        88px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        12px;
+
+    padding:
+        20px;
+
+    border-bottom:
+        1px solid var(--rems-border-soft);
+}
+
+.rems-brand-mark {
+
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border-radius:
+        13px;
+
+    color:
+        #ffffff;
+
+    background:
+        var(--rems-primary);
+
+    box-shadow:
+        0 8px 18px rgba(31, 41, 55, 0.18);
+}
+
+.rems-brand-mark i {
+    font-size:
+        20px;
+}
+
+.rems-brand-text {
+    min-width:
+        0;
+}
+
+.rems-brand-name {
+
+    font-size:
+        16px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        0.08em;
+
+    line-height:
+        1.1;
+}
+
+.rems-brand-subtitle {
+
+    margin-top:
+        5px;
+
+    color:
+        var(--rems-text-muted);
+
+    font-size:
+        9px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        0.10em;
+
+    white-space:
+        nowrap;
+}
+
+
+/* ============================================================
+   7. SIDEBAR NAVIGATION
+   ============================================================ */
+
+.rems-sidebar-section {
+
+    padding:
+        24px 14px 14px;
+
+    flex:
+        1;
+
+    overflow-y:
+        auto;
+}
+
+.rems-sidebar-section-title {
+
+    padding:
+        0 12px 10px;
+
+    color:
+        var(--rems-text-muted);
+
+    font-size:
+        10px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        0.12em;
+
+    text-transform:
+        uppercase;
+}
+
+.rems-sidebar-nav {
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        5px;
+}
+
+.rems-nav-link {
+
+    position:
+        relative;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        12px;
+
+    min-height:
+        44px;
+
+    padding:
+        10px 13px;
+
+    color:
+        var(--rems-text-soft);
+
+    border-radius:
+        11px;
+
+    font-size:
+        14px;
+
+    font-weight:
+        500;
+
+    transition:
+        background var(--rems-transition),
+        color var(--rems-transition),
+        transform var(--rems-transition);
+}
+
+.rems-nav-link i {
+
+    width:
+        20px;
+
+    text-align:
+        center;
+
+    font-size:
+        17px;
+
+    flex-shrink:
+        0;
+}
+
+.rems-nav-link:hover {
+
+    color:
+        var(--rems-text);
+
+    background:
+        rgba(15, 23, 42, 0.045);
+
+    transform:
+        translateX(2px);
+}
+
+.rems-nav-link.active {
+
+    color:
+        var(--rems-primary);
+
+    background:
+        rgba(37, 99, 235, 0.09);
+
+    font-weight:
+        650;
+}
+
+.rems-nav-link.active::before {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    left:
+        0;
+
+    top:
+        9px;
+
+    bottom:
+        9px;
+
+    width:
+        3px;
+
+    border-radius:
+        4px;
+
+    background:
+        var(--rems-accent);
+}
+
+
+/* ============================================================
+   8. SIDEBAR RESIDENT CARD
+   ============================================================ */
+
+.rems-sidebar-resident-card {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        11px;
+
+    margin:
+        0 14px 10px;
+
+    padding:
+        12px;
+
+    background:
+        rgba(255, 255, 255, 0.52);
+
+    border:
+        1px solid var(--rems-border-soft);
+
+    border-radius:
+        13px;
+}
+
+.rems-resident-avatar {
+
+    width:
+        38px;
+
+    height:
+        38px;
+
+    flex-shrink:
+        0;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border-radius:
+        50%;
+
+    color:
+        #ffffff;
+
+    background:
+        var(--rems-primary);
+
+    font-size:
+        14px;
+
+    font-weight:
+        700;
+
+    text-transform:
+        uppercase;
+}
+
+.rems-resident-info {
+    min-width:
+        0;
+}
+
+.rems-resident-name {
+
+    overflow:
+        hidden;
+
+    color:
+        var(--rems-text);
+
+    font-size:
+        13px;
+
+    font-weight:
+        650;
+
+    text-overflow:
+        ellipsis;
+
+    white-space:
+        nowrap;
+}
+
+.rems-resident-type {
+
+    margin-top:
+        2px;
+
+    color:
+        var(--rems-text-muted);
+
+    font-size:
+        11px;
+}
+
+
+/* ============================================================
+   9. SIDEBAR FOOTER
+   ============================================================ */
+
+.rems-sidebar-footer {
+
+    padding:
+        14px;
+
+    border-top:
+        1px solid var(--rems-border-soft);
+}
+
+.rems-signout-button {
+
+    width:
+        100%;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        11px;
+
+    padding:
+        11px 13px;
+
+    border:
+        0;
+
+    border-radius:
+        11px;
+
+    color:
+        var(--rems-text-soft);
+
+    background:
+        transparent;
+
+    font-size:
+        13px;
+
+    transition:
+        background var(--rems-transition),
+        color var(--rems-transition);
+}
+
+.rems-signout-button:hover {
+
+    color:
+        var(--rems-danger);
+
+    background:
+        rgba(220, 53, 69, 0.07);
+}
+
+
+/* ============================================================
+   10. MOBILE SIDEBAR
+   ============================================================ */
+
+.rems-sidebar-backdrop {
+
+    position:
+        fixed;
+
+    z-index:
+        1040;
+
+    inset:
+        0;
+
+    background:
+        rgba(15, 23, 42, 0.34);
+
+    -webkit-backdrop-filter:
+        blur(3px);
+
+    backdrop-filter:
+        blur(3px);
+}
+
+.rems-mobile-close {
+
+    display:
+        none;
+
+    margin-left:
+        auto;
+
+    width:
+        36px;
+
+    height:
+        36px;
+
+    border:
+        0;
+
+    border-radius:
+        10px;
+
+    color:
+        var(--rems-text-soft);
+
+    background:
+        rgba(15, 23, 42, 0.05);
+}
+
+.rems-mobile-menu {
+
+    display:
+        none;
+
+    width:
+        40px;
+
+    height:
+        40px;
+
+    border:
+        0;
+
+    border-radius:
+        11px;
+
+    color:
+        var(--rems-text);
+
+    background:
+        rgba(15, 23, 42, 0.045);
+}
+
+.rems-mobile-menu i {
+    font-size:
+        21px;
+}
+
+
+/* ============================================================
+   11. TOPBAR
+   ============================================================ */
+
+.rems-topbar {
+
+    position:
+        sticky;
+
+    z-index:
+        1000;
+
+    top:
+        0;
+
+    min-height:
+        76px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        20px;
+
+    padding:
+        12px 28px;
+
+    background:
+        rgba(255, 255, 255, 0.68);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    backdrop-filter:
+        blur(18px);
+
+    border-bottom:
+        1px solid rgba(255, 255, 255, 0.8);
+}
+
+.rems-topbar-left {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        13px;
+
+    min-width:
+        0;
+}
+
+.rems-topbar-title {
+
+    color:
+        var(--rems-text);
+
+    font-size:
+        17px;
+
+    font-weight:
+        700;
+
+    line-height:
+        1.2;
+}
+
+.rems-topbar-subtitle {
+
+    margin-top:
+        3px;
+
+    color:
+        var(--rems-text-muted);
+
+    font-size:
+        11px;
+}
+
+.rems-topbar-right {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        16px;
+}
+
+.rems-topbar-divider {
+
+    width:
+        1px;
+
+    height:
+        30px;
+
+    background:
+        var(--rems-border-soft);
+}
+
+
+/* ============================================================
+   12. USER AREA
+   ============================================================ */
+
+.rems-user-button {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        10px;
+
+    padding:
+        5px 7px;
+
+    border:
+        0 !important;
+
+    color:
+        var(--rems-text);
+
+    background:
+        transparent !important;
+
+    box-shadow:
+        none !important;
+}
+
+.rems-user-button::after {
+    margin-left:
+        3px;
+}
+
+.rems-user-avatar {
+
+    width:
+        38px;
+
+    height:
+        38px;
+
+    flex-shrink:
+        0;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border-radius:
+        50%;
+
+    color:
+        #ffffff;
+
+    background:
+        var(--rems-primary);
+
+    font-size:
+        13px;
+
+    font-weight:
+        700;
+
+    text-transform:
+        uppercase;
+}
+
+.rems-user-info {
+    text-align:
+        left;
+}
+
+.rems-user-name {
+
+    max-width:
+        140px;
+
+    overflow:
+        hidden;
+
+    color:
+        var(--rems-text);
+
+    font-size:
+        13px;
+
+    font-weight:
+        650;
+
+    text-overflow:
+        ellipsis;
+
+    white-space:
+        nowrap;
+}
+
+.rems-user-role {
+
+    margin-top:
+        1px;
+
+    color:
+        var(--rems-text-muted);
+
+    font-size:
+        10px;
+}
+
+
+/* ============================================================
+   13. USER DROPDOWN
+   ============================================================ */
+
+.rems-user-menu {
+
+    min-width:
+        230px;
+
+    padding:
+        8px;
+
+    margin-top:
+        8px !important;
+
+    background:
+        rgba(255, 255, 255, 0.94);
+
+    -webkit-backdrop-filter:
+        blur(20px);
+
+    backdrop-filter:
+        blur(20px);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.9);
+
+    border-radius:
+        14px;
+
+    box-shadow:
+        var(--rems-shadow-lg);
+}
+
+.rems-user-menu-header {
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        3px;
+
+    padding:
+        9px 10px;
+}
+
+.rems-user-menu-header strong {
+
+    color:
+        var(--rems-text);
+
+    font-size:
+        13px;
+}
+
+.rems-user-menu-header span {
+
+    color:
+        var(--rems-text-muted);
+
+    font-size:
+        11px;
+
+    overflow:
+        hidden;
+
+    text-overflow:
+        ellipsis;
+
+    white-space:
+        nowrap;
+}
+
+.rems-logout-item {
+
+    display:
+        flex !important;
+
+    align-items:
+        center;
+
+    gap:
+        10px;
+
+    border-radius:
+        9px;
+
+    color:
+        var(--rems-text-soft);
+
+    font-size:
+        13px;
+}
+
+.rems-logout-item:hover {
+
+    color:
+        var(--rems-danger);
+
+    background:
+        rgba(220, 53, 69, 0.07);
+}
+
+
+/* ============================================================
+   14. STANDARD ADMIN PAGE
+   ============================================================ */
+
+.rems-page-content {
+
+    width:
+        100%;
+
+    max-width:
+        1600px;
+
+    margin:
+        0 auto;
+
+    padding:
+        30px 32px 40px;
+}
+
+.rems-page-header {
+
+    display:
+        flex;
+
+    align-items:
+        flex-start;
+
+    justify-content:
+        space-between;
+
+    gap:
+        24px;
+
+    margin-bottom:
+        28px;
+}
+
+.rems-page-eyebrow {
+
+    margin-bottom:
+        7px;
+
+    color:
+        var(--rems-text-muted);
+
+    font-size:
+        10px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        0.12em;
+
+    text-transform:
+        uppercase;
+}
+
+.rems-page-title {
+
+    margin:
+        0;
+
+    color:
+        var(--rems-text);
+
+    font-size:
+        25px;
+
+    font-weight:
+        750;
+
+    line-height:
+        1.2;
+
+    letter-spacing:
+        -0.025em;
+}
+
+.rems-page-description {
+
+    max-width:
+        720px;
+
+    margin:
+        7px 0 0;
+
+    color:
+        var(--rems-text-soft);
+
+    font-size:
+        13px;
+
+    line-height:
+        1.55;
+}
+
+.rems-page-subtitle {
+
+    margin-top:
+        6px;
+
+    color:
+        var(--rems-text-soft);
+
+    font-size:
+        13px;
+}
+
+.rems-page-header-actions {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        9px;
+
+    flex-shrink:
+        0;
+}
+
+
+/* ============================================================
+   15. ADMIN CARDS
+   ============================================================ */
+
+.rems-card {
+
+    background:
+        rgba(255, 255, 255, 0.72);
+
+    -webkit-backdrop-filter:
+        blur(16px);
+
+    backdrop-filter:
+        blur(16px);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.82);
+
+    border-radius:
+        var(--rems-radius-lg);
+
+    box-shadow:
+        var(--rems-shadow-sm);
+}
+
+.rems-glass-card {
+    overflow:
+        hidden;
+
+    background:
+        rgba(255, 255, 255, 0.72);
+
+    -webkit-backdrop-filter:
+        blur(16px);
+
+    backdrop-filter:
+        blur(16px);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.82);
+
+    border-radius:
+        var(--rems-radius-lg);
+
+    box-shadow:
+        var(--rems-shadow-sm);
+}
+
+.rems-card-header {
+
+    display:
+        flex;
+
+    align-items:
+        flex-start;
+
+    justify-content:
+        space-between;
+
+    gap:
+        18px;
+
+    padding:
+        20px 22px;
+
+    border-bottom:
+        1px solid var(--rems-border-soft);
+}
+
+.rems-card-title {
+
+    margin:
+        0;
+
+    color:
+        var(--rems-text);
+
+    font-size:
+        14px;
+
+    font-weight:
+        700;
+}
+
+.rems-card-subtitle {
+
+    margin-top:
+        5px;
+
+    color:
+        var(--rems-text-muted);
+
+    font-size:
+        11px;
+
+    line-height:
+        1.5;
+}
+
+.rems-card-body {
+    padding:
+        20px;
+}
+
+.rems-card-actions {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        8px;
+}
+
+
+/* ============================================================
+   16. ADMIN STATISTICS
+   ============================================================ */
+
+.rems-stat-card {
+
+    min-height:
+        108px;
+
+    height:
+        100%;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        15px;
+
+    padding:
+        19px;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.82);
+
+    border-radius:
+        var(--rems-radius);
+
+    background:
+        rgba(255, 255, 255, 0.72);
+
+    box-shadow:
+        var(--rems-shadow-sm);
+
+    -webkit-backdrop-filter:
+        blur(16px);
+
+    backdrop-filter:
+        blur(16px);
+
+    transition:
+        transform var(--rems-transition),
+        box-shadow var(--rems-transition);
+}
+
+.rems-stat-card:hover {
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        var(--rems-shadow);
+}
+
+.rems-stat-icon {
+
+    width:
+        43px;
+
+    height:
+        43px;
+
+    min-width:
+        43px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border-radius:
+        12px;
+
+    color:
+        var(--rems-primary);
+
+    background:
+        rgba(31, 41, 55, 0.065);
+
+    font-size:
+        17px;
+}
+
+.rems-stat-content {
+    min-width:
+        0;
+}
+
+.rems-stat-label {
+
+    color:
+        var(--rems-text-soft);
+
+    font-size:
+        11px;
+
+    line-height:
+        1.4;
+}
+
+.rems-stat-value {
+
+    margin-top:
+        3px;
+
+    color:
+        var(--rems-text);
+
+    font-size:
+        25px;
+
+    font-weight:
+        750;
+
+    line-height:
+        1.1;
+}
+
+
+/* ============================================================
+   17. FILTER BAR / SEARCH
+   ============================================================ */
+
+.rems-filter-bar {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        10px;
+
+    padding:
+        15px 20px;
+
+    border-bottom:
+        1px solid var(--rems-border-soft);
+}
+
+.rems-table-toolbar {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        16px;
+
+    padding:
+        15px 20px;
+
+    border-bottom:
+        1px solid var(--rems-border-soft);
+}
+
+.rems-search-box {
+
+    position:
+        relative;
+
+    width:
+        min(100%, 430px);
+
+    flex:
+        1;
+}
+
+.rems-search-box i {
+
+    position:
+        absolute;
+
+    z-index:
+        2;
+
+    top:
+        50%;
+
+    left:
+        13px;
+
+    color:
+        var(--rems-text-muted);
+
+    font-size:
+        13px;
+
+    transform:
+        translateY(-50%);
+}
+
+.rems-search-box input {
+
+    min-height:
+        40px;
+
+    padding-left:
+        38px;
+
+    border:
+        1px solid rgba(15, 23, 42, 0.09);
+
+    border-radius:
+        10px;
+
+    background:
+        rgba(255, 255, 255, 0.72);
+
+    box-shadow:
+        none;
+}
+
+.rems-search-box input:focus {
+
+    border-color:
+        rgba(37, 99, 235, 0.36);
+
+    background:
+        rgba(255, 255, 255, 0.94);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(37, 99, 235, 0.08);
+}
+
+.rems-filter-select {
+
+    width:
+        190px;
+
+    min-height:
+        40px;
+
+    border:
+        1px solid rgba(15, 23, 42, 0.09);
+
+    border-radius:
+        10px;
+
+    color:
+        var(--rems-text);
+
+    background:
+        rgba(255, 255, 255, 0.72);
+
+    box-shadow:
+        none;
+}
+
+.rems-filter-select:focus {
+
+    border-color:
+        rgba(37, 99, 235, 0.36);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(37, 99, 235, 0.08);
+}
+
+
+/* ============================================================
+   18. ADMIN TABLES
+   ============================================================ */
+
+.rems-table-wrapper {
+
+    overflow-x:
+        auto;
+
+    border-radius:
+        var(--rems-radius);
+}
+
+.rems-table {
+
+    width:
+        100%;
+
+    margin:
+        0;
+
+    border-collapse:
+        separate;
+
+    border-spacing:
+        0;
+}
+
+.rems-table thead th {
+
+    padding:
+        12px 16px;
+
+    color:
+        var(--rems-text-muted);
+
+    background:
+        rgba(15, 23, 42, 0.025);
+
+    border-bottom:
+        1px solid var(--rems-border-soft);
+
+    font-size:
+        10px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        0.075em;
+
+    text-transform:
+        uppercase;
+
+    white-space:
+        nowrap;
+}
+
+.rems-table tbody td {
+
+    padding:
+        14px 16px;
+
+    color:
+        var(--rems-text-soft);
+
+    border-bottom:
+        1px solid rgba(15, 23, 42, 0.055);
+
+    font-size:
+        13px;
+
+    vertical-align:
+        middle;
+}
+
+.rems-table tbody tr {
+
+    transition:
+        background var(--rems-transition);
+}
+
+.rems-table tbody tr:hover {
+
+    background:
+        rgba(37, 99, 235, 0.025);
+}
+
+.rems-table tbody tr:last-child td {
+
+    border-bottom:
+        0;
+}
+
+.rems-table-primary {
+
+    color:
+        var(--rems-text);
+
+    font-size:
+        13px;
+
+    font-weight:
+        600;
+}
+
+.rems-table-secondary {
+
+    margin-top:
+        3px;
+
+    color:
+        var(--rems-text-muted);
+
+    font-size:
+        11px;
+}
+
+
+/* ============================================================
+   19. STATUS SYSTEM
+   ============================================================ */
+
+.rems-status-badge {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        6px;
+
+    min-height:
+        26px;
+
+    padding:
+        4px 9px;
+
+    border-radius:
+        999px;
+
+    font-size:
+        10px;
+
+    font-weight:
+        700;
+
+    white-space:
+        nowrap;
+}
+
+.rems-status-dot {
+
+    width:
+        6px;
+
+    height:
+        6px;
+
+    flex:
+        0 0 6px;
+
+    border-radius:
+        50%;
+
+    background:
+        currentColor;
+}
+
+.rems-status-success,
+.rems-status-active {
+
+    color:
+        #146c43;
+
+    background:
+        rgba(25, 135, 84, 0.10);
+}
+
+.rems-status-warning {
+
+    color:
+        #996c00;
+
+    background:
+        rgba(245, 158, 11, 0.12);
+}
+
+.rems-status-danger,
+.rems-status-inactive {
+
+    color:
+        #b02a37;
+
+    background:
+        rgba(220, 53, 69, 0.10);
+}
+
+.rems-status-secondary {
+
+    color:
+        #596579;
+
+    background:
+        rgba(100, 116, 139, 0.12);
+}
+
+.rems-status-info {
+
+    color:
+        #155e75;
+
+    background:
+        rgba(14, 165, 233, 0.11);
+}
+
+
+/* ============================================================
+   20. GENERAL BADGES
+   ============================================================ */
+
+.rems-badge {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    min-height:
+        25px;
+
+    padding:
+        4px 9px;
+
+    border-radius:
+        999px;
+
+    font-size:
+        10px;
+
+    font-weight:
+        700;
+}
+
+.rems-badge-primary {
+
+    color:
+        #344256;
+
+    background:
+        rgba(31, 41, 55, 0.075);
+}
+
+.rems-badge-info {
+
+    color:
+        #155e75;
+
+    background:
+        rgba(14, 165, 233, 0.10);
+}
+
+.rems-badge-success {
+
+    color:
+        #146c43;
+
+    background:
+        rgba(25, 135, 84, 0.10);
+}
+
+.rems-badge-warning {
+
+    color:
+        #996c00;
+
+    background:
+        rgba(245, 158, 11, 0.12);
+}
+
+.rems-badge-danger {
+
+    color:
+        #b02a37;
+
+    background:
+        rgba(220, 53, 69, 0.10);
+}
+
+.rems-badge-neutral {
+
+    color:
+        var(--rems-text-soft);
+
+    background:
+        rgba(15, 23, 42, 0.06);
+}
+
+
+/* ============================================================
+   21. BUTTON SYSTEM
+   ============================================================ */
+
+.rems-primary-button,
+.rems-secondary-button,
+.rems-btn,
+.rems-btn-primary,
+.rems-btn-secondary {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        8px;
+
+    min-height:
+        40px;
+
+    padding:
+        8px 14px;
+
+    border-radius:
+        10px;
+
+    font-size:
+        12px;
+
+    font-weight:
+        650;
+
+    transition:
+        transform var(--rems-transition),
+        box-shadow var(--rems-transition),
+        background var(--rems-transition),
+        color var(--rems-transition);
+}
+
+.rems-primary-button,
+.rems-btn-primary {
+
+    color:
+        #ffffff;
+
+    background:
+        var(--rems-primary);
+
+    border:
+        1px solid var(--rems-primary);
+
+    box-shadow:
+        0 7px 18px
+        rgba(31, 41, 55, 0.12);
+}
+
+.rems-primary-button:hover,
+.rems-btn-primary:hover {
+
+    color:
+        #ffffff;
+
+    background:
+        var(--rems-primary-soft);
+
+    transform:
+        translateY(-1px);
+
+    box-shadow:
+        0 9px 22px
+        rgba(31, 41, 55, 0.15);
+}
+
+.rems-secondary-button,
+.rems-btn-secondary {
+
+    color:
+        var(--rems-text-soft);
+
+    background:
+        rgba(255, 255, 255, 0.68);
+
+    border:
+        1px solid rgba(15, 23, 42, 0.09);
+}
+
+.rems-secondary-button:hover,
+.rems-btn-secondary:hover {
+
+    color:
+        var(--rems-text);
+
+    background:
+        rgba(255, 255, 255, 0.92);
+
+    transform:
+        translateY(-1px);
+}
+
+
+/* ============================================================
+   22. ICON ACTIONS
+   ============================================================ */
+
+.rems-icon-button,
+.rems-action-btn,
+.rems-table-action {
+
+    width:
+        33px;
+
+    height:
+        33px;
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    padding:
+        0;
+
+    border:
+        1px solid rgba(148, 163, 184, 0.20);
+
+    border-radius:
+        9px;
+
+    color:
+        var(--rems-text-soft);
+
+    background:
+        rgba(255, 255, 255, 0.72);
+
+    transition:
+        background var(--rems-transition),
+        color var(--rems-transition),
+        transform var(--rems-transition);
+}
+
+.rems-icon-button:hover,
+.rems-action-btn:hover,
+.rems-table-action:hover {
+
+    color:
+        var(--rems-text);
+
+    background:
+        #ffffff;
+
+    transform:
+        translateY(-1px);
+}
+
+.rems-action-danger,
+.rems-table-action-danger {
+
+    color:
+        var(--rems-danger);
+}
+
+.rems-action-danger:hover,
+.rems-table-action-danger:hover {
+
+    color:
+        #b02a37;
+
+    border-color:
+        rgba(220, 53, 69, 0.18);
+
+    background:
+        rgba(220, 53, 69, 0.045);
+}
+
+
+/* ============================================================
+   23. FORM SYSTEM
+   ============================================================ */
+
+.rems-form-label {
+
+    display:
+        block;
+
+    margin-bottom:
+        7px;
+
+    color:
+        var(--rems-text);
+
+    font-size:
+        11px;
+
+    font-weight:
+        650;
+}
+
+.rems-form-control {
+
+    width:
+        100%;
+
+    min-height:
+        42px;
+
+    padding:
+        8px 11px;
+
+    color:
+        var(--rems-text);
+
+    background:
+        rgba(255, 255, 255, 0.72);
+
+    border:
+        1px solid rgba(15, 23, 42, 0.10);
+
+    border-radius:
+        10px;
+
+    outline:
+        none;
+
+    box-shadow:
+        none;
+
+    transition:
+        border var(--rems-transition),
+        box-shadow var(--rems-transition),
+        background var(--rems-transition);
+}
+
+.rems-form-control:focus {
+
+    background:
+        rgba(255, 255, 255, 0.94);
+
+    border-color:
+        rgba(37, 99, 235, 0.42);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(37, 99, 235, 0.08);
+}
+
+
+/* ============================================================
+   24. FORM SECTIONS
+   ============================================================ */
+
+.rems-form-section {
+
+    padding:
+        16px;
+
+    border:
+        1px solid rgba(148, 163, 184, 0.14);
+
+    border-radius:
+        14px;
+
+    background:
+        rgba(248, 250, 252, 0.55);
+}
+
+.rems-form-section + .rems-form-section {
+
+    margin-top:
+        14px;
+}
+
+.rems-form-section-title {
+
+    margin-bottom:
+        15px;
+
+    color:
+        var(--rems-text);
+
+    font-size:
+        11px;
+
+    font-weight:
+        750;
+
+    text-transform:
+        uppercase;
+
+    letter-spacing:
+        0.055em;
+}
+
+
+/* ============================================================
+   25. EMPTY / LOADING
+   ============================================================ */
+
+.rems-empty-state {
+
+    min-height:
+        230px;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    padding:
+        40px 20px;
+
+    text-align:
+        center;
+}
+
+.rems-empty-icon {
+
+    width:
+        52px;
+
+    height:
+        52px;
+
+    margin:
+        0 auto 14px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border-radius:
+        15px;
+
+    color:
+        var(--rems-text-muted);
+
+    background:
+        rgba(15, 23, 42, 0.05);
+
+    font-size:
+        21px;
+}
+
+.rems-empty-title {
+
+    margin-bottom:
+        5px;
+
+    color:
+        var(--rems-text);
+
+    font-size:
+        14px;
+
+    font-weight:
+        700;
+}
+
+.rems-empty-text {
+
+    max-width:
+        430px;
+
+    margin:
+        0;
+
+    color:
+        var(--rems-text-muted);
+
+    font-size:
+        11px;
+
+    line-height:
+        1.6;
+}
+
+.rems-loading-state {
+
+    min-height:
+        250px;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    color:
+        var(--rems-text-muted);
+
+    font-size:
+        12px;
+}
+
+
+/* ============================================================
+   26. ALERTS
+   ============================================================ */
+
+.rems-alert {
+
+    border:
+        0;
+
+    border-radius:
+        12px;
+
+    font-size:
+        12px;
+}
+
+
+/* ============================================================
+   27. MODALS
+   ============================================================ */
+
+.rems-modal-backdrop {
+
+    position:
+        fixed;
+
+    inset:
+        0;
+
+    z-index:
+        2000;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    padding:
+        18px;
+
+    overflow-y:
+        auto;
+
+    background:
+        rgba(15, 23, 42, 0.38);
+
+    -webkit-backdrop-filter:
+        blur(8px);
+
+    backdrop-filter:
+        blur(8px);
+}
+
+.rems-modal {
+
+    width:
+        min(100%, 760px);
+
+    overflow:
+        hidden;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.86);
+
+    border-radius:
+        var(--rems-radius-lg);
+
+    background:
+        rgba(255, 255, 255, 0.94);
+
+    box-shadow:
+        var(--rems-shadow-lg);
+
+    -webkit-backdrop-filter:
+        blur(22px);
+
+    backdrop-filter:
+        blur(22px);
+}
+
+.rems-management-modal {
+
+    width:
+        min(100%, 720px);
+}
+
+.rems-modal-header {
+
+    display:
+        flex;
+
+    align-items:
+        flex-start;
+
+    justify-content:
+        space-between;
+
+    gap:
+        18px;
+
+    padding:
+        20px 22px;
+
+    border-bottom:
+        1px solid var(--rems-border-soft);
+}
+
+.rems-modal-header > div:first-child {
+
+    position:
+        relative;
+
+    padding-left:
+        54px;
+}
+
+.rems-modal-icon {
+
+    position:
+        absolute;
+
+    left:
+        0;
+
+    top:
+        0;
+
+    width:
+        42px;
+
+    height:
+        42px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border-radius:
+        12px;
+
+    color:
+        var(--rems-primary);
+
+    background:
+        rgba(31, 41, 55, 0.07);
+
+    font-size:
+        17px;
+}
+
+.rems-modal-title {
+
+    color:
+        var(--rems-text);
+
+    font-size:
+        17px;
+
+    font-weight:
+        700;
+}
+
+.rems-modal-subtitle {
+
+    margin-top:
+        4px;
+
+    color:
+        var(--rems-text-soft);
+
+    font-size:
+        11px;
+}
+
+.rems-modal-close {
+
+    width:
+        35px;
+
+    height:
+        35px;
+
+    flex:
+        0 0 35px;
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border:
+        0;
+
+    border-radius:
+        9px;
+
+    color:
+        var(--rems-text-soft);
+
+    background:
+        rgba(15, 23, 42, 0.05);
+}
+
+.rems-modal-close:hover {
+
+    color:
+        var(--rems-text);
+
+    background:
+        rgba(15, 23, 42, 0.08);
+}
+
+.rems-modal-body {
+
+    padding:
+        22px;
+
+    max-height:
+        calc(100vh - 220px);
+
+    overflow-y:
+        auto;
+}
+
+.rems-modal-footer {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        flex-end;
+
+    gap:
+        8px;
+
+    padding:
+        14px 22px;
+
+    border-top:
+        1px solid var(--rems-border-soft);
+}
+
+
+/* ============================================================
+   28. PROPERTY DETAILS
+   ============================================================ */
+
+.rems-property-details-modal {
+
+    width:
+        min(100%, 960px);
+
+    max-height:
+        calc(100vh - 40px);
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+}
+
+.rems-property-detail-section {
+
+    padding:
+        18px;
+
+    border:
+        1px solid rgba(148, 163, 184, 0.14);
+
+    border-radius:
+        15px;
+
+    background:
+        rgba(248, 250, 252, 0.55);
+}
+
+.rems-property-detail-section + .rems-property-detail-section {
+
+    margin-top:
+        16px;
+}
+
+.rems-property-info-card,
+.rems-property-person-card {
+
+    min-height:
+        82px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        12px;
+
+    padding:
+        13px;
+
+    border:
+        1px solid rgba(148, 163, 184, 0.12);
+
+    border-radius:
+        12px;
+
+    background:
+        rgba(255, 255, 255, 0.72);
+}
+
+.rems-property-detail-icon {
+
+    width:
+        44px;
+
+    height:
+        44px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    flex:
+        0 0 44px;
+
+    border-radius:
+        13px;
+
+    color:
+        var(--rems-accent);
+
+    background:
+        rgba(37, 99, 235, 0.09);
+}
+
+
+/* ============================================================
+   29. VISITOR QR SYSTEM
+   ============================================================ */
+
+.rems-qr-modal {
+
+    width:
+        min(100%, 520px);
+}
+
+.rems-qr-container {
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    padding:
+        8px 0 20px;
+}
+
+.rems-qr-code {
+
+    padding:
+        16px;
+
+    border:
+        1px solid rgba(148, 163, 184, 0.18);
+
+    border-radius:
+        16px;
+
+    background:
+        #ffffff;
+
+    box-shadow:
+        var(--rems-shadow-sm);
+}
+
+.rems-qr-label {
+
+    margin-top:
+        13px;
+
+    color:
+        var(--rems-text-soft);
+
+    font-size:
+        11px;
+
+    text-align:
+        center;
+}
+
+.rems-qr-details {
+
+    overflow:
+        hidden;
+
+    margin-top:
+        7px;
+
+    border:
+        1px solid rgba(148, 163, 184, 0.16);
+
+    border-radius:
+        13px;
+}
+
+.rems-qr-detail-row {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    gap:
+        16px;
+
+    padding:
+        11px 13px;
+
+    border-bottom:
+        1px solid rgba(148, 163, 184, 0.12);
+}
+
+.rems-qr-detail-row:last-child {
+
+    border-bottom:
+        0;
+}
+
+.rems-qr-detail-row span {
+
+    color:
+        var(--rems-text-soft);
+
+    font-size:
+        11px;
+}
+
+.rems-qr-detail-row strong {
+
+    color:
+        var(--rems-text);
+
+    font-size:
+        11px;
+
+    text-align:
+        right;
+}
+
+.rems-qr-code-value {
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        4px;
+
+    margin-top:
+        14px;
+
+    padding:
+        13px;
+
+    border-radius:
+        12px;
+
+    background:
+        rgba(15, 23, 42, 0.04);
+
+    text-align:
+        center;
+}
+
+.rems-qr-code-value span {
+
+    color:
+        var(--rems-text-soft);
+
+    font-size:
+        9px;
+
+    text-transform:
+        uppercase;
+
+    letter-spacing:
+        0.05em;
+}
+
+.rems-qr-code-value strong {
+
+    overflow-wrap:
+        anywhere;
+
+    color:
+        var(--rems-text);
+
+    font-size:
+        10px;
+}
+
+
+/* ============================================================
+   30. DASHBOARD SYSTEM
+   Kept independent from Admin CRUD pages.
+   ============================================================ */
+
+.rems-dashboard {
+
+    width:
+        100%;
+
+    max-width:
+        1600px;
+
+    margin:
+        0 auto;
+
+    padding:
+        32px;
+}
+
+.rems-dashboard-header {
+
+    display:
+        flex;
+
+    align-items:
+        flex-end;
+
+    justify-content:
+        space-between;
+
+    gap:
+        24px;
+
+    margin-bottom:
+        36px;
+}
+
+.rems-eyebrow {
+
+    margin-bottom:
+        8px;
+
+    font-size:
+        0.72rem;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        0.12em;
+
+    text-transform:
+        uppercase;
+
+    color:
+        #7c8798;
+}
+
+.rems-dashboard-date {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        12px;
+
+    padding:
+        12px 16px;
+
+    border:
+        1px solid rgba(148, 163, 184, 0.16);
+
+    border-radius:
+        14px;
+
+    background:
+        rgba(255, 255, 255, 0.62);
+
+    box-shadow:
+        var(--rems-shadow-sm);
+
+    -webkit-backdrop-filter:
+        blur(14px);
+
+    backdrop-filter:
+        blur(14px);
+}
+
+.rems-dashboard-date-icon {
+
+    width:
+        38px;
+
+    height:
+        38px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border-radius:
+        11px;
+
+    background:
+        #f1f4f8;
+
+    color:
+        #566274;
+}
+
+.rems-overview-card {
+
+    display:
+        block;
+
+    height:
+        100%;
+
+    padding:
+        0;
+
+    color:
+        inherit;
+
+    text-decoration:
+        none;
+
+    border:
+        1px solid rgba(148, 163, 184, 0.14);
+
+    border-radius:
+        18px;
+
+    background:
+        rgba(255, 255, 255, 0.72);
+
+    box-shadow:
+        var(--rems-shadow-sm);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    backdrop-filter:
+        blur(18px);
+
+    transition:
+        transform 180ms ease,
+        box-shadow 180ms ease;
+}
+
+.rems-overview-card:hover {
+
+    color:
+        inherit;
+
+    text-decoration:
+        none;
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        var(--rems-shadow);
+}
+
+.rems-overview-card-content {
+
+    min-height:
+        190px;
+
+    padding:
+        22px;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+}
+
+.rems-overview-top {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    margin-bottom:
+        20px;
+}
+
+.rems-dashboard-icon {
+
+    width:
+        42px;
+
+    height:
+        42px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border-radius:
+        12px;
+
+    background:
+        #f1f4f8;
+
+    color:
+        #566274;
+}
+
+.rems-card-arrow {
+
+    color:
+        #b0b8c4;
+}
+
+.rems-overview-value {
+
+    margin-bottom:
+        3px;
+
+    color:
+        #1d2737;
+
+    font-size:
+        1.85rem;
+
+    font-weight:
+        700;
+}
+
+.rems-overview-label {
+
+    color:
+        #384354;
+
+    font-size:
+        0.85rem;
+
+    font-weight:
+        650;
+}
+
+.rems-overview-description {
+
+    margin-top:
+        auto;
+
+    padding-top:
+        15px;
+
+    color:
+        #929baa;
+
+    font-size:
+        0.72rem;
+
+    line-height:
+        1.5;
+}
+
+.rems-dashboard-card {
+
+    height:
+        100%;
+
+    overflow:
+        hidden;
+
+    border:
+        1px solid rgba(148, 163, 184, 0.14);
+
+    border-radius:
+        20px;
+
+    background:
+        rgba(255, 255, 255, 0.72);
+
+    box-shadow:
+        var(--rems-shadow-sm);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    backdrop-filter:
+        blur(18px);
+}
+
+.rems-action-card {
+
+    min-height:
+        88px;
+
+    height:
+        100%;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        15px;
+
+    padding:
+        16px 17px;
+
+    color:
+        inherit;
+
+    text-decoration:
+        none;
+
+    border:
+        1px solid rgba(148, 163, 184, 0.12);
+
+    border-radius:
+        15px;
+
+    background:
+        rgba(248, 250, 252, 0.68);
+}
+
+.rems-action-card:hover {
+
+    color:
+        inherit;
+
+    text-decoration:
+        none;
+
+    background:
+        rgba(255, 255, 255, 0.92);
+
+    transform:
+        translateY(-2px);
+}
+
+.rems-action-icon {
+
+    width:
+        40px;
+
+    height:
+        40px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    flex-shrink:
+        0;
+
+    border-radius:
+        11px;
+
+    background:
+        #eef2f6;
+
+    color:
+        #586578;
+}
+
+
+/* ============================================================
+   31. SCROLLBARS
+   ============================================================ */
+
+.rems-sidebar-section::-webkit-scrollbar,
+.rems-table-wrapper::-webkit-scrollbar {
+
+    width:
+        5px;
+
+    height:
+        5px;
+}
+
+.rems-sidebar-section::-webkit-scrollbar-thumb,
+.rems-table-wrapper::-webkit-scrollbar-thumb {
+
+    background:
+        rgba(15, 23, 42, 0.13);
+
+    border-radius:
+        999px;
+}
+
+.rems-sidebar-section::-webkit-scrollbar-track,
+.rems-table-wrapper::-webkit-scrollbar-track {
+
+    background:
+        transparent;
+}
+
+
+/* ============================================================
+   32. ACCESSIBILITY
+   ============================================================ */
+
+.rems-nav-link:focus-visible,
+.rems-mobile-menu:focus-visible,
+.rems-mobile-close:focus-visible,
+.rems-signout-button:focus-visible,
+.rems-user-button:focus-visible,
+.rems-btn:focus-visible,
+.rems-primary-button:focus-visible,
+.rems-secondary-button:focus-visible {
+
+    outline:
+        3px solid
+        rgba(37, 99, 235, 0.22);
+
+    outline-offset:
+        2px;
+}
+
+
+/* ============================================================
+   33. RESPONSIVE — TABLET
+   ============================================================ */
+
+@media (max-width: 991.98px) {
+
+    .rems-sidebar {
+
+        transform:
+            translateX(-105%);
+    }
+
+    .rems-sidebar.rems-sidebar-open {
+
+        transform:
+            translateX(0);
+    }
+
+    .rems-main-area {
+
+        margin-left:
+            0;
+
+        width:
+            100%;
+    }
+
+    .rems-mobile-close {
+
+        display:
+            flex;
+
+        align-items:
+            center;
+
+        justify-content:
+            center;
+    }
+
+    .rems-mobile-menu {
+
+        display:
+            flex;
+
+        align-items:
+            center;
+
+        justify-content:
+            center;
+    }
+
+    .rems-content {
+
+        padding:
+            22px;
+    }
+
+    .rems-topbar {
+
+        padding:
+            12px 22px;
+    }
+
+    .rems-page-content {
+
+        padding:
+            24px 22px 32px;
+    }
+
+    .rems-page-header-actions {
+
+        width:
+            100%;
+    }
+
+    .rems-page-header-actions > * {
+
+        flex:
+            1;
+    }
+
+    .rems-filter-bar,
+    .rems-table-toolbar {
+
+        flex-wrap:
+            wrap;
+    }
+
+    .rems-search-box {
+
+        flex:
+            1 1 100%;
+
+        width:
+            100%;
+    }
+
+    .rems-filter-select {
+
+        flex:
+            1;
+
+        width:
+            auto;
+    }
+
+    .rems-dashboard {
+
+        padding:
+            28px;
+    }
+}
+
+
+/* ============================================================
+   34. RESPONSIVE — MOBILE
+   ============================================================ */
+
+@media (max-width: 767.98px) {
+
+    .rems-page-content {
+
+        padding:
+            20px 18px 28px;
+    }
+
+    .rems-page-header {
+
+        flex-direction:
+            column;
+
+        margin-bottom:
+            22px;
+    }
+
+    .rems-page-header-actions {
+
+        flex-direction:
+            column;
+
+        width:
+            100%;
+    }
+
+    .rems-page-header-actions > * {
+
+        width:
+            100%;
+
+        flex:
+            none;
+    }
+
+    .rems-filter-bar,
+    .rems-table-toolbar {
+
+        align-items:
+            stretch;
+
+        flex-direction:
+            column;
+
+        padding:
+            14px 16px;
+    }
+
+    .rems-filter-select {
+
+        width:
+            100%;
+
+        flex:
+            none;
+    }
+
+    .rems-card-header {
+
+        padding:
+            17px 16px;
+    }
+
+    .rems-table thead th,
+    .rems-table tbody td {
+
+        padding:
+            12px;
+    }
+
+    .rems-modal-backdrop {
+
+        align-items:
+            flex-start;
+
+        padding:
+            10px;
+    }
+
+    .rems-modal {
+
+        margin-top:
+            10px;
+
+        border-radius:
+            17px;
+    }
+
+    .rems-modal-header {
+
+        padding:
+            17px;
+    }
+
+    .rems-modal-body {
+
+        padding:
+            17px;
+
+        max-height:
+            calc(100vh - 190px);
+    }
+
+    .rems-modal-footer {
+
+        padding:
+            13px 17px;
+    }
+
+    .rems-dashboard {
+
+        padding:
+            22px 18px 30px;
+    }
+
+    .rems-dashboard-header {
+
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
+
+        margin-bottom:
+            28px;
+    }
+}
+
+
+/* ============================================================
+   35. RESPONSIVE — SMALL MOBILE
+   ============================================================ */
+
+@media (max-width: 575.98px) {
+
+    .rems-content {
+
+        padding:
+            16px;
+    }
+
+    .rems-topbar {
+
+        min-height:
+            68px;
+
+        padding:
+            10px 16px;
+    }
+
+    .rems-topbar-title {
+
+        font-size:
+            15px;
+    }
+
+    .rems-topbar-subtitle {
+
+        display:
+            none;
+    }
+
+    .rems-user-info {
+
+        display:
+            none;
+    }
+
+    .rems-topbar-divider {
+
+        display:
+            none;
+    }
+
+    .rems-topbar-right {
+
+        gap:
+            4px;
+    }
+
+    .rems-user-avatar {
+
+        width:
+            36px;
+
+        height:
+            36px;
+    }
+
+    .rems-page-content {
+
+        padding:
+            16px 14px 24px;
+    }
+
+    .rems-page-title {
+
+        font-size:
+            21px;
+    }
+
+    .rems-page-description {
+
+        font-size:
+            12px;
+    }
+
+    .rems-stat-card {
+
+        min-height:
+            96px;
+
+        padding:
+            16px;
+    }
+
+    .rems-stat-value {
+
+        font-size:
+            22px;
+    }
+
+    .rems-stat-icon {
+
+        width:
+            39px;
+
+        height:
+            39px;
+
+        min-width:
+            39px;
+    }
+
+    .rems-filter-bar .rems-secondary-button,
+    .rems-table-toolbar .rems-secondary-button {
+
+        width:
+            100%;
+    }
+
+    .rems-modal-footer {
+
+        flex-direction:
+            column-reverse;
+    }
+
+    .rems-modal-footer > * {
+
+        width:
+            100%;
+    }
+
+    .rems-sidebar {
+
+        width:
+            min(290px, 88vw);
+    }
+}
+
+
+/* ============================================================
+   36. REDUCED MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+
+        scroll-behavior:
+            auto !important;
+
+        transition-duration:
+            0.01ms !important;
+
+        animation-duration:
+            0.01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+    }
+}
