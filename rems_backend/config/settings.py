@@ -13,7 +13,8 @@ SECRET_KEY = "django-insecure-rems-development-key"
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = ['localhost','127.0.0.1','192.168.18.53']
 
 
 # ============================================================
@@ -236,7 +237,9 @@ SIMPLE_JWT = {
 # CORS
 # ============================================================
 
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "http://192.168.18.53:5173",
 ]

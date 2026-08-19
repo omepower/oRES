@@ -39,6 +39,9 @@ class VisitorInvitationViewSet(
             "host",
             "host__user",
             "property",
+            "visit",
+            "visit__gate",
+            "visit__scanned_by",
         )
         .all()
     )
@@ -1025,6 +1028,35 @@ class VisitorVisitViewSet(
                         visit
                     ).data,
             }
+        )
+    
+    
+
+    @action(
+        detail=False,
+        methods=["get"],
+        url_path="completed-today",
+    )
+    def completed_today(self, request):
+        """
+        Return visitor visits completed today.
+        Existing completed/ endpoint remains unchanged.
+        """
+
+        today = timezone.localdate()
+
+        queryset = self.get_queryset().filter(
+            status=VisitorVisit.Status.COMPLETED,
+            time_out__date=today,
+        )
+
+        serializer = self.get_serializer(
+            queryset,
+            many=True,
+        )
+
+        return Response(
+            serializer.data
         )
 
 

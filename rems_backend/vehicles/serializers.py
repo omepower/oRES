@@ -35,6 +35,10 @@ class VehicleSerializer(
         read_only=True,
     )
 
+    motorist_sticker = serializers.SerializerMethodField(
+        read_only=True,
+    )
+
     class Meta:
 
         model = Vehicle
@@ -62,6 +66,8 @@ class VehicleSerializer(
 
             "is_active",
 
+            "motorist_sticker",
+
             "created_at",
             "updated_at",
         ]
@@ -76,10 +82,53 @@ class VehicleSerializer(
             "vehicle_type_display",
             "ownership_type_display",
 
+            "motorist_sticker",
+
             "created_at",
             "updated_at",
         ]
 
+    def get_motorist_sticker(
+        self,
+        obj,
+    ):
+
+        try:
+
+            sticker = (
+                obj.motorist_sticker
+            )
+
+        except MotoristSticker.DoesNotExist:
+
+            return None
+
+        return {
+            "id": sticker.id,
+
+            "sticker_number":
+                sticker.sticker_number,
+
+            "sticker_uuid":
+                str(
+                    sticker.sticker_uuid
+                ),
+
+            "status":
+                sticker.status,
+
+            "status_display":
+                sticker.get_status_display(),
+
+            "issued_at":
+                sticker.issued_at,
+
+            "revoked_at":
+                sticker.revoked_at,
+
+            "expires_at":
+                sticker.expires_at,
+        }
 
     def validate(
         self,
@@ -257,9 +306,6 @@ class VehicleSerializer(
                 }
             )
 
-
-        # Always derive the resident from the
-        # authenticated account.
 
         attrs[
             "registered_resident"
