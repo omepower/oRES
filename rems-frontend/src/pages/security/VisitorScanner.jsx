@@ -76,6 +76,141 @@ export default function VisitorScanner() {
 
 
     // ========================================================
+    // CAMERA ERROR MESSAGE
+    // ========================================================
+
+    const getCameraErrorMessage =
+        (
+            err
+        ) => {
+
+            const errorName =
+                err?.name ||
+                "";
+
+            const message =
+                String(
+                    err?.message ||
+                    ""
+                ).toLowerCase();
+
+
+            // ------------------------------------------------
+            // INSECURE HTTP
+            // ------------------------------------------------
+
+            if (
+                !window.isSecureContext
+            ) {
+
+                return (
+                    "Camera access requires a secure connection. " +
+                    "On a mobile phone, open the oRES portal using HTTPS " +
+                    "instead of an HTTP LAN address."
+                );
+
+            }
+
+
+            // ------------------------------------------------
+            // PERMISSION DENIED
+            // ------------------------------------------------
+
+            if (
+                errorName ===
+                "NotAllowedError" ||
+                message.includes(
+                    "permission"
+                ) ||
+                message.includes(
+                    "denied"
+                )
+            ) {
+
+                return (
+                    "Camera permission was denied. " +
+                    "Allow camera access for this site in your browser settings, " +
+                    "then reload the page."
+                );
+
+            }
+
+
+            // ------------------------------------------------
+            // NO CAMERA
+            // ------------------------------------------------
+
+            if (
+                errorName ===
+                "NotFoundError" ||
+                message.includes(
+                    "no camera"
+                ) ||
+                message.includes(
+                    "camera device"
+                )
+            ) {
+
+                return (
+                    "No usable camera was found on this device."
+                );
+
+            }
+
+
+            // ------------------------------------------------
+            // CAMERA BUSY
+            // ------------------------------------------------
+
+            if (
+                errorName ===
+                "NotReadableError" ||
+                message.includes(
+                    "not readable"
+                ) ||
+                message.includes(
+                    "device in use"
+                )
+            ) {
+
+                return (
+                    "The camera is currently being used by another application. " +
+                    "Close other camera apps and try again."
+                );
+
+            }
+
+
+            // ------------------------------------------------
+            // SECURITY ERROR
+            // ------------------------------------------------
+
+            if (
+                errorName ===
+                "SecurityError"
+            ) {
+
+                return (
+                    "The browser blocked camera access for security reasons. " +
+                    "Use HTTPS and allow camera permission for this site."
+                );
+
+            }
+
+
+            // ------------------------------------------------
+            // GENERIC
+            // ------------------------------------------------
+
+            return (
+                err?.message ||
+                "Unable to access the camera. Check camera permission and try again."
+            );
+
+        };
+
+
+    // ========================================================
     // LOAD GATES
     // ========================================================
 
@@ -108,7 +243,9 @@ export default function VisitorScanner() {
 
                     const primaryGate =
                         gateData.find(
-                            (gate) =>
+                            (
+                                gate
+                            ) =>
                                 gate?.is_primary ===
                                 true
                         ) ||
@@ -162,44 +299,26 @@ export default function VisitorScanner() {
         useCallback(
             async () => {
 
+                const scanner =
+                    scannerRef.current;
+
+
                 if (
-                    scannerRef.current
+                    scanner
                 ) {
 
                     try {
 
-                        const state =
-                            scannerRef.current
-                                .getState?.();
-
-
-                        if (
-                            state ===
-                            2
-                        ) {
-
-                            await scannerRef.current.stop();
-
-                        } else {
-
-                            try {
-
-                                await scannerRef.current.stop();
-
-                            } catch {
-                                // Already stopped.
-                            }
-
-                        }
+                        await scanner.stop();
 
                     } catch {
-                        // Scanner already stopped.
+                        // Scanner may already be stopped.
                     }
 
 
                     try {
 
-                        await scannerRef.current.clear();
+                        await scanner.clear();
 
                     } catch {
                         // Container may already be cleared.
@@ -224,7 +343,7 @@ export default function VisitorScanner() {
 
 
     // ========================================================
-    // PROCESS SCANNED QR
+    // PROCESS QR
     // ========================================================
 
     const handleScan =
@@ -237,7 +356,9 @@ export default function VisitorScanner() {
                     processing ||
                     startingRef.current
                 ) {
+
                     return;
+
                 }
 
 
@@ -256,7 +377,6 @@ export default function VisitorScanner() {
 
                 startingRef.current =
                     true;
-
 
                 setProcessing(true);
                 setError("");
@@ -287,13 +407,13 @@ export default function VisitorScanner() {
                     );
 
 
-                    const data =
+                    const responseData =
                         err?.response?.data;
 
 
                     setError(
-                        data?.reason ||
-                        data?.detail ||
+                        responseData?.reason ||
+                        responseData?.detail ||
                         "Unable to validate the visitor QR code."
                     );
 
@@ -316,7 +436,7 @@ export default function VisitorScanner() {
 
 
     // ========================================================
-    // START CAMERA AFTER CONTAINER HAS RENDERED
+    // START CAMERA
     // ========================================================
 
     useEffect(() => {
@@ -341,16 +461,56 @@ export default function VisitorScanner() {
 
                 try {
 
-                    // Give React one render cycle to
-                    // mount #security-visitor-qr-reader.
+                    // ------------------------------------------------
+                    // SECURE CONTEXT CHECK
+                    // ------------------------------------------------
+
+                    if (
+                        !window.isSecureContext
+                    ) {
+
+                        setScanning(false);
+
+                        setError(
+                            "Camera access requires HTTPS on a mobile device. " +
+                            "Open the oRES portal using a secure HTTPS address."
+                        );
+
+                        return;
+
+                    }
+
+
+                    // ------------------------------------------------
+                    // CAMERA API CHECK
+                    // ------------------------------------------------
+
+                    if (
+                        !navigator.mediaDevices ||
+                        !navigator.mediaDevices.getUserMedia
+                    ) {
+
+                        setScanning(false);
+
+                        setError(
+                            "This browser does not provide camera access."
+                        );
+
+                        return;
+
+                    }
+
+
+                    // ------------------------------------------------
+                    // WAIT FOR CONTAINER
+                    // ------------------------------------------------
 
                     await new Promise(
                         (
                             resolve
                         ) =>
                             requestAnimationFrame(
-                                () =>
-                                    resolve()
+                                resolve
                             )
                     );
 
@@ -358,7 +518,9 @@ export default function VisitorScanner() {
                     if (
                         cancelled
                     ) {
+
                         return;
+
                     }
 
 
@@ -392,6 +554,10 @@ export default function VisitorScanner() {
                     }
 
 
+                    // ------------------------------------------------
+                    // CREATE SCANNER
+                    // ------------------------------------------------
+
                     const scanner =
                         new Html5Qrcode(
                             "security-visitor-qr-reader"
@@ -402,11 +568,18 @@ export default function VisitorScanner() {
                         scanner;
 
 
+                    // ------------------------------------------------
+                    // START CAMERA
+                    // ------------------------------------------------
+
                     await scanner.start(
 
                         {
                             facingMode:
-                                "environment",
+                                {
+                                    ideal:
+                                        "environment",
+                                },
                         },
 
                         {
@@ -423,7 +596,7 @@ export default function VisitorScanner() {
                                 },
 
                             aspectRatio:
-                                1.0,
+                                1,
 
                         },
 
@@ -438,7 +611,7 @@ export default function VisitorScanner() {
                         },
 
                         () => {
-                            // Ignore frame scan failures.
+                            // Ignore individual frame failures.
                         }
 
                     );
@@ -448,7 +621,9 @@ export default function VisitorScanner() {
                     if (
                         cancelled
                     ) {
+
                         return;
+
                     }
 
 
@@ -458,12 +633,13 @@ export default function VisitorScanner() {
                     );
 
 
-                    setScanning(false);
+                    await stopScanner();
 
 
                     setError(
-                        err?.message ||
-                        "Unable to access the camera. Please allow camera access and try again."
+                        getCameraErrorMessage(
+                            err
+                        )
                     );
 
                 }
@@ -476,7 +652,8 @@ export default function VisitorScanner() {
 
         return () => {
 
-            cancelled = true;
+            cancelled =
+                true;
 
         };
 
@@ -485,22 +662,27 @@ export default function VisitorScanner() {
         processing,
         result,
         handleScan,
+        stopScanner,
     ]);
 
 
     // ========================================================
-    // CLEANUP ON UNMOUNT
+    // CLEANUP
     // ========================================================
 
     useEffect(() => {
 
         return () => {
 
+            const scanner =
+                scannerRef.current;
+
+
             if (
-                scannerRef.current
+                scanner
             ) {
 
-                scannerRef.current
+                scanner
                     .stop()
                     .catch(() => {});
 
@@ -512,7 +694,7 @@ export default function VisitorScanner() {
 
 
     // ========================================================
-    // START SCANNING
+    // START SCANNER
     // ========================================================
 
     const startScanner =
@@ -528,6 +710,19 @@ export default function VisitorScanner() {
 
                 setError(
                     "Please select a gate before starting the scanner."
+                );
+
+                return;
+
+            }
+
+
+            if (
+                !window.isSecureContext
+            ) {
+
+                setError(
+                    "Camera scanning requires HTTPS on a mobile phone."
                 );
 
                 return;
@@ -596,7 +791,10 @@ export default function VisitorScanner() {
 
             {error && (
 
-                <div className="alert alert-danger rems-alert mb-4">
+                <div
+                    className="alert alert-danger rems-alert mb-4"
+                    role="alert"
+                >
 
                     <BsExclamationCircle
                         className="me-2"
@@ -821,6 +1019,9 @@ export default function VisitorScanner() {
                                             onClick={
                                                 stopScanner
                                             }
+                                            disabled={
+                                                processing
+                                            }
                                         >
 
                                             Stop Scanner
@@ -902,6 +1103,7 @@ export default function VisitorScanner() {
 
                                                     {
                                                         result.visitor?.name ||
+                                                        result.visitor_name ||
                                                         "Visitor"
                                                     }
 
@@ -924,6 +1126,7 @@ export default function VisitorScanner() {
 
                                                     {
                                                         result.host?.name ||
+                                                        result.host_name ||
                                                         "Resident"
                                                     }
 
@@ -946,6 +1149,7 @@ export default function VisitorScanner() {
 
                                                     {
                                                         result.property?.address ||
+                                                        result.property_address ||
                                                         "Property"
                                                     }
 
@@ -968,6 +1172,7 @@ export default function VisitorScanner() {
 
                                                     {
                                                         result.gate?.name ||
+                                                        result.gate_name ||
                                                         "Gate"
                                                     }
 
@@ -1042,15 +1247,16 @@ export default function VisitorScanner() {
 
                                         <div className="fw-semibold">
 
-                                            Access Not Authorized
+                                            Camera / Access Problem
 
                                         </div>
 
 
                                         <div className="small text-muted mt-1 mb-3">
 
-                                            The visitor QR could not
-                                            be accepted.
+                                            Check your browser camera
+                                            permission and secure
+                                            connection, then try again.
 
                                         </div>
 
@@ -1063,7 +1269,7 @@ export default function VisitorScanner() {
                                             }
                                         >
 
-                                            Scan Again
+                                            Try Again
 
                                         </button>
 
@@ -1100,12 +1306,14 @@ export default function VisitorScanner() {
             </div>
 
         </div>
+
     );
 }
 
 
 
 // import {
+//     useCallback,
 //     useEffect,
 //     useRef,
 //     useState,
@@ -1133,6 +1341,9 @@ export default function VisitorScanner() {
 
 //     const scannerRef =
 //         useRef(null);
+
+//     const startingRef =
+//         useRef(false);
 
 
 //     const [
@@ -1186,12 +1397,8 @@ export default function VisitorScanner() {
 //         const loadGates =
 //             async () => {
 
-//                 setLoadingGates(
-//                     true
-//                 );
-
+//                 setLoadingGates(true);
 //                 setError("");
-
 
 //                 try {
 
@@ -1200,9 +1407,7 @@ export default function VisitorScanner() {
 
 
 //                     const gateData =
-//                         Array.isArray(
-//                             response
-//                         )
+//                         Array.isArray(response)
 //                             ? response
 //                             : response?.results ||
 //                               response?.gates ||
@@ -1216,9 +1421,7 @@ export default function VisitorScanner() {
 
 //                     const primaryGate =
 //                         gateData.find(
-//                             (
-//                                 gate
-//                             ) =>
+//                             (gate) =>
 //                                 gate?.is_primary ===
 //                                 true
 //                         ) ||
@@ -1252,9 +1455,7 @@ export default function VisitorScanner() {
 
 //                 } finally {
 
-//                     setLoadingGates(
-//                         false
-//                     );
+//                     setLoadingGates(false);
 
 //                 }
 
@@ -1271,219 +1472,337 @@ export default function VisitorScanner() {
 //     // ========================================================
 
 //     const stopScanner =
-//         async () => {
+//         useCallback(
+//             async () => {
 
-//             if (
-//                 scannerRef.current
-//             ) {
+//                 if (
+//                     scannerRef.current
+//                 ) {
 
-//                 try {
+//                     try {
 
-//                     await scannerRef.current.stop();
+//                         const state =
+//                             scannerRef.current
+//                                 .getState?.();
 
-//                 } catch {
-//                     // Already stopped.
+
+//                         if (
+//                             state ===
+//                             2
+//                         ) {
+
+//                             await scannerRef.current.stop();
+
+//                         } else {
+
+//                             try {
+
+//                                 await scannerRef.current.stop();
+
+//                             } catch {
+//                                 // Already stopped.
+//                             }
+
+//                         }
+
+//                     } catch {
+//                         // Scanner already stopped.
+//                     }
+
+
+//                     try {
+
+//                         await scannerRef.current.clear();
+
+//                     } catch {
+//                         // Container may already be cleared.
+//                     }
+
+
+//                     scannerRef.current =
+//                         null;
+
 //                 }
 
 
-//                 scannerRef.current =
-//                     null;
-
-//             }
+//                 startingRef.current =
+//                     false;
 
 
-//             setScanning(
-//                 false
-//             );
+//                 setScanning(false);
 
-//         };
+//             },
+//             []
+//         );
 
 
 //     // ========================================================
-//     // QR SUCCESS
+//     // PROCESS SCANNED QR
 //     // ========================================================
 
 //     const handleScan =
-//         async (
-//             decodedText
-//         ) => {
+//         useCallback(
+//             async (
+//                 decodedText
+//             ) => {
 
-//             if (
-//                 processing
-//             ) {
-//                 return;
-//             }
-
-
-//             if (
-//                 !selectedGate
-//             ) {
-
-//                 setError(
-//                     "Please select a gate before scanning."
-//                 );
-
-//                 return;
-
-//             }
+//                 if (
+//                     processing ||
+//                     startingRef.current
+//                 ) {
+//                     return;
+//                 }
 
 
-//             setProcessing(
-//                 true
-//             );
+//                 if (
+//                     !selectedGate
+//                 ) {
 
-//             setError("");
-
-//             setResult(null);
-
-
-//             await stopScanner();
-
-
-//             try {
-
-//                 const response =
-//                     await scanVisitorQr(
-//                         decodedText,
-//                         selectedGate
+//                     setError(
+//                         "Please select a gate before scanning."
 //                     );
 
+//                     return;
 
-//                 setResult(
-//                     response
-//                 );
-
-//             } catch (err) {
-
-//                 console.error(
-//                     "[Security Scanner] QR validation failed:",
-//                     err
-//                 );
+//                 }
 
 
-//                 const data =
-//                     err?.response?.data;
+//                 startingRef.current =
+//                     true;
 
 
-//                 setError(
-//                     data?.reason ||
-//                     data?.detail ||
-//                     "Unable to validate the visitor QR code."
-//                 );
-
-//             } finally {
-
-//                 setProcessing(
-//                     false
-//                 );
-
-//             }
-
-//         };
+//                 setProcessing(true);
+//                 setError("");
+//                 setResult(null);
 
 
-//     // ========================================================
-//     // START SCANNER
-//     // ========================================================
-
-//     const startScanner =
-//         async () => {
-
-//             setError("");
-//             setResult(null);
+//                 await stopScanner();
 
 
-//             if (
-//                 !selectedGate
-//             ) {
+//                 try {
 
-//                 setError(
-//                     "Please select a gate before starting the scanner."
-//                 );
-
-//                 return;
-
-//             }
-
-
-//             setScanning(
-//                 true
-//             );
-
-
-//             try {
-
-//                 const scanner =
-//                     new Html5Qrcode(
-//                         "security-visitor-qr-reader"
-//                     );
-
-
-//                 scannerRef.current =
-//                     scanner;
-
-
-//                 await scanner.start(
-
-//                     {
-//                         facingMode:
-//                             "environment",
-//                     },
-
-//                     {
-//                         fps:
-//                             10,
-
-//                         qrbox:
-//                             {
-//                                 width:
-//                                     250,
-
-//                                 height:
-//                                     250,
-//                             },
-//                     },
-
-//                     (
-//                         decodedText
-//                     ) => {
-
-//                         handleScan(
-//                             decodedText
+//                     const response =
+//                         await scanVisitorQr(
+//                             decodedText,
+//                             selectedGate
 //                         );
 
-//                     },
 
-//                     () => {
-//                         // Ignore frame-level failures.
-//                     }
+//                     setResult(
+//                         response
+//                     );
 
-//                 );
+//                 } catch (err) {
 
-//             } catch (err) {
-
-//                 console.error(
-//                     "[Security Scanner] Camera error:",
-//                     err
-//                 );
+//                     console.error(
+//                         "[Security Scanner] QR validation failed:",
+//                         err
+//                     );
 
 
-//                 setScanning(
-//                     false
-//                 );
+//                     const data =
+//                         err?.response?.data;
 
 
-//                 setError(
-//                     "Unable to access the camera. Please allow camera access and try again."
-//                 );
+//                     setError(
+//                         data?.reason ||
+//                         data?.detail ||
+//                         "Unable to validate the visitor QR code."
+//                     );
 
-//             }
+//                 } finally {
 
-//         };
+//                     setProcessing(false);
+
+//                     startingRef.current =
+//                         false;
+
+//                 }
+
+//             },
+//             [
+//                 processing,
+//                 selectedGate,
+//                 stopScanner,
+//             ]
+//         );
 
 
 //     // ========================================================
-//     // CLEANUP
+//     // START CAMERA AFTER CONTAINER HAS RENDERED
+//     // ========================================================
+
+//     useEffect(() => {
+
+//         if (
+//             !scanning ||
+//             processing ||
+//             result
+//         ) {
+
+//             return;
+
+//         }
+
+
+//         let cancelled =
+//             false;
+
+
+//         const start =
+//             async () => {
+
+//                 try {
+
+//                     // Give React one render cycle to
+//                     // mount #security-visitor-qr-reader.
+
+//                     await new Promise(
+//                         (
+//                             resolve
+//                         ) =>
+//                             requestAnimationFrame(
+//                                 () =>
+//                                     resolve()
+//                             )
+//                     );
+
+
+//                     if (
+//                         cancelled
+//                     ) {
+//                         return;
+//                     }
+
+
+//                     const element =
+//                         document.getElementById(
+//                             "security-visitor-qr-reader"
+//                         );
+
+
+//                     if (
+//                         !element
+//                     ) {
+
+//                         setScanning(false);
+
+//                         setError(
+//                             "Unable to initialize the QR scanner."
+//                         );
+
+//                         return;
+
+//                     }
+
+
+//                     if (
+//                         scannerRef.current
+//                     ) {
+
+//                         return;
+
+//                     }
+
+
+//                     const scanner =
+//                         new Html5Qrcode(
+//                             "security-visitor-qr-reader"
+//                         );
+
+
+//                     scannerRef.current =
+//                         scanner;
+
+
+//                     await scanner.start(
+
+//                         {
+//                             facingMode:
+//                                 "environment",
+//                         },
+
+//                         {
+//                             fps:
+//                                 10,
+
+//                             qrbox:
+//                                 {
+//                                     width:
+//                                         250,
+
+//                                     height:
+//                                         250,
+//                                 },
+
+//                             aspectRatio:
+//                                 1.0,
+
+//                         },
+
+//                         (
+//                             decodedText
+//                         ) => {
+
+//                             handleScan(
+//                                 decodedText
+//                             );
+
+//                         },
+
+//                         () => {
+//                             // Ignore frame scan failures.
+//                         }
+
+//                     );
+
+//                 } catch (err) {
+
+//                     if (
+//                         cancelled
+//                     ) {
+//                         return;
+//                     }
+
+
+//                     console.error(
+//                         "[Security Scanner] Camera error:",
+//                         err
+//                     );
+
+
+//                     setScanning(false);
+
+
+//                     setError(
+//                         err?.message ||
+//                         "Unable to access the camera. Please allow camera access and try again."
+//                     );
+
+//                 }
+
+//             };
+
+
+//         start();
+
+
+//         return () => {
+
+//             cancelled = true;
+
+//         };
+
+//     }, [
+//         scanning,
+//         processing,
+//         result,
+//         handleScan,
+//     ]);
+
+
+//     // ========================================================
+//     // CLEANUP ON UNMOUNT
 //     // ========================================================
 
 //     useEffect(() => {
@@ -1506,14 +1825,44 @@ export default function VisitorScanner() {
 
 
 //     // ========================================================
-//     // NEW SCAN
+//     // START SCANNING
+//     // ========================================================
+
+//     const startScanner =
+//         () => {
+
+//             setError("");
+//             setResult(null);
+
+
+//             if (
+//                 !selectedGate
+//             ) {
+
+//                 setError(
+//                     "Please select a gate before starting the scanner."
+//                 );
+
+//                 return;
+
+//             }
+
+
+//             setScanning(true);
+
+//         };
+
+
+//     // ========================================================
+//     // RESET
 //     // ========================================================
 
 //     const resetScanner =
-//         () => {
+//         async () => {
+
+//             await stopScanner();
 
 //             setResult(null);
-
 //             setError("");
 
 //         };
@@ -1597,8 +1946,8 @@ export default function VisitorScanner() {
 //                                 </div>
 
 //                                 <div className="rems-card-subtitle">
-//                                     Scan the QR generated from the resident
-//                                     visitor invitation.
+//                                     Scan the QR generated from the
+//                                     resident visitor invitation.
 //                                 </div>
 
 //                             </div>
@@ -1620,9 +1969,7 @@ export default function VisitorScanner() {
 //                         <div className="p-3 pb-0">
 
 //                             <label className="rems-form-label">
-
 //                                 Gate
-
 //                             </label>
 
 
@@ -1691,13 +2038,15 @@ export default function VisitorScanner() {
 
 
 //                         {/* ==================================================
-//                             BODY
+//                             SCANNER / RESULT
 //                         ================================================== */}
 
 //                         <div className="p-3">
 
 
-//                             {/* READY */}
+//                             {/* ==================================================
+//                                 READY
+//                             ================================================== */}
 
 //                             {!scanning &&
 //                                 !processing &&
@@ -1758,7 +2107,9 @@ export default function VisitorScanner() {
 //                                 )}
 
 
-//                             {/* CAMERA */}
+//                             {/* ==================================================
+//                                 CAMERA
+//                             ================================================== */}
 
 //                             {scanning && (
 
@@ -1769,6 +2120,8 @@ export default function VisitorScanner() {
 //                                         style={{
 //                                             width:
 //                                                 "100%",
+//                                             minHeight:
+//                                                 "300px",
 //                                         }}
 //                                     />
 
@@ -1794,7 +2147,9 @@ export default function VisitorScanner() {
 //                             )}
 
 
-//                             {/* PROCESSING */}
+//                             {/* ==================================================
+//                                 PROCESSING
+//                             ================================================== */}
 
 //                             {processing && (
 
@@ -1824,7 +2179,6 @@ export default function VisitorScanner() {
 
 //                                 <div className="mt-3">
 
-
 //                                     <div className="alert alert-success rems-alert">
 
 //                                         <BsCheckCircle
@@ -1837,7 +2191,6 @@ export default function VisitorScanner() {
 
 
 //                                     <div className="rems-form-section">
-
 
 //                                         <div className="rems-form-section-title">
 
@@ -1951,6 +2304,7 @@ export default function VisitorScanner() {
 //                                                         {
 //                                                             hour:
 //                                                                 "2-digit",
+
 //                                                             minute:
 //                                                                 "2-digit",
 //                                                         }

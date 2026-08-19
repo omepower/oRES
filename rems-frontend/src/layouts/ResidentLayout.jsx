@@ -5,6 +5,8 @@ import {
 } from "react-router-dom";
 
 import {
+    useEffect,
+    useRef,
     useState,
 } from "react";
 
@@ -33,6 +35,20 @@ export default function ResidentLayout() {
         mobileOpen,
         setMobileOpen,
     ] = useState(false);
+
+
+    /* =========================================================
+       USER MENU
+    ========================================================= */
+
+    const [
+        userMenuOpen,
+        setUserMenuOpen,
+    ] = useState(false);
+
+
+    const userMenuRef =
+        useRef(null);
 
 
     /* =========================================================
@@ -128,9 +144,91 @@ export default function ResidentLayout() {
 
             closeMobileSidebar();
 
+            setUserMenuOpen(
+                false
+            );
+
             await logout();
 
         };
+
+
+    /* =========================================================
+       USER MENU
+    ========================================================= */
+
+    const toggleUserMenu =
+        () => {
+
+            setUserMenuOpen(
+                previous =>
+                    !previous
+            );
+
+        };
+
+
+    const closeUserMenu =
+        () => {
+
+            setUserMenuOpen(
+                false
+            );
+
+        };
+
+
+    /* =========================================================
+       CLOSE USER MENU WHEN CLICKING OUTSIDE
+    ========================================================= */
+
+    useEffect(() => {
+
+        const handleDocumentClick =
+            (
+                event
+            ) => {
+
+                if (
+                    userMenuRef.current &&
+                    !userMenuRef.current.contains(
+                        event.target
+                    )
+                ) {
+
+                    setUserMenuOpen(
+                        false
+                    );
+
+                }
+
+            };
+
+
+        if (
+            userMenuOpen
+        ) {
+
+            document.addEventListener(
+                "mousedown",
+                handleDocumentClick
+            );
+
+        }
+
+
+        return () => {
+
+            document.removeEventListener(
+                "mousedown",
+                handleDocumentClick
+            );
+
+        };
+
+    }, [
+        userMenuOpen,
+    ]);
 
 
     /* =========================================================
@@ -336,22 +434,16 @@ export default function ResidentLayout() {
                     <div className="rems-brand-text">
 
                         <div className="rems-brand-name">
-
                             oRES
-
                         </div>
 
 
                         <div className="rems-brand-subtitle">
-
                             VERSION 1.0
-
                         </div>
 
                     </div>
 
-
-                    {/* MOBILE CLOSE */}
 
                     <button
                         type="button"
@@ -367,7 +459,6 @@ export default function ResidentLayout() {
                     </button>
 
                 </div>
-
 
 
                 {/* =================================================
@@ -419,11 +510,9 @@ export default function ResidentLayout() {
                                     />
 
                                     <span>
-
                                         {
                                             item.label
                                         }
-
                                     </span>
 
                                 </NavLink>
@@ -453,9 +542,7 @@ export default function ResidentLayout() {
                         <i className="bi bi-box-arrow-right" />
 
                         <span>
-
                             Sign out
-
                         </span>
 
                     </button>
@@ -466,7 +553,7 @@ export default function ResidentLayout() {
 
 
             {/* =====================================================
-                MAIN APPLICATION AREA
+                MAIN AREA
             ===================================================== */}
 
             <div className="rems-main-area">
@@ -479,12 +566,11 @@ export default function ResidentLayout() {
                 <header className="rems-topbar">
 
 
-                    {/* TOPBAR LEFT */}
+                    {/* =================================================
+                        TOPBAR LEFT
+                    ================================================= */}
 
                     <div className="rems-topbar-left">
-
-
-                        {/* MOBILE MENU */}
 
                         <button
                             type="button"
@@ -506,10 +592,6 @@ export default function ResidentLayout() {
 
                             <div className="rems-topbar-title">
 
-                                {/* {
-                                    roleLabel
-                                } */}
-
                                 Jubilation Paradise
 
                             </div>
@@ -526,7 +608,9 @@ export default function ResidentLayout() {
                     </div>
 
 
-                    {/* TOPBAR RIGHT */}
+                    {/* =================================================
+                        TOPBAR RIGHT
+                    ================================================= */}
 
                     <div className="rems-topbar-right">
 
@@ -534,23 +618,64 @@ export default function ResidentLayout() {
 
 
                         {/* =================================================
-                            USER DROPDOWN
+                            USER DROPDOWN WRAPPER
                         ================================================= */}
 
-                        <div className="dropdown">
+                        <div
+                            className="rems-resident-user-dropdown"
+                            ref={
+                                userMenuRef
+                            }
+                        >
+
+
+                            {/* =================================================
+                                USER BUTTON
+                            ================================================= */}
 
                             <button
                                 type="button"
-                                className="dropdown-toggle rems-user-button"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
+                                className={`rems-user-button ${
+                                    userMenuOpen
+                                        ? "rems-user-button-open"
+                                        : ""
+                                }`}
+                                onClick={
+                                    toggleUserMenu
+                                }
+                                aria-expanded={
+                                    userMenuOpen
+                                }
+                                aria-haspopup="menu"
                             >
 
                                 <div className="rems-user-avatar">
 
-                                    {user?.first_name?.[0] ||
-                                        user?.username?.[0] ||
-                                        "R"}
+                                    {
+                                        user?.profile_picture
+                                            ? (
+
+                                                <img
+                                                    src={
+                                                        user.profile_picture
+                                                    }
+                                                    alt={
+                                                        displayName
+                                                    }
+                                                    className="rems-user-avatar-image"
+                                                />
+
+                                            )
+                                            : (
+
+                                                (
+                                                    user?.first_name?.[0] ||
+                                                    user?.username?.[0] ||
+                                                    "R"
+                                                ).toUpperCase()
+
+                                            )
+                                    }
 
                                 </div>
 
@@ -576,6 +701,15 @@ export default function ResidentLayout() {
 
                                 </div>
 
+
+                                <i
+                                    className={`bi bi-chevron-down rems-user-chevron ${
+                                        userMenuOpen
+                                            ? "open"
+                                            : ""
+                                    }`}
+                                />
+
                             </button>
 
 
@@ -583,108 +717,106 @@ export default function ResidentLayout() {
                                 USER MENU
                             ================================================= */}
 
-                            <div className="dropdown-menu dropdown-menu-end rems-user-menu">
+                            {userMenuOpen && (
 
-                                <div className="rems-user-menu-header">
+                                <div
+                                    className="rems-resident-user-menu"
+                                    role="menu"
+                                >
 
-                                    <strong>
+                                    <div className="rems-user-menu-header">
 
-                                        {
-                                            displayName
+                                        <strong>
+                                            {
+                                                displayName
+                                            }
+                                        </strong>
+
+
+                                        <span>
+                                            {
+                                                user?.email ||
+                                                `${roleLabel} Account`
+                                            }
+                                        </span>
+
+                                    </div>
+
+
+                                    <div className="dropdown-divider" />
+
+
+                                    <button
+                                        type="button"
+                                        className="rems-account-menu-item"
+                                        role="menuitem"
+                                        onClick={() => {
+
+                                            closeUserMenu();
+
+                                            setShowProfileModal(
+                                                true
+                                            );
+
+                                        }}
+                                    >
+
+                                        <i className="bi bi-person-circle" />
+
+                                        <span>
+                                            Profile
+                                        </span>
+
+                                    </button>
+
+
+                                    <button
+                                        type="button"
+                                        className="rems-account-menu-item"
+                                        role="menuitem"
+                                        onClick={() => {
+
+                                            closeUserMenu();
+
+                                            setShowChangePasswordModal(
+                                                true
+                                            );
+
+                                        }}
+                                    >
+
+                                        <i className="bi bi-key" />
+
+                                        <span>
+                                            Change Password
+                                        </span>
+
+                                    </button>
+
+
+                                    <div className="dropdown-divider" />
+
+
+                                    <button
+                                        type="button"
+                                        className="rems-logout-item"
+                                        role="menuitem"
+                                        onClick={
+                                            handleLogout
                                         }
+                                    >
 
-                                    </strong>
+                                        <i className="bi bi-box-arrow-right" />
 
+                                        <span>
+                                            Sign out
+                                        </span>
 
-                                    <span>
-
-                                        {
-                                            user?.email ||
-                                            `${roleLabel} Account`
-                                        }
-
-                                    </span>
+                                    </button>
 
                                 </div>
 
-
-                                <div className="dropdown-divider" />
-
-
-                                {/* PROFILE */}
-
-                                <button
-                                    type="button"
-                                    className="dropdown-item rems-account-menu-item"
-                                    onClick={() => {
-
-                                        setShowProfileModal(
-                                            true
-                                        );
-
-                                    }}
-                                >
-
-                                    <i className="bi bi-person-circle" />
-
-                                    <span>
-
-                                        Profile
-
-                                    </span>
-
-                                </button>
-
-
-                                {/* CHANGE PASSWORD */}
-
-                                <button
-                                    type="button"
-                                    className="dropdown-item rems-account-menu-item"
-                                    onClick={() => {
-
-                                        setShowChangePasswordModal(
-                                            true
-                                        );
-
-                                    }}
-                                >
-
-                                    <i className="bi bi-key" />
-
-                                    <span>
-
-                                        Change Password
-
-                                    </span>
-
-                                </button>
-
-
-                                <div className="dropdown-divider" />
-
-
-                                {/* SIGN OUT */}
-
-                                <button
-                                    type="button"
-                                    className="dropdown-item rems-logout-item"
-                                    onClick={
-                                        handleLogout
-                                    }
-                                >
-
-                                    <i className="bi bi-box-arrow-right" />
-
-                                    <span>
-
-                                        Sign out
-
-                                    </span>
-
-                                </button>
-
-                            </div>
+                            )}
 
                         </div>
 
@@ -717,14 +849,7 @@ export default function ResidentLayout() {
                             false
                         )
                     }
-                    onSuccess={() => {
-
-                        /*
-                         * The authenticated user is
-                         * already managed by AuthContext.
-                         */
-
-                    }}
+                    onSuccess={() => {}}
                 />
 
 
@@ -741,37 +866,359 @@ export default function ResidentLayout() {
                             false
                         )
                     }
-                    onSuccess={() => {
-
-                        /*
-                         * Password changed successfully.
-                         */
-
-                    }}
+                    onSuccess={() => {}}
                 />
 
 
                 {/* =================================================
-                    ACCOUNT MENU LOCAL STYLES
-                    Shared visually with AdminLayout
+                    DROPDOWN LOCAL STYLES
+                    Uses existing REMS variables/classes.
                 ================================================= */}
 
                 <style>
                     {`
 
-                        .rems-account-menu-item {
+                        /* =============================================
+                           DROPDOWN WRAPPER
+                        ============================================= */
+
+                        .rems-resident-user-dropdown {
+
+                            position:
+                                relative;
+
+                            flex:
+                                0 0 auto;
+
+                            z-index:
+                                1100;
+                        }
+
+
+                        /* =============================================
+                           USER BUTTON
+                        ============================================= */
+
+                        .rems-resident-user-dropdown
+                        .rems-user-button {
+
+                            min-height:
+                                48px;
 
                             display:
-                                flex !important;
+                                flex;
+
+                            align-items:
+                                center;
+
+                            justify-content:
+                                flex-start;
+
+                            gap:
+                                9px;
+
+                            padding:
+                                5px 6px 5px 5px;
+
+                            border-radius:
+                                12px;
+
+                            transition:
+                                background 180ms ease,
+                                box-shadow 180ms ease;
+                        }
+
+
+                        .rems-resident-user-dropdown
+                        .rems-user-button:hover,
+                        .rems-resident-user-dropdown
+                        .rems-user-button-open {
+
+                            background:
+                                rgba(
+                                    15,
+                                    23,
+                                    42,
+                                    0.035
+                                ) !important;
+                        }
+
+
+                        /* =============================================
+                           AVATAR
+                        ============================================= */
+
+                        .rems-resident-user-dropdown
+                        .rems-user-avatar {
+
+                            width:
+                                38px;
+
+                            height:
+                                38px;
+
+                            min-width:
+                                38px;
+                        }
+
+
+                        .rems-user-avatar-image {
+
+                            width:
+                                100%;
+
+                            height:
+                                100%;
+
+                            display:
+                                block;
+
+                            object-fit:
+                                cover;
+
+                            border-radius:
+                                50%;
+                        }
+
+
+                        /* =============================================
+                           USER INFO
+                        ============================================= */
+
+                        .rems-resident-user-dropdown
+                        .rems-user-info {
+
+                            min-width:
+                                0;
+
+                            max-width:
+                                145px;
+                        }
+
+
+                        .rems-resident-user-dropdown
+                        .rems-user-name {
+
+                            max-width:
+                                145px;
+                        }
+
+
+                        /* =============================================
+                           CHEVRON
+                        ============================================= */
+
+                        .rems-user-chevron {
+
+                            flex:
+                                0 0 auto;
+
+                            margin-left:
+                                1px;
+
+                            color:
+                                var(--rems-text-muted);
+
+                            font-size:
+                                10px;
+
+                            transition:
+                                transform 180ms ease;
+                        }
+
+
+                        .rems-user-chevron.open {
+
+                            transform:
+                                rotate(
+                                    180deg
+                                );
+                        }
+
+
+                        /* =============================================
+                           CUSTOM MENU
+                        ============================================= */
+
+                        .rems-resident-user-menu {
+
+                            position:
+                                absolute;
+
+                            top:
+                                calc(
+                                    100% + 8px
+                                );
+
+                            right:
+                                0;
+
+                            left:
+                                auto;
+
+                            z-index:
+                                1200;
+
+                            width:
+                                250px;
+
+                            min-width:
+                                250px;
+
+                            max-width:
+                                calc(
+                                    100vw - 24px
+                                );
+
+                            padding:
+                                8px;
+
+                            border:
+                                1px solid
+                                rgba(
+                                    255,
+                                    255,
+                                    255,
+                                    0.92
+                                );
+
+                            border-radius:
+                                14px;
+
+                            background:
+                                rgba(
+                                    255,
+                                    255,
+                                    255,
+                                    0.96
+                                );
+
+                            -webkit-backdrop-filter:
+                                blur(22px);
+
+                            backdrop-filter:
+                                blur(22px);
+
+                            box-shadow:
+                                var(--rems-shadow-lg);
+
+                            animation:
+                                remsResidentMenuIn
+                                140ms ease-out;
+                        }
+
+
+                        @keyframes remsResidentMenuIn {
+
+                            from {
+
+                                opacity:
+                                    0;
+
+                                transform:
+                                    translateY(
+                                        -4px
+                                    );
+                            }
+
+                            to {
+
+                                opacity:
+                                    1;
+
+                                transform:
+                                    translateY(
+                                        0
+                                    );
+                            }
+
+                        }
+
+
+                        /* =============================================
+                           MENU HEADER
+                        ============================================= */
+
+                        .rems-resident-user-menu
+                        .rems-user-menu-header {
+
+                            padding:
+                                10px 11px;
+                        }
+
+
+                        .rems-resident-user-menu
+                        .rems-user-menu-header strong {
+
+                            display:
+                                block;
+
+                            max-width:
+                                100%;
+
+                            overflow:
+                                hidden;
+
+                            text-overflow:
+                                ellipsis;
+
+                            white-space:
+                                nowrap;
+
+                            font-size:
+                                13px;
+                        }
+
+
+                        .rems-resident-user-menu
+                        .rems-user-menu-header span {
+
+                            display:
+                                block;
+
+                            max-width:
+                                100%;
+
+                            margin-top:
+                                3px;
+
+                            overflow:
+                                hidden;
+
+                            text-overflow:
+                                ellipsis;
+
+                            white-space:
+                                nowrap;
+
+                            font-size:
+                                11px;
+                        }
+
+
+                        /* =============================================
+                           MENU ITEMS
+                        ============================================= */
+
+                        .rems-resident-user-menu
+                        .rems-account-menu-item,
+                        .rems-resident-user-menu
+                        .rems-logout-item {
+
+                            width:
+                                100%;
+
+                            min-height:
+                                40px;
+
+                            display:
+                                flex;
 
                             align-items:
                                 center;
 
                             gap:
                                 10px;
-
-                            width:
-                                100%;
 
                             padding:
                                 9px 10px;
@@ -782,8 +1229,8 @@ export default function ResidentLayout() {
                             border-radius:
                                 9px;
 
-                            color:
-                                var(--rems-text-soft);
+                            text-align:
+                                left;
 
                             background:
                                 transparent;
@@ -792,33 +1239,48 @@ export default function ResidentLayout() {
                                 13px;
 
                             transition:
-                                background var(--rems-transition),
-                                color var(--rems-transition),
-                                transform var(--rems-transition);
-
+                                background 160ms ease,
+                                color 160ms ease,
+                                transform 160ms ease;
                         }
 
 
-                        .rems-account-menu-item i {
+                        .rems-resident-user-menu
+                        .rems-account-menu-item {
+
+                            color:
+                                var(--rems-text-soft);
+                        }
+
+
+                        .rems-resident-user-menu
+                        .rems-account-menu-item i,
+                        .rems-resident-user-menu
+                        .rems-logout-item i {
 
                             width:
                                 18px;
 
-                            flex-shrink:
-                                0;
+                            min-width:
+                                18px;
 
                             text-align:
                                 center;
 
-                            color:
-                                var(--rems-text-muted);
-
                             font-size:
                                 15px;
-
                         }
 
 
+                        .rems-resident-user-menu
+                        .rems-account-menu-item i {
+
+                            color:
+                                var(--rems-text-muted);
+                        }
+
+
+                        .rems-resident-user-menu
                         .rems-account-menu-item:hover {
 
                             color:
@@ -833,32 +1295,96 @@ export default function ResidentLayout() {
                                 );
 
                             transform:
-                                translateX(2px);
-
+                                translateX(
+                                    2px
+                                );
                         }
 
 
-                        .rems-account-menu-item:hover i {
+                        .rems-resident-user-menu
+                        .rems-logout-item {
 
                             color:
-                                var(--rems-text);
-
+                                var(--rems-text-soft);
                         }
 
 
-                        .rems-account-menu-item:focus-visible {
+                        .rems-resident-user-menu
+                        .rems-logout-item:hover {
 
-                            outline:
-                                3px solid
+                            color:
+                                var(--rems-danger);
+
+                            background:
                                 rgba(
-                                    37,
-                                    99,
-                                    235,
-                                    0.22
+                                    220,
+                                    53,
+                                    69,
+                                    0.07
                                 );
+                        }
 
-                            outline-offset:
-                                2px;
+
+                        /* =============================================
+                           MOBILE
+                        ============================================= */
+
+                        @media (max-width: 575.98px) {
+
+                            .rems-resident-user-dropdown
+                            .rems-user-button {
+
+                                padding:
+                                    4px;
+
+                            }
+
+
+                            .rems-resident-user-dropdown
+                            .rems-user-info {
+
+                                display:
+                                    none;
+                            }
+
+
+                            .rems-user-chevron {
+
+                                display:
+                                    none;
+                            }
+
+
+                            .rems-resident-user-menu {
+
+                                position:
+                                    fixed;
+
+                                top:
+                                    64px;
+
+                                right:
+                                    10px;
+
+                                left:
+                                    auto;
+
+                                width:
+                                    min(
+                                        270px,
+                                        calc(
+                                            100vw - 20px
+                                        )
+                                    );
+
+                                min-width:
+                                    0;
+
+                                max-width:
+                                    calc(
+                                        100vw - 20px
+                                    );
+                            }
 
                         }
 

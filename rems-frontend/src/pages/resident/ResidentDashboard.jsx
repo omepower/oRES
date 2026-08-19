@@ -571,7 +571,7 @@ export default function ResidentDashboard() {
                         "Request Sticker",
 
                     description:
-                        "Manage vehicle access",
+                        "Vehicle access",
 
                     icon:
                         <BsShieldCheck />,
@@ -1413,7 +1413,7 @@ export default function ResidentDashboard() {
 
                             <button
                                 type="button"
-                                className="btn btn-link p-0 text-decoration-none small"
+                                className="rems-secondary-button"
                                 onClick={() =>
                                     navigate(
                                         `${portalPrefix}/stickers`
@@ -1625,9 +1625,6 @@ export default function ResidentDashboard() {
                                         Date
                                     </th>
 
-                                    <th>
-                                        Purpose
-                                    </th>
 
                                     <th>
                                         Status
@@ -1651,7 +1648,7 @@ export default function ResidentDashboard() {
                                             }
                                         >
 
-                                            <td>
+                                            <td data-label="visitor">
 
                                                 <div className="rems-table-primary">
                                                     {
@@ -1670,7 +1667,7 @@ export default function ResidentDashboard() {
                                             </td>
 
 
-                                            <td>
+                                            <td data-label="visit date">
 
                                                 {
                                                     visitor.visit_date ||
@@ -1682,17 +1679,9 @@ export default function ResidentDashboard() {
                                             </td>
 
 
-                                            <td>
-
-                                                {
-                                                    visitor.purpose ||
-                                                    "—"
-                                                }
-
-                                            </td>
 
 
-                                            <td>
+                                            <td data-label="status">
 
                                                 {
                                                     getVisitorStatus(

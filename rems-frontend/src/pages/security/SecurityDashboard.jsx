@@ -1,4 +1,3 @@
-
 import {
     useCallback,
     useEffect,
@@ -19,15 +18,22 @@ import {
     BsChevronRight,
 } from "react-icons/bs";
 
-import api
-    from "../../api/axios";
+import api from "../../api/axios";
 
+
+// ============================================================
+// SECURITY DASHBOARD
+// ============================================================
 
 export default function SecurityDashboard() {
 
     const navigate =
         useNavigate();
 
+
+    // ========================================================
+    // STATE
+    // ========================================================
 
     const [
         loading,
@@ -52,20 +58,61 @@ export default function SecurityDashboard() {
         setData,
     ] = useState({
 
-        visitorsInside: 0,
+        visitorsInside:
+            0,
 
-        visitorsToday: 0,
+        visitorsToday:
+            0,
 
-        completedToday: 0,
+        completedToday:
+            0,
 
-        primaryGate: null,
+        primaryGate:
+            null,
 
-        activeGates: 0,
+        activeGates:
+            0,
 
-        recentVisits: [],
+        recentVisits:
+            [],
 
     });
 
+
+    // ========================================================
+    // NORMALIZE
+    // ========================================================
+
+    const normalize =
+        (
+            response
+        ) => {
+
+            if (
+                Array.isArray(
+                    response?.data
+                )
+            ) {
+
+                return response.data;
+
+            }
+
+
+            return (
+                response?.data?.results ||
+                response?.data?.gates ||
+                response?.data?.visits ||
+                response?.data?.invitations ||
+                []
+            );
+
+        };
+
+
+    // ========================================================
+    // LOAD DASHBOARD
+    // ========================================================
 
     const loadDashboard =
         useCallback(
@@ -73,13 +120,19 @@ export default function SecurityDashboard() {
                 refresh = false
             ) => {
 
-                if (refresh) {
+                if (
+                    refresh
+                ) {
 
-                    setRefreshing(true);
+                    setRefreshing(
+                        true
+                    );
 
                 } else {
 
-                    setLoading(true);
+                    setLoading(
+                        true
+                    );
 
                 }
 
@@ -93,6 +146,7 @@ export default function SecurityDashboard() {
                         gatesResponse,
                         visitsResponse,
                         invitationsResponse,
+                        completedTodayResponse,
                     ] = await Promise.all([
 
                         api.get(
@@ -107,32 +161,11 @@ export default function SecurityDashboard() {
                             "visitors/visitor-invitations/today/"
                         ),
 
+                        api.get(
+                            "visitors/visitor-visits/completed-today/"
+                        ),
+
                     ]);
-
-
-                    const normalize = (
-                        response
-                    ) => {
-
-                        if (
-                            Array.isArray(
-                                response?.data
-                            )
-                        ) {
-
-                            return response.data;
-
-                        }
-
-                        return (
-                            response?.data?.results ||
-                            response?.data?.gates ||
-                            response?.data?.visits ||
-                            response?.data?.invitations ||
-                            []
-                        );
-
-                    };
 
 
                     const gates =
@@ -152,6 +185,15 @@ export default function SecurityDashboard() {
                             invitationsResponse
                         );
 
+                    const completedToday =
+                        normalize(
+                            completedTodayResponse
+                        );
+
+
+                    // ==================================================
+                    // CURRENT VISITORS
+                    // ==================================================
 
                     const inside =
                         visits.filter(
@@ -173,6 +215,10 @@ export default function SecurityDashboard() {
                         );
 
 
+                    // ==================================================
+                    // PRIMARY GATE
+                    // ==================================================
+
                     const primaryGate =
                         gates.find(
                             (
@@ -185,6 +231,40 @@ export default function SecurityDashboard() {
                         null;
 
 
+                    // ==================================================
+                    // RECENT VISITS
+                    // ==================================================
+
+                    const recentVisits =
+                        [
+                            ...visits,
+                        ]
+                            .sort(
+                                (
+                                    a,
+                                    b
+                                ) =>
+                                    new Date(
+                                        b?.time_in ||
+                                        b?.created_at ||
+                                        0
+                                    ) -
+                                    new Date(
+                                        a?.time_in ||
+                                        a?.created_at ||
+                                        0
+                                    )
+                            )
+                            .slice(
+                                0,
+                                5
+                            );
+
+
+                    // ==================================================
+                    // STORE
+                    // ==================================================
+
                     setData({
 
                         visitorsInside:
@@ -194,9 +274,11 @@ export default function SecurityDashboard() {
                             invitations.length,
 
                         completedToday:
-                            completed.length,
+                            completedToday.length,
 
-                        primaryGate,
+                        primaryGate:
+
+                            primaryGate,
 
                         activeGates:
                             gates.filter(
@@ -208,19 +290,19 @@ export default function SecurityDashboard() {
                             ).length,
 
                         recentVisits:
-                            visits.slice(
-                                0,
-                                5
-                            ),
+                            recentVisits,
 
                     });
 
-                } catch (err) {
+                } catch (
+                    err
+                ) {
 
                     console.error(
                         "[Security Dashboard]",
                         err
                     );
+
 
                     setError(
                         err?.response?.data?.detail ||
@@ -229,8 +311,13 @@ export default function SecurityDashboard() {
 
                 } finally {
 
-                    setLoading(false);
-                    setRefreshing(false);
+                    setLoading(
+                        false
+                    );
+
+                    setRefreshing(
+                        false
+                    );
 
                 }
 
@@ -238,6 +325,10 @@ export default function SecurityDashboard() {
             []
         );
 
+
+    // ========================================================
+    // INITIAL LOAD
+    // ========================================================
 
     useEffect(() => {
 
@@ -247,6 +338,10 @@ export default function SecurityDashboard() {
         loadDashboard,
     ]);
 
+
+    // ========================================================
+    // LOADING
+    // ========================================================
 
     if (
         loading
@@ -261,10 +356,13 @@ export default function SecurityDashboard() {
                     <div
                         className="spinner-border"
                         role="status"
+                        aria-hidden="true"
                     />
 
-                    <div className="mt-2">
+                    <div className="mt-3">
+
                         Loading security operations...
+
                     </div>
 
                 </div>
@@ -276,100 +374,137 @@ export default function SecurityDashboard() {
     }
 
 
+    // ========================================================
+    // RENDER
+    // ========================================================
+
     return (
 
         <div className="rems-page-content">
 
 
-            {/* HEADER */}
+            {/* ==================================================
+                HEADER
+            ================================================== */}
 
             <div className="rems-page-header">
 
                 <div>
 
                     <div className="rems-page-eyebrow">
+
                         SECURITY OPERATIONS
+
                     </div>
 
+
                     <h1 className="rems-page-title">
+
                         Gate Dashboard
+
                     </h1>
 
+
                     <p className="rems-page-description">
+
                         Monitor visitor access and verify
                         QR-based entry at the gate.
+
                     </p>
 
                 </div>
 
 
-                <button
-                    type="button"
-                    className="rems-secondary-button"
-                    onClick={() =>
-                        loadDashboard(true)
-                    }
-                    disabled={
-                        refreshing
-                    }
-                >
+                <div className="rems-page-header-actions">
 
-                    <BsArrowClockwise />
+                    <button
+                        type="button"
+                        className="rems-secondary-button"
+                        onClick={() =>
+                            loadDashboard(
+                                true
+                            )
+                        }
+                        disabled={
+                            refreshing
+                        }
+                    >
 
-                    {
-                        refreshing
-                            ? "Refreshing..."
-                            : "Refresh"
-                    }
+                        <BsArrowClockwise />
 
-                </button>
+                        {
+                            refreshing
+                                ? "Refreshing..."
+                                : "Refresh"
+                        }
+
+                    </button>
+
+                </div>
 
             </div>
 
+
+            {/* ==================================================
+                ERROR
+            ================================================== */}
 
             {error && (
 
                 <div className="alert alert-danger rems-alert mb-4">
 
-                    {error}
+                    {
+                        error
+                    }
 
                 </div>
 
             )}
 
 
-            {/* SCAN ACTION */}
+            {/* ==================================================
+                QR SCANNER ACTION
+            ================================================== */}
 
-            <div className="rems-glass-card mb-4">
+            <section className="rems-glass-card mb-4">
 
                 <div className="p-3 p-md-4">
 
                     <div className="row align-items-center g-3">
 
+
                         <div className="col-12 col-lg-8">
 
                             <div className="d-flex align-items-center gap-3">
 
-                                <div className="rems-stat-icon">
+                                <div className="rems-stat-icon flex-shrink-0">
 
                                     <BsQrCodeScan />
 
                                 </div>
 
 
-                                <div>
+                                <div className="min-width-0">
 
                                     <div className="rems-page-eyebrow mb-1">
+
                                         GATE ACCESS
+
                                     </div>
+
 
                                     <div className="rems-card-title">
+
                                         Scan Visitor QR
+
                                     </div>
 
+
                                     <div className="rems-card-subtitle">
+
                                         Verify the visitor invitation
                                         before allowing entry.
+
                                     </div>
 
                                 </div>
@@ -403,32 +538,42 @@ export default function SecurityDashboard() {
 
                 </div>
 
-            </div>
+            </section>
 
 
-            {/* STATISTICS */}
+            {/* ==================================================
+                STATISTICS
+            ================================================== */}
 
             <div className="row g-3 mb-4">
 
 
                 <div className="col-6 col-xl-3">
 
-                    <div className="rems-stat-card">
+                    <div className="rems-stat-card h-100">
 
                         <div className="rems-stat-icon">
+
                             <BsPeople />
+
                         </div>
+
 
                         <div className="rems-stat-content">
 
                             <div className="rems-stat-label">
+
                                 Inside Now
+
                             </div>
 
+
                             <div className="rems-stat-value">
+
                                 {
                                     data.visitorsInside
                                 }
+
                             </div>
 
                         </div>
@@ -440,22 +585,30 @@ export default function SecurityDashboard() {
 
                 <div className="col-6 col-xl-3">
 
-                    <div className="rems-stat-card">
+                    <div className="rems-stat-card h-100">
 
                         <div className="rems-stat-icon">
+
                             <BsClockHistory />
+
                         </div>
+
 
                         <div className="rems-stat-content">
 
                             <div className="rems-stat-label">
+
                                 Expected Today
+
                             </div>
 
+
                             <div className="rems-stat-value">
+
                                 {
                                     data.visitorsToday
                                 }
+
                             </div>
 
                         </div>
@@ -467,22 +620,30 @@ export default function SecurityDashboard() {
 
                 <div className="col-6 col-xl-3">
 
-                    <div className="rems-stat-card">
+                    <div className="rems-stat-card h-100">
 
                         <div className="rems-stat-icon">
+
                             <BsDoorOpen />
+
                         </div>
+
 
                         <div className="rems-stat-content">
 
                             <div className="rems-stat-label">
+
                                 Completed Today
+
                             </div>
 
+
                             <div className="rems-stat-value">
+
                                 {
                                     data.completedToday
                                 }
+
                             </div>
 
                         </div>
@@ -494,22 +655,30 @@ export default function SecurityDashboard() {
 
                 <div className="col-6 col-xl-3">
 
-                    <div className="rems-stat-card">
+                    <div className="rems-stat-card h-100">
 
                         <div className="rems-stat-icon">
+
                             <BsShieldCheck />
+
                         </div>
+
 
                         <div className="rems-stat-content">
 
                             <div className="rems-stat-label">
+
                                 Active Gates
+
                             </div>
 
+
                             <div className="rems-stat-value">
+
                                 {
                                     data.activeGates
                                 }
+
                             </div>
 
                         </div>
@@ -521,10 +690,16 @@ export default function SecurityDashboard() {
             </div>
 
 
-            {/* GATE STATUS + RECENT VISITS */}
+            {/* ==================================================
+                GATE STATUS + ACTIVITY
+            ================================================== */}
 
-            <div className="row g-4">
+            <div className="row g-3">
 
+
+                {/* ==================================================
+                    GATE STATUS
+                ================================================== */}
 
                 <div className="col-12 col-lg-5">
 
@@ -535,11 +710,23 @@ export default function SecurityDashboard() {
                             <div>
 
                                 <div className="rems-page-eyebrow">
+
                                     GATE STATUS
+
                                 </div>
 
+
                                 <div className="rems-card-title">
+
                                     Current Gate
+
+                                </div>
+
+
+                                <div className="rems-card-subtitle">
+
+                                    Current operating status.
+
                                 </div>
 
                             </div>
@@ -558,13 +745,16 @@ export default function SecurityDashboard() {
                                 </div>
 
 
-                                <div>
+                                <div className="min-width-0">
 
                                     <div className="rems-table-secondary">
+
                                         Gate
+
                                     </div>
 
-                                    <div className="rems-table-primary">
+
+                                    <div className="rems-table-primary text-truncate">
 
                                         {
                                             data.primaryGate?.name ||
@@ -573,7 +763,8 @@ export default function SecurityDashboard() {
 
                                     </div>
 
-                                    <div className="small text-success mt-1">
+
+                                    <div className="rems-table-secondary">
 
                                         {
                                             data.activeGates > 0
@@ -594,6 +785,10 @@ export default function SecurityDashboard() {
                 </div>
 
 
+                {/* ==================================================
+                    RECENT VISITOR ACTIVITY
+                ================================================== */}
+
                 <div className="col-12 col-lg-7">
 
                     <div className="rems-glass-card h-100">
@@ -603,11 +798,23 @@ export default function SecurityDashboard() {
                             <div>
 
                                 <div className="rems-page-eyebrow">
+
                                     GATE ACTIVITY
+
                                 </div>
 
+
                                 <div className="rems-card-title">
+
                                     Recent Visitor Activity
+
+                                </div>
+
+
+                                <div className="rems-card-subtitle">
+
+                                    Latest visitor entry records.
+
                                 </div>
 
                             </div>
@@ -615,7 +822,7 @@ export default function SecurityDashboard() {
 
                             <button
                                 type="button"
-                                className="btn btn-link p-0 text-decoration-none"
+                                className="rems-secondary-button"
                                 onClick={() =>
                                     navigate(
                                         "/security/history"
@@ -647,6 +854,14 @@ export default function SecurityDashboard() {
                                         </th>
 
                                         <th>
+                                            Host / Property
+                                        </th>
+
+                                        <th>
+                                            Gate
+                                        </th>
+
+                                        <th>
                                             Time In
                                         </th>
 
@@ -661,101 +876,164 @@ export default function SecurityDashboard() {
 
                                 <tbody>
 
-                                    {data.recentVisits.length ===
-                                        0 ? (
+                                    {
+                                        data.recentVisits.length === 0
+                                            ? (
 
-                                        <tr>
+                                                <tr>
 
-                                            <td
-                                                colSpan="3"
-                                                className="text-center text-muted py-4"
-                                            >
+                                                    <td
+                                                        data-label=""
+                                                        colSpan="5"
+                                                        className="text-center text-muted py-4"
+                                                    >
 
-                                                No gate activity yet.
-
-                                            </td>
-
-                                        </tr>
-
-                                    ) : (
-
-                                        data.recentVisits.map(
-                                            (
-                                                visit
-                                            ) => (
-
-                                                <tr
-                                                    key={
-                                                        visit.id
-                                                    }
-                                                >
-
-                                                    <td>
-
-                                                        <div className="rems-table-primary">
-
-                                                            {
-                                                                visit.invitation?.visitor_name ||
-                                                                visit.visitor_name ||
-                                                                "Visitor"
-                                                            }
-
-                                                        </div>
-
-                                                        <div className="rems-table-secondary">
-
-                                                            {
-                                                                visit.invitation?.property_address ||
-                                                                "Property"
-                                                            }
-
-                                                        </div>
-
-                                                    </td>
-
-
-                                                    <td>
-
-                                                        {
-                                                            visit.time_in
-                                                                ? new Date(
-                                                                    visit.time_in
-                                                                ).toLocaleTimeString(
-                                                                    [],
-                                                                    {
-                                                                        hour:
-                                                                            "2-digit",
-                                                                        minute:
-                                                                            "2-digit",
-                                                                    }
-                                                                )
-                                                                : "—"
-                                                        }
-
-                                                    </td>
-
-
-                                                    <td>
-
-                                                        <span className="rems-status-badge rems-status-success">
-
-                                                            <span className="rems-status-dot" />
-
-                                                            {
-                                                                visit.status ||
-                                                                "—"
-                                                            }
-
-                                                        </span>
+                                                        No gate activity yet.
 
                                                     </td>
 
                                                 </tr>
 
                                             )
-                                        )
+                                            : (
 
-                                    )}
+                                                data.recentVisits.map(
+                                                    (
+                                                        visit
+                                                    ) => (
+
+                                                        <tr
+                                                            key={
+                                                                visit.id
+                                                            }
+                                                        >
+
+
+                                                            {/* VISITOR */}
+
+                                                            <td data-label="Visitor">
+
+                                                                <div className="rems-table-primary">
+
+                                                                    {
+                                                                        visit.visitor_name ||
+                                                                        "Visitor"
+                                                                    }
+
+                                                                </div>
+
+
+                                                                <div className="rems-table-secondary">
+
+                                                                    {
+                                                                        visit.visitor_phone ||
+                                                                        "No phone"
+                                                                    }
+
+                                                                </div>
+
+                                                            </td>
+
+
+                                                            {/* HOST / PROPERTY */}
+
+                                                            <td data-label="Host / Property">
+
+                                                                <div className="rems-table-primary">
+
+                                                                    {
+                                                                        visit.host_name ||
+                                                                        "Resident"
+                                                                    }
+
+                                                                </div>
+
+
+                                                                <div className="rems-table-secondary">
+
+                                                                    {
+                                                                        visit.property_address ||
+                                                                        "Property"
+                                                                    }
+
+                                                                </div>
+
+                                                            </td>
+
+
+                                                            {/* GATE */}
+
+                                                            <td data-label="Gate">
+
+                                                                {
+                                                                    visit.gate_name ||
+                                                                    "—"
+                                                                }
+
+                                                            </td>
+
+
+                                                            {/* TIME */}
+
+                                                            <td data-label="Time In">
+
+                                                                {
+                                                                    visit.time_in
+                                                                        ? new Date(
+                                                                            visit.time_in
+                                                                        ).toLocaleTimeString(
+                                                                            [],
+                                                                            {
+                                                                                hour:
+                                                                                    "2-digit",
+
+                                                                                minute:
+                                                                                    "2-digit",
+                                                                            }
+                                                                        )
+                                                                        : "—"
+                                                                }
+
+                                                            </td>
+
+
+                                                            {/* STATUS */}
+
+                                                            <td data-label="Status">
+
+                                                                <span
+                                                                    className={
+                                                                        `rems-status-badge ${
+                                                                            visit.status ===
+                                                                            "COMPLETED"
+                                                                                ? "rems-status-success"
+                                                                                : visit.status ===
+                                                                                    "INSIDE"
+                                                                                    ? "rems-status-warning"
+                                                                                    : "rems-status-secondary"
+                                                                        }`
+                                                                    }
+                                                                >
+
+                                                                    <span className="rems-status-dot" />
+
+                                                                    {
+                                                                        visit.status_display ||
+                                                                        visit.status ||
+                                                                        "—"
+                                                                    }
+
+                                                                </span>
+
+                                                            </td>
+
+                                                        </tr>
+
+                                                    )
+                                                )
+
+                                            )
+                                    }
 
                                 </tbody>
 
@@ -770,5 +1048,7 @@ export default function SecurityDashboard() {
             </div>
 
         </div>
+
     );
+
 }

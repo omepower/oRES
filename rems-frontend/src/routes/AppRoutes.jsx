@@ -1,3 +1,4 @@
+
 import {
     Navigate,
     Route,
@@ -25,6 +26,9 @@ import AdminLayout
 
 import ResidentLayout
     from "../layouts/ResidentLayout";
+
+import SecurityLayout
+    from "../layouts/SecurityLayout";
 
 
 // ============================================================
@@ -65,11 +69,11 @@ import Occupancy
 
 
 // ============================================================
-// HOMEOWNER PAGES
+// SHARED RESIDENT PAGES
 // ============================================================
 
-import HomeownerDashboard
-    from "../pages/resident/HomeownerDashboard";
+import ResidentDashboard
+    from "../pages/resident/ResidentDashboard";
 
 import ResidentVisitors
     from "../pages/resident/ResidentVisitors";
@@ -85,18 +89,11 @@ import ResidentProperties
 
 import HomeownerOccupancy
     from "../pages/resident/HomeownerOccupancy";
-// ============================================================
-// TENANT PAGES
-// ============================================================
 
-import TenantDashboard
-    from "../pages/resident/TenantDashboard";
 
 // ============================================================
-// SECURITY GUARD PAGES
+// SECURITY PAGES
 // ============================================================
-import SecurityLayout
-    from "../layouts/SecurityLayout";
 
 import SecurityDashboard
     from "../pages/security/SecurityDashboard";
@@ -163,9 +160,7 @@ export default function AppRoutes() {
                     }
                 >
 
-                    {/* ------------------------------------------
-                        ADMIN DASHBOARD
-                    ------------------------------------------ */}
+                    {/* ADMIN DASHBOARD */}
 
                     <Route
                         index
@@ -175,9 +170,7 @@ export default function AppRoutes() {
                     />
 
 
-                    {/* ------------------------------------------
-                        VISITORS
-                    ------------------------------------------ */}
+                    {/* VISITORS */}
 
                     <Route
                         path="visitors"
@@ -187,9 +180,7 @@ export default function AppRoutes() {
                     />
 
 
-                    {/* ------------------------------------------
-                        RESIDENTS
-                    ------------------------------------------ */}
+                    {/* RESIDENTS */}
 
                     <Route
                         path="residents"
@@ -199,9 +190,7 @@ export default function AppRoutes() {
                     />
 
 
-                    {/* ------------------------------------------
-                        PROPERTIES
-                    ------------------------------------------ */}
+                    {/* PROPERTIES */}
 
                     <Route
                         path="properties"
@@ -211,9 +200,7 @@ export default function AppRoutes() {
                     />
 
 
-                    {/* ------------------------------------------
-                        VEHICLES
-                    ------------------------------------------ */}
+                    {/* VEHICLES */}
 
                     <Route
                         path="vehicles"
@@ -223,9 +210,7 @@ export default function AppRoutes() {
                     />
 
 
-                    {/* ------------------------------------------
-                        MOTORIST STICKERS
-                    ------------------------------------------ */}
+                    {/* MOTORIST STICKERS */}
 
                     <Route
                         path="stickers"
@@ -235,9 +220,7 @@ export default function AppRoutes() {
                     />
 
 
-                    {/* ------------------------------------------
-                        GATES
-                    ------------------------------------------ */}
+                    {/* GATES */}
 
                     <Route
                         path="gates"
@@ -247,9 +230,7 @@ export default function AppRoutes() {
                     />
 
 
-                    {/* ------------------------------------------
-                        OCCUPANCY
-                    ------------------------------------------ */}
+                    {/* OCCUPANCY */}
 
                     <Route
                         path="occupancy"
@@ -265,6 +246,7 @@ export default function AppRoutes() {
 
             {/* ==================================================
                 HOMEOWNER PORTAL
+                ResidentDashboard serves this route directly.
             ================================================== */}
 
             <Route
@@ -284,16 +266,17 @@ export default function AppRoutes() {
                     }
                 >
 
-                    {/* ------------------------------------------
-                        HOMEOWNER DASHBOARD
-                    ------------------------------------------ */}
+                    {/* SHARED RESIDENT DASHBOARD */}
 
                     <Route
                         index
                         element={
-                            <HomeownerDashboard />
+                            <ResidentDashboard />
                         }
                     />
+
+
+                    {/* VISITORS */}
 
                     <Route
                         path="visitors"
@@ -302,12 +285,18 @@ export default function AppRoutes() {
                         }
                     />
 
+
+                    {/* VEHICLES */}
+
                     <Route
                         path="vehicles"
                         element={
                             <ResidentVehicles />
                         }
                     />
+
+
+                    {/* STICKERS */}
 
                     <Route
                         path="stickers"
@@ -316,12 +305,18 @@ export default function AppRoutes() {
                         }
                     />
 
+
+                    {/* PROPERTIES */}
+
                     <Route
                         path="properties"
                         element={
                             <ResidentProperties />
                         }
                     />
+
+
+                    {/* HOMEOWNER OCCUPANCY */}
 
                     <Route
                         path="occupancy"
@@ -337,6 +332,7 @@ export default function AppRoutes() {
 
             {/* ==================================================
                 TENANT PORTAL
+                ResidentDashboard serves this route directly.
             ================================================== */}
 
             <Route
@@ -356,16 +352,17 @@ export default function AppRoutes() {
                     }
                 >
 
-                    {/* ------------------------------------------
-                        TENANT DASHBOARD
-                    ------------------------------------------ */}
+                    {/* SHARED RESIDENT DASHBOARD */}
 
                     <Route
                         index
                         element={
-                            <TenantDashboard />
+                            <ResidentDashboard />
                         }
                     />
+
+
+                    {/* VISITORS */}
 
                     <Route
                         path="visitors"
@@ -374,6 +371,9 @@ export default function AppRoutes() {
                         }
                     />
 
+
+                    {/* VEHICLES */}
+
                     <Route
                         path="vehicles"
                         element={
@@ -381,12 +381,18 @@ export default function AppRoutes() {
                         }
                     />
 
+
+                    {/* STICKERS */}
+
                     <Route
                         path="stickers"
                         element={
                             <ResidentStickers />
                         }
                     />
+
+
+                    {/* PROPERTY */}
 
                     <Route
                         path="property"
@@ -399,8 +405,9 @@ export default function AppRoutes() {
 
             </Route>
 
+
             {/* ==================================================
-                SECURITY GUARD PORTAL
+                SECURITY PORTAL
             ================================================== */}
 
             <Route
@@ -422,12 +429,17 @@ export default function AppRoutes() {
                     }
                 >
 
+                    {/* SECURITY DASHBOARD */}
+
                     <Route
                         index
                         element={
                             <SecurityDashboard />
                         }
                     />
+
+
+                    {/* QR SCANNER */}
 
                     <Route
                         path="scan"
@@ -436,12 +448,18 @@ export default function AppRoutes() {
                         }
                     />
 
+
+                    {/* VISITORS INSIDE */}
+
                     <Route
                         path="inside"
                         element={
                             <VisitorsInside />
                         }
                     />
+
+
+                    {/* GATE HISTORY */}
 
                     <Route
                         path="history"
@@ -474,3 +492,481 @@ export default function AppRoutes() {
     );
 
 }
+
+
+// import {
+//     Navigate,
+//     Route,
+//     Routes,
+// } from "react-router-dom";
+
+
+// // ============================================================
+// // PUBLIC
+// // ============================================================
+
+// import LandingPage
+//     from "../pages/LandingPage";
+
+// import Login
+//     from "../pages/auth/Login";
+
+
+// // ============================================================
+// // LAYOUTS
+// // ============================================================
+
+// import AdminLayout
+//     from "../layouts/AdminLayout";
+
+// import ResidentLayout
+//     from "../layouts/ResidentLayout";
+
+
+// // ============================================================
+// // ROUTE GUARD
+// // ============================================================
+
+// import ProtectedRoute
+//     from "./ProtectedRoute";
+
+
+// // ============================================================
+// // ADMIN PAGES
+// // ============================================================
+
+// import AdminDashboard
+//     from "../pages/admin/AdminDashboard";
+
+// import Visitors
+//     from "../pages/admin/Visitors";
+
+// import Residents
+//     from "../pages/admin/Residents";
+
+// import Properties
+//     from "../pages/admin/Properties";
+
+// import Vehicles
+//     from "../pages/admin/Vehicles";
+
+// import Stickers
+//     from "../pages/admin/Stickers";
+
+// import Gates
+//     from "../pages/admin/Gates";
+
+// import Occupancy
+//     from "../pages/admin/Occupancy";
+
+
+// // ============================================================
+// // HOMEOWNER PAGES
+// // ============================================================
+
+// import HomeownerDashboard
+//     from "../pages/resident/HomeownerDashboard";
+
+// import ResidentVisitors
+//     from "../pages/resident/ResidentVisitors";
+
+// import ResidentVehicles
+//     from "../pages/resident/ResidentVehicles";
+
+// import ResidentStickers
+//     from "../pages/resident/ResidentStickers";
+
+// import ResidentProperties
+//     from "../pages/resident/ResidentProperties";
+
+// import HomeownerOccupancy
+//     from "../pages/resident/HomeownerOccupancy";
+// // ============================================================
+// // TENANT PAGES
+// // ============================================================
+
+// import TenantDashboard
+//     from "../pages/resident/TenantDashboard";
+
+// // ============================================================
+// // SECURITY GUARD PAGES
+// // ============================================================
+// import SecurityLayout
+//     from "../layouts/SecurityLayout";
+
+// import SecurityDashboard
+//     from "../pages/security/SecurityDashboard";
+
+// import VisitorScanner
+//     from "../pages/security/VisitorScanner";
+
+// import VisitorsInside
+//     from "../pages/security/VisitorsInside";
+
+// import GateHistory
+//     from "../pages/security/GateHistory";
+
+
+// // ============================================================
+// // APP ROUTES
+// // ============================================================
+
+// export default function AppRoutes() {
+
+//     return (
+
+//         <Routes>
+
+
+//             {/* ==================================================
+//                 PUBLIC ROUTES
+//             ================================================== */}
+
+//             <Route
+//                 path="/"
+//                 element={
+//                     <LandingPage />
+//                 }
+//             />
+
+
+//             <Route
+//                 path="/login"
+//                 element={
+//                     <Login />
+//                 }
+//             />
+
+
+//             {/* ==================================================
+//                 ADMINISTRATION
+//             ================================================== */}
+
+//             <Route
+//                 element={
+//                     <ProtectedRoute
+//                         allowedRoles={[
+//                             "ADMIN",
+//                         ]}
+//                     />
+//                 }
+//             >
+
+//                 <Route
+//                     path="/admin"
+//                     element={
+//                         <AdminLayout />
+//                     }
+//                 >
+
+//                     {/* ------------------------------------------
+//                         ADMIN DASHBOARD
+//                     ------------------------------------------ */}
+
+//                     <Route
+//                         index
+//                         element={
+//                             <AdminDashboard />
+//                         }
+//                     />
+
+
+//                     {/* ------------------------------------------
+//                         VISITORS
+//                     ------------------------------------------ */}
+
+//                     <Route
+//                         path="visitors"
+//                         element={
+//                             <Visitors />
+//                         }
+//                     />
+
+
+//                     {/* ------------------------------------------
+//                         RESIDENTS
+//                     ------------------------------------------ */}
+
+//                     <Route
+//                         path="residents"
+//                         element={
+//                             <Residents />
+//                         }
+//                     />
+
+
+//                     {/* ------------------------------------------
+//                         PROPERTIES
+//                     ------------------------------------------ */}
+
+//                     <Route
+//                         path="properties"
+//                         element={
+//                             <Properties />
+//                         }
+//                     />
+
+
+//                     {/* ------------------------------------------
+//                         VEHICLES
+//                     ------------------------------------------ */}
+
+//                     <Route
+//                         path="vehicles"
+//                         element={
+//                             <Vehicles />
+//                         }
+//                     />
+
+
+//                     {/* ------------------------------------------
+//                         MOTORIST STICKERS
+//                     ------------------------------------------ */}
+
+//                     <Route
+//                         path="stickers"
+//                         element={
+//                             <Stickers />
+//                         }
+//                     />
+
+
+//                     {/* ------------------------------------------
+//                         GATES
+//                     ------------------------------------------ */}
+
+//                     <Route
+//                         path="gates"
+//                         element={
+//                             <Gates />
+//                         }
+//                     />
+
+
+//                     {/* ------------------------------------------
+//                         OCCUPANCY
+//                     ------------------------------------------ */}
+
+//                     <Route
+//                         path="occupancy"
+//                         element={
+//                             <Occupancy />
+//                         }
+//                     />
+
+//                 </Route>
+
+//             </Route>
+
+
+//             {/* ==================================================
+//                 HOMEOWNER PORTAL
+//             ================================================== */}
+
+//             <Route
+//                 element={
+//                     <ProtectedRoute
+//                         allowedRoles={[
+//                             "HOMEOWNER",
+//                         ]}
+//                     />
+//                 }
+//             >
+
+//                 <Route
+//                     path="/homeowner"
+//                     element={
+//                         <ResidentLayout />
+//                     }
+//                 >
+
+//                     {/* ------------------------------------------
+//                         HOMEOWNER DASHBOARD
+//                     ------------------------------------------ */}
+
+//                     <Route
+//                         index
+//                         element={
+//                             <HomeownerDashboard />
+//                         }
+//                     />
+
+//                     <Route
+//                         path="visitors"
+//                         element={
+//                             <ResidentVisitors />
+//                         }
+//                     />
+
+//                     <Route
+//                         path="vehicles"
+//                         element={
+//                             <ResidentVehicles />
+//                         }
+//                     />
+
+//                     <Route
+//                         path="stickers"
+//                         element={
+//                             <ResidentStickers />
+//                         }
+//                     />
+
+//                     <Route
+//                         path="properties"
+//                         element={
+//                             <ResidentProperties />
+//                         }
+//                     />
+
+//                     <Route
+//                         path="occupancy"
+//                         element={
+//                             <HomeownerOccupancy />
+//                         }
+//                     />
+
+//                 </Route>
+
+//             </Route>
+
+
+//             {/* ==================================================
+//                 TENANT PORTAL
+//             ================================================== */}
+
+//             <Route
+//                 element={
+//                     <ProtectedRoute
+//                         allowedRoles={[
+//                             "TENANT",
+//                         ]}
+//                     />
+//                 }
+//             >
+
+//                 <Route
+//                     path="/tenant"
+//                     element={
+//                         <ResidentLayout />
+//                     }
+//                 >
+
+//                     {/* ------------------------------------------
+//                         TENANT DASHBOARD
+//                     ------------------------------------------ */}
+
+//                     <Route
+//                         index
+//                         element={
+//                             <TenantDashboard />
+//                         }
+//                     />
+
+//                     <Route
+//                         path="visitors"
+//                         element={
+//                             <ResidentVisitors />
+//                         }
+//                     />
+
+//                     <Route
+//                         path="vehicles"
+//                         element={
+//                             <ResidentVehicles />
+//                         }
+//                     />
+
+//                     <Route
+//                         path="stickers"
+//                         element={
+//                             <ResidentStickers />
+//                         }
+//                     />
+
+//                     <Route
+//                         path="property"
+//                         element={
+//                             <ResidentProperties />
+//                         }
+//                     />
+
+//                 </Route>
+
+//             </Route>
+
+//             {/* ==================================================
+//                 SECURITY GUARD PORTAL
+//             ================================================== */}
+
+//             <Route
+//                 element={
+//                     <ProtectedRoute
+//                         allowedRoles={[
+//                             "SECURITY",
+//                             "SECURITY_OFFICER",
+//                             "ADMIN",
+//                         ]}
+//                     />
+//                 }
+//             >
+
+//                 <Route
+//                     path="/security"
+//                     element={
+//                         <SecurityLayout />
+//                     }
+//                 >
+
+//                     <Route
+//                         index
+//                         element={
+//                             <SecurityDashboard />
+//                         }
+//                     />
+
+//                     <Route
+//                         path="scan"
+//                         element={
+//                             <VisitorScanner />
+//                         }
+//                     />
+
+//                     <Route
+//                         path="inside"
+//                         element={
+//                             <VisitorsInside />
+//                         }
+//                     />
+
+//                     <Route
+//                         path="history"
+//                         element={
+//                             <GateHistory />
+//                         }
+//                     />
+
+//                 </Route>
+
+//             </Route>
+
+
+//             {/* ==================================================
+//                 UNKNOWN ROUTES
+//             ================================================== */}
+
+//             <Route
+//                 path="*"
+//                 element={
+//                     <Navigate
+//                         to="/"
+//                         replace
+//                     />
+//                 }
+//             />
+
+//         </Routes>
+
+//     );
+
+// }

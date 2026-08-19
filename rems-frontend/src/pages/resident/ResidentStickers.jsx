@@ -715,7 +715,7 @@ export default function ResidentStickers() {
                                             }
                                         >
 
-                                            <td>
+                                            <td data-label="sticker">
 
                                                 <div className="rems-table-primary">
 
@@ -739,7 +739,7 @@ export default function ResidentStickers() {
                                             </td>
 
 
-                                            <td>
+                                            <td data-label="vehicle">
 
                                                 <div className="rems-table-primary">
 
@@ -762,7 +762,7 @@ export default function ResidentStickers() {
                                             </td>
 
 
-                                            <td>
+                                            <td data-label="property">
 
                                                 {
                                                     sticker.property_address ||
@@ -772,7 +772,7 @@ export default function ResidentStickers() {
                                             </td>
 
 
-                                            <td>
+                                            <td data-label="status">
 
                                                 <span
                                                     className={`rems-status-badge ${
@@ -795,7 +795,7 @@ export default function ResidentStickers() {
                                             </td>
 
 
-                                            <td>
+                                            <td data-label="date of issue">
 
                                                 {
                                                     sticker.issued_at
@@ -808,7 +808,7 @@ export default function ResidentStickers() {
                                             </td>
 
 
-                                            <td>
+                                            <td data-label="exipration">
 
                                                 {
                                                     sticker.expires_at
@@ -821,7 +821,7 @@ export default function ResidentStickers() {
                                             </td>
 
 
-                                            <td>
+                                            <td data-label="action">
 
                                                 <div className="d-flex justify-content-end gap-1">
 

@@ -1,8 +1,4 @@
 
-// ============================================================
-// src/pages/security/GateHistory.jsx
-// ============================================================
-
 import {
     useCallback,
     useEffect,
@@ -13,7 +9,6 @@ import {
 import {
     BsArrowClockwise,
     BsClockHistory,
-    BsSearch,
 } from "react-icons/bs";
 
 import {
@@ -59,6 +54,10 @@ export default function GateHistory() {
     ] = useState("");
 
 
+    // ========================================================
+    // LOAD HISTORY
+    // ========================================================
+
     const loadHistory =
         useCallback(
             async (
@@ -86,18 +85,14 @@ export default function GateHistory() {
 
 
                     const data =
-                        Array.isArray(
-                            response
-                        )
+                        Array.isArray(response)
                             ? response
                             : response?.results ||
                               response?.visits ||
                               [];
 
 
-                    setVisits(
-                        data
-                    );
+                    setVisits(data);
 
                 } catch (err) {
 
@@ -124,6 +119,10 @@ export default function GateHistory() {
         );
 
 
+    // ========================================================
+    // INITIAL LOAD
+    // ========================================================
+
     useEffect(() => {
 
         loadHistory();
@@ -132,6 +131,10 @@ export default function GateHistory() {
         loadHistory,
     ]);
 
+
+    // ========================================================
+    // FILTER
+    // ========================================================
 
     const filteredVisits =
         useMemo(
@@ -148,28 +151,16 @@ export default function GateHistory() {
                         visit
                     ) => {
 
-                        const invitation =
-                            visit?.invitation ||
-                            {};
-
-
                         const searchable = [
 
-                            invitation.visitor_name,
-
-                            invitation.host_name_snapshot,
-
-                            invitation.host_address_snapshot,
-
-                            visit.gate?.name,
-
-                            visit.gate_name,
-
-                            visit.scanned_by?.username,
-
-                            visit.scanned_by_name,
-
-                            visit.status,
+                            visit?.visitor_name,
+                            visit?.visitor_phone,
+                            visit?.host_name,
+                            visit?.host_address,
+                            visit?.property_address,
+                            visit?.gate_name,
+                            visit?.scanned_by_name,
+                            visit?.status,
 
                         ]
                             .filter(Boolean)
@@ -179,16 +170,12 @@ export default function GateHistory() {
 
                         const matchesSearch =
                             !text ||
-                            searchable.includes(
-                                text
-                            );
+                            searchable.includes(text);
 
 
                         const matchesStatus =
-                            statusFilter ===
-                                "ALL" ||
-                            visit.status ===
-                                statusFilter;
+                            statusFilter === "ALL" ||
+                            visit?.status === statusFilter;
 
 
                         return (
@@ -208,22 +195,24 @@ export default function GateHistory() {
         );
 
 
+    // ========================================================
+    // FORMAT DATE / TIME
+    // ========================================================
+
     const formatDateTime =
         (
             value
         ) => {
 
-            if (
-                !value
-            ) {
+            if (!value) {
+
                 return "—";
+
             }
 
 
             const date =
-                new Date(
-                    value
-                );
+                new Date(value);
 
 
             if (
@@ -240,36 +229,77 @@ export default function GateHistory() {
             return date.toLocaleString(
                 [],
                 {
-                    dateStyle:
-                        "medium",
-
-                    timeStyle:
-                        "short",
+                    dateStyle: "medium",
+                    timeStyle: "short",
                 }
             );
 
         };
 
 
+    // ========================================================
+    // STATUS CLASS
+    // ========================================================
+
+    const getStatusClass =
+        (
+            status
+        ) => {
+
+            switch (status) {
+
+                case "COMPLETED":
+                    return "rems-status-success";
+
+                case "INSIDE":
+                    return "rems-status-warning";
+
+                case "DENIED":
+                    return "rems-status-danger";
+
+                default:
+                    return "rems-status-secondary";
+
+            }
+
+        };
+
+
+    // ========================================================
+    // RENDER
+    // ========================================================
+
     return (
 
         <div className="rems-page-content">
 
+
+            {/* ==================================================
+                HEADER
+            ================================================== */}
 
             <div className="rems-page-header">
 
                 <div>
 
                     <div className="rems-page-eyebrow">
+
                         SECURITY OPERATIONS
+
                     </div>
 
+
                     <h1 className="rems-page-title">
+
                         Gate History
+
                     </h1>
 
+
                     <p className="rems-page-description">
+
                         Review visitor entry and exit records.
+
                     </p>
 
                 </div>
@@ -281,9 +311,7 @@ export default function GateHistory() {
                     onClick={() =>
                         loadHistory(true)
                     }
-                    disabled={
-                        refreshing
-                    }
+                    disabled={refreshing}
                 >
 
                     <BsArrowClockwise />
@@ -299,6 +327,10 @@ export default function GateHistory() {
             </div>
 
 
+            {/* ==================================================
+                ERROR
+            ================================================== */}
+
             {error && (
 
                 <div className="alert alert-danger rems-alert mb-4">
@@ -310,23 +342,39 @@ export default function GateHistory() {
             )}
 
 
+            {/* ==================================================
+                MAIN CARD
+            ================================================== */}
+
             <div className="rems-glass-card">
 
+
+                {/* ==================================================
+                    CARD HEADER
+                ================================================== */}
 
                 <div className="rems-card-header">
 
                     <div>
 
                         <div className="rems-page-eyebrow">
+
                             VISITOR RECORDS
+
                         </div>
+
 
                         <div className="rems-card-title">
+
                             Gate Activity
+
                         </div>
 
+
                         <div className="rems-card-subtitle">
+
                             Completed and active visitor gate records.
+
                         </div>
 
                     </div>
@@ -341,43 +389,52 @@ export default function GateHistory() {
                 </div>
 
 
+                {/* ==================================================
+                    FILTER BAR
+                ================================================== */}
+
                 <div className="rems-filter-bar">
+
+
+                    {/* SEARCH */}
 
                     <div className="rems-search-box">
 
-                        <BsSearch />
+                        <i
+                            className="bi bi-search"
+                            aria-hidden="true"
+                        />
+
 
                         <input
                             type="search"
                             className="form-control"
                             placeholder="Search visitor, host, property or gate..."
-                            value={
-                                search
-                            }
-                            onChange={(
-                                event
-                            ) =>
+                            value={search}
+                            onChange={(event) =>
                                 setSearch(
                                     event.target.value
                                 )
                             }
+                            aria-label="Search gate history"
+                            autoComplete="off"
+                            spellCheck="false"
                         />
 
                     </div>
 
 
+                    {/* STATUS */}
+
                     <select
                         className="form-select rems-filter-select"
-                        value={
-                            statusFilter
-                        }
-                        onChange={(
-                            event
-                        ) =>
+                        value={statusFilter}
+                        onChange={(event) =>
                             setStatusFilter(
                                 event.target.value
                             )
                         }
+                        aria-label="Filter gate history by status"
                     >
 
                         <option value="ALL">
@@ -399,16 +456,15 @@ export default function GateHistory() {
                     </select>
 
 
+                    {/* RESET */}
+
                     <button
                         type="button"
                         className="rems-secondary-button"
                         onClick={() => {
 
                             setSearch("");
-
-                            setStatusFilter(
-                                "ALL"
-                            );
+                            setStatusFilter("ALL");
 
                         }}
                     >
@@ -420,6 +476,10 @@ export default function GateHistory() {
                 </div>
 
 
+                {/* ==================================================
+                    CONTENT
+                ================================================== */}
+
                 {loading ? (
 
                     <div className="rems-loading-state">
@@ -427,10 +487,13 @@ export default function GateHistory() {
                         <div
                             className="spinner-border"
                             role="status"
+                            aria-hidden="true"
                         />
 
                         <div className="mt-2">
+
                             Loading gate history...
+
                         </div>
 
                     </div>
@@ -447,13 +510,17 @@ export default function GateHistory() {
 
 
                         <div className="rems-empty-title">
+
                             No gate records found
+
                         </div>
 
 
                         <p className="rems-empty-text">
+
                             There are no visitor records matching
                             the current filters.
+
                         </p>
 
                     </div>
@@ -506,146 +573,146 @@ export default function GateHistory() {
                                 {filteredVisits.map(
                                     (
                                         visit
-                                    ) => {
+                                    ) => (
 
-                                        const invitation =
-                                            visit?.invitation ||
-                                            {};
+                                        <tr
+                                            key={
+                                                visit.id
+                                            }
+                                        >
+
+                                            {/* VISITOR */}
+
+                                            <td data-label="Visitor">
+
+                                                <div className="rems-table-primary">
+
+                                                    {
+                                                        visit.visitor_name ||
+                                                        "Visitor"
+                                                    }
+
+                                                </div>
 
 
-                                        const statusClass =
-                                            visit.status ===
-                                                "COMPLETED"
-                                                ? "rems-status-success"
-                                                : visit.status ===
-                                                    "INSIDE"
-                                                    ? "rems-status-warning"
-                                                    : "rems-status-danger";
+                                                <div className="rems-table-secondary">
+
+                                                    {
+                                                        visit.visitor_phone ||
+                                                        "No phone"
+                                                    }
+
+                                                </div>
+
+                                            </td>
 
 
-                                        return (
+                                            {/* HOST / PROPERTY */}
 
-                                            <tr
-                                                key={
-                                                    visit.id
+                                            <td data-label="Host / Property">
+
+                                                <div className="rems-table-primary">
+
+                                                    {
+                                                        visit.host_name ||
+                                                        "Resident"
+                                                    }
+
+                                                </div>
+
+
+                                                <div className="rems-table-secondary">
+
+                                                    {
+                                                        visit.property_address ||
+                                                        "Property"
+                                                    }
+
+                                                </div>
+
+                                            </td>
+
+
+                                            {/* GATE */}
+
+                                            <td data-label="Gate">
+
+                                                {
+                                                    visit.gate_name ||
+                                                    "—"
                                                 }
-                                            >
 
-                                                <td>
-
-                                                    <div className="rems-table-primary">
-
-                                                        {
-                                                            invitation.visitor_name ||
-                                                            visit.visitor_name ||
-                                                            "Visitor"
-                                                        }
-
-                                                    </div>
+                                            </td>
 
 
-                                                    <div className="rems-table-secondary">
+                                            {/* TIME IN */}
 
-                                                        {
-                                                            invitation.visitor_phone ||
-                                                            "No phone"
-                                                        }
+                                            <td data-label="Time In">
 
-                                                    </div>
+                                                {
+                                                    formatDateTime(
+                                                        visit.time_in
+                                                    )
+                                                }
 
-                                                </td>
-
-
-                                                <td>
-
-                                                    <div className="rems-table-primary">
-
-                                                        {
-                                                            invitation.host_name_snapshot ||
-                                                            "Resident"
-                                                        }
-
-                                                    </div>
+                                            </td>
 
 
-                                                    <div className="rems-table-secondary">
+                                            {/* TIME OUT */}
 
-                                                        {
-                                                            invitation.host_address_snapshot ||
-                                                            "Property"
-                                                        }
+                                            <td data-label="Time Out">
 
-                                                    </div>
+                                                {
+                                                    formatDateTime(
+                                                        visit.time_out
+                                                    )
+                                                }
 
-                                                </td>
+                                            </td>
 
 
-                                                <td>
+                                            {/* STATUS */}
+
+                                            <td data-label="Status">
+
+                                                <span
+                                                    className={
+                                                        `rems-status-badge ${
+                                                            getStatusClass(
+                                                                visit.status
+                                                            )
+                                                        }`
+                                                    }
+                                                >
+
+                                                    <span className="rems-status-dot" />
 
                                                     {
-                                                        visit.gate?.name ||
-                                                        visit.gate_name ||
+                                                        visit.status_display ||
+                                                        visit.status ||
                                                         "—"
                                                     }
 
-                                                </td>
+                                                </span>
+
+                                            </td>
 
 
-                                                <td>
+                                            {/* SCANNED BY */}
 
-                                                    {
-                                                        formatDateTime(
-                                                            visit.time_in
-                                                        )
-                                                    }
+                                            <td data-label="Scanned By">
 
-                                                </td>
+                                                {
+                                                    visit.scanned_by_name ||
+                                                    visit.scanned_by?.username ||
+                                                    "—"
+                                                }
 
+                                            </td>
 
-                                                <td>
+                                        </tr>
 
-                                                    {
-                                                        formatDateTime(
-                                                            visit.time_out
-                                                        )
-                                                    }
-
-                                                </td>
-
-
-                                                <td>
-
-                                                    <span
-                                                        className={`rems-status-badge ${statusClass}`}
-                                                    >
-
-                                                        <span className="rems-status-dot" />
-
-                                                        {
-                                                            visit.status ||
-                                                            "—"
-                                                        }
-
-                                                    </span>
-
-                                                </td>
-
-
-                                                <td>
-
-                                                    {
-                                                        visit.scanned_by?.username ||
-                                                        visit.scanned_by_name ||
-                                                        "—"
-                                                    }
-
-                                                </td>
-
-                                            </tr>
-
-                                        );
-
-                                    }
+                                    )
                                 )}
 
                             </tbody>
@@ -659,5 +726,6 @@ export default function GateHistory() {
             </div>
 
         </div>
+
     );
 }

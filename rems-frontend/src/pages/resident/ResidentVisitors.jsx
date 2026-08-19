@@ -1030,7 +1030,7 @@ export default function ResidentVisitors() {
                                             }
                                         >
 
-                                            <td>
+                                            <td data-label="Visitor">
 
                                                 <div className="rems-table-primary">
                                                     {
@@ -1049,7 +1049,7 @@ export default function ResidentVisitors() {
                                             </td>
 
 
-                                            <td>
+                                            <td data-label="property">
 
                                                 <div className="rems-table-primary">
                                                     {
@@ -1061,7 +1061,7 @@ export default function ResidentVisitors() {
                                             </td>
 
 
-                                            <td>
+                                            <td data-label="visit date">
 
                                                 {
                                                     invitation.visit_date ||
@@ -1071,7 +1071,7 @@ export default function ResidentVisitors() {
                                             </td>
 
 
-                                            <td>
+                                            <td data-label="expected time">
 
                                                 {
                                                     invitation.expected_time_in ||
@@ -1088,7 +1088,7 @@ export default function ResidentVisitors() {
                                             </td>
 
 
-                                            <td>
+                                            <td data-label="status">
 
                                                 <span
                                                     className={`rems-status-badge ${
@@ -1111,7 +1111,7 @@ export default function ResidentVisitors() {
                                             </td>
 
 
-                                            <td>
+                                            <td data-label="action">
 
                                                 <div className="d-flex justify-content-end gap-1">
 

@@ -412,11 +412,11 @@ export default function VisitorDetailsModal({
                                         </div>
 
 
-                                        {visit ? (
+                                        {(visit || invitation?.visit) ? (
 
                                             <VisitorStatusBadge
                                                 status={
-                                                    visit.status
+                                                    (visit|| invitation?.visit).status
                                                 }
                                             />
 

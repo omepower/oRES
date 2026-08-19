@@ -549,7 +549,7 @@ export default function ResidentVehicles() {
                                             key={vehicle.id}
                                         >
 
-                                            <td>
+                                            <td data-label="Vehicle">
 
                                                 <div className="rems-table-primary">
 
@@ -577,7 +577,7 @@ export default function ResidentVehicles() {
                                             </td>
 
 
-                                            <td>
+                                            <td data-label="plate">
 
                                                 <span className="fw-semibold">
 
@@ -590,7 +590,7 @@ export default function ResidentVehicles() {
                                             </td>
 
 
-                                            <td>
+                                            <td data-label="type">
 
                                                 {
                                                     vehicle.vehicle_type_display ||
@@ -601,7 +601,7 @@ export default function ResidentVehicles() {
                                             </td>
 
 
-                                            <td>
+                                            <td data-label="property">
 
                                                 <div className="rems-table-primary">
 
@@ -615,7 +615,7 @@ export default function ResidentVehicles() {
                                             </td>
 
 
-                                            <td>
+                                            <td data-label="status">
 
                                                 <span
                                                     className={`rems-status-badge ${
@@ -638,7 +638,7 @@ export default function ResidentVehicles() {
                                             </td>
 
 
-                                            <td>
+                                            <td data-label="sticker">
 
                                                 {vehicle.motorist_sticker ? (
 
@@ -665,7 +665,7 @@ export default function ResidentVehicles() {
                                             </td>
 
 
-                                            <td>
+                                            <td data-label="action">
 
                                                 <div className="d-flex justify-content-end gap-1">
 

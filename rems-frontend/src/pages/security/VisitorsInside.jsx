@@ -1,9 +1,4 @@
 
-
-// ============================================================
-// src/pages/security/VisitorsInside.jsx
-// ============================================================
-
 import {
     useCallback,
     useEffect,
@@ -56,6 +51,10 @@ export default function VisitorsInside() {
     ] = useState("");
 
 
+    // ========================================================
+    // LOAD VISITORS
+    // ========================================================
+
     const loadVisitors =
         useCallback(
             async (
@@ -64,11 +63,15 @@ export default function VisitorsInside() {
 
                 if (refresh) {
 
-                    setRefreshing(true);
+                    setRefreshing(
+                        true
+                    );
 
                 } else {
 
-                    setLoading(true);
+                    setLoading(
+                        true
+                    );
 
                 }
 
@@ -111,8 +114,13 @@ export default function VisitorsInside() {
 
                 } finally {
 
-                    setLoading(false);
-                    setRefreshing(false);
+                    setLoading(
+                        false
+                    );
+
+                    setRefreshing(
+                        false
+                    );
 
                 }
 
@@ -120,6 +128,10 @@ export default function VisitorsInside() {
             []
         );
 
+
+    // ========================================================
+    // INITIAL LOAD
+    // ========================================================
 
     useEffect(() => {
 
@@ -130,6 +142,10 @@ export default function VisitorsInside() {
     ]);
 
 
+    // ========================================================
+    // CHECKOUT
+    // ========================================================
+
     const handleCheckout =
         async (
             visit
@@ -139,12 +155,13 @@ export default function VisitorsInside() {
                 !visit?.id ||
                 processingId
             ) {
+
                 return;
+
             }
 
 
             const visitorName =
-                visit?.invitation?.visitor_name ||
                 visit?.visitor_name ||
                 "this visitor";
 
@@ -158,7 +175,9 @@ export default function VisitorsInside() {
             if (
                 !confirmed
             ) {
+
                 return;
+
             }
 
 
@@ -213,6 +232,10 @@ export default function VisitorsInside() {
         };
 
 
+    // ========================================================
+    // FORMAT TIME
+    // ========================================================
+
     const formatTime =
         (
             value
@@ -221,7 +244,9 @@ export default function VisitorsInside() {
             if (
                 !value
             ) {
+
                 return "—";
+
             }
 
 
@@ -256,10 +281,18 @@ export default function VisitorsInside() {
         };
 
 
+    // ========================================================
+    // RENDER
+    // ========================================================
+
     return (
 
         <div className="rems-page-content">
 
+
+            {/* ==================================================
+                HEADER
+            ================================================== */}
 
             <div className="rems-page-header">
 
@@ -285,7 +318,9 @@ export default function VisitorsInside() {
                     type="button"
                     className="rems-secondary-button"
                     onClick={() =>
-                        loadVisitors(true)
+                        loadVisitors(
+                            true
+                        )
                     }
                     disabled={
                         refreshing
@@ -305,6 +340,10 @@ export default function VisitorsInside() {
             </div>
 
 
+            {/* ==================================================
+                ERROR
+            ================================================== */}
+
             {error && (
 
                 <div className="alert alert-danger rems-alert mb-4">
@@ -316,7 +355,12 @@ export default function VisitorsInside() {
             )}
 
 
+            {/* ==================================================
+                CARD
+            ================================================== */}
+
             <div className="rems-glass-card">
+
 
                 <div className="rems-card-header">
 
@@ -331,8 +375,12 @@ export default function VisitorsInside() {
                         </div>
 
                         <div className="rems-card-subtitle">
+
                             {visitors.length} visitor
-                            {visitors.length === 1 ? "" : "s"} currently inside.
+                            {visitors.length === 1
+                                ? ""
+                                : "s"} currently inside.
+
                         </div>
 
                     </div>
@@ -346,6 +394,10 @@ export default function VisitorsInside() {
 
                 </div>
 
+
+                {/* ==================================================
+                    CONTENT
+                ================================================== */}
 
                 {loading ? (
 
@@ -428,145 +480,164 @@ export default function VisitorsInside() {
                                 {visitors.map(
                                     (
                                         visit
-                                    ) => {
+                                    ) => (
 
-                                        const invitation =
-                                            visit?.invitation ||
-                                            {};
+                                        <tr
+                                            key={
+                                                visit.id
+                                            }
+                                        >
+
+                                            {/* VISITOR */}
+
+                                            <td data-label="Visitor">
+
+                                                <div className="rems-table-primary">
+
+                                                    {
+                                                        visit.visitor_name ||
+                                                        "Visitor"
+                                                    }
+
+                                                </div>
 
 
-                                        return (
+                                                <div className="rems-table-secondary">
 
-                                            <tr
-                                                key={
-                                                    visit.id
+                                                    {
+                                                        visit.visitor_phone ||
+                                                        "No phone"
+                                                    }
+
+                                                </div>
+
+                                            </td>
+
+
+                                            {/* HOST */}
+
+                                            <td data-label="Host">
+
+                                                <div className="rems-table-primary">
+
+                                                    {
+                                                        visit.host_name ||
+                                                        "Resident"
+                                                    }
+
+                                                </div>
+
+
+                                                <div className="rems-table-secondary">
+
+                                                    {
+                                                        visit.host_phone ||
+                                                        "No phone"
+                                                    }
+
+                                                </div>
+
+                                            </td>
+
+
+                                            {/* PROPERTY */}
+
+                                            <td data-label="Property">
+
+                                                <div className="rems-table-primary">
+
+                                                    {
+                                                        visit.property_address ||
+                                                        "—"
+                                                    }
+
+                                                </div>
+
+                                            </td>
+
+
+                                            {/* GATE */}
+
+                                            <td data-label="Gate">
+
+                                                {
+                                                    visit.gate_name ||
+                                                    "—"
                                                 }
-                                            >
 
-                                                <td>
-
-                                                    <div className="rems-table-primary">
-                                                        {
-                                                            invitation.visitor_name ||
-                                                            visit.visitor_name ||
-                                                            "Visitor"
-                                                        }
-                                                    </div>
-
-                                                    <div className="rems-table-secondary">
-                                                        {
-                                                            invitation.visitor_phone ||
-                                                            "No phone"
-                                                        }
-                                                    </div>
-
-                                                </td>
+                                            </td>
 
 
-                                                <td>
+                                            {/* TIME IN */}
 
-                                                    <div className="rems-table-primary">
+                                            <td data-label="Time In">
 
-                                                        {
-                                                            invitation.host_name_snapshot ||
-                                                            visit.host_name ||
-                                                            "Resident"
-                                                        }
+                                                <div className="d-flex align-items-center gap-1">
 
-                                                    </div>
-
-                                                </td>
-
-
-                                                <td>
+                                                    <BsClock />
 
                                                     {
-                                                        invitation.host_address_snapshot ||
-                                                        invitation.property_address ||
-                                                        "—"
+                                                        formatTime(
+                                                            visit.time_in
+                                                        )
                                                     }
 
-                                                </td>
+                                                </div>
+
+                                            </td>
 
 
-                                                <td>
+                                            {/* ACTION */}
 
-                                                    {
-                                                        visit.gate?.name ||
-                                                        visit.gate_name ||
-                                                        "—"
-                                                    }
+                                            <td data-label="Action">
 
-                                                </td>
+                                                <div className="d-flex justify-content-end">
 
-
-                                                <td>
-
-                                                    <div className="d-flex align-items-center gap-1">
-
-                                                        <BsClock />
-
-                                                        {
-                                                            formatTime(
-                                                                visit.time_in
+                                                    <button
+                                                        type="button"
+                                                        className="rems-primary-button bg-danger border-danger"
+                                                        onClick={() =>
+                                                            handleCheckout(
+                                                                visit
                                                             )
                                                         }
+                                                        disabled={
+                                                            processingId ===
+                                                            visit.id
+                                                        }
+                                                    >
 
-                                                    </div>
+                                                        {processingId ===
+                                                        visit.id ? (
 
-                                                </td>
+                                                            <span
+                                                                className="spinner-border spinner-border-sm"
+                                                                aria-hidden="true"
+                                                            />
+
+                                                        ) : (
+
+                                                            <BsBoxArrowRight />
+
+                                                        )}
 
 
-                                                <td>
+                                                        {
+                                                            processingId ===
+                                                            visit.id
+                                                                ? "Checking out..."
+                                                                : "Check Out"
+                                                        }
 
-                                                    <div className="d-flex justify-content-end">
+                                                    </button>
 
-                                                        <button
-                                                            type="button"
-                                                            className="rems-primary-button bg-danger border-danger"
-                                                            onClick={() =>
-                                                                handleCheckout(
-                                                                    visit
-                                                                )
-                                                            }
-                                                            disabled={
-                                                                processingId ===
-                                                                visit.id
-                                                            }
-                                                        >
+                                                </div>
 
-                                                            {processingId ===
-                                                            visit.id ? (
+                                            </td>
 
-                                                                <span
-                                                                    className="spinner-border spinner-border-sm"
-                                                                    aria-hidden="true"
-                                                                />
+                                        </tr>
 
-                                                            ) : (
-
-                                                                <BsBoxArrowRight />
-
-                                                            )}
-
-                                                            {
-                                                                processingId ===
-                                                                visit.id
-                                                                    ? "Checking out..."
-                                                                    : "Check Out"
-                                                            }
-
-                                                        </button>
-
-                                                    </div>
-
-                                                </td>
-
-                                            </tr>
-
-                                        );
-
-                                    }
+                                    )
                                 )}
 
                             </tbody>
@@ -582,4 +653,3 @@ export default function VisitorsInside() {
         </div>
     );
 }
-

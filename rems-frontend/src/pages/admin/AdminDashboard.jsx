@@ -105,810 +105,1866 @@ export default function AdminDashboard() {
        LOCAL STYLES
     ========================================================= */
 
-    const dashboardStyles = `
+   const dashboardStyles = `
 
-        /* =====================================================
-           ADMIN DASHBOARD — BALANCED THEME
-        ===================================================== */
+    /* =====================================================
+       ADMIN DASHBOARD
+       Shared responsive visual system
+    ===================================================== */
+
+    .rems-admin-dashboard {
+
+        --admin-bg:
+            rgba(255, 255, 255, 0.70);
+
+        --admin-bg-strong:
+            rgba(255, 255, 255, 0.84);
+
+        --admin-border:
+            rgba(148, 163, 184, 0.14);
+
+        --admin-border-light:
+            rgba(148, 163, 184, 0.10);
+
+        --admin-text:
+            #1d2737;
+
+        --admin-text-soft:
+            #647084;
+
+        --admin-text-muted:
+            #929baa;
+
+        --admin-shadow:
+            0 10px 30px
+            rgba(15, 23, 42, 0.045);
+
+        --admin-shadow-hover:
+            0 18px 42px
+            rgba(15, 23, 42, 0.085);
+
+        width:
+            100%;
+
+        max-width:
+            1580px;
+
+        margin:
+            0 auto;
+
+        padding:
+            28px 30px 42px;
+
+        box-sizing:
+            border-box;
+    }
+
+
+    /* =====================================================
+       HEADER
+    ===================================================== */
+
+    .rems-admin-header {
+
+        display:
+            flex;
+
+        align-items:
+            flex-end;
+
+        justify-content:
+            space-between;
+
+        gap:
+            24px;
+
+        margin-bottom:
+            30px;
+    }
+
+
+    .rems-admin-header-copy {
+
+        min-width:
+            0;
+
+        max-width:
+            760px;
+    }
+
+
+    .rems-admin-eyebrow {
+
+        margin-bottom:
+            8px;
+
+        color:
+            #7d8796;
+
+        font-size:
+            0.72rem;
+
+        font-weight:
+            800;
+
+        letter-spacing:
+            0.14em;
+
+        text-transform:
+            uppercase;
+    }
+
+
+    .rems-admin-title {
+
+        margin:
+            0;
+
+        color:
+            var(--admin-text);
+
+        font-size:
+            clamp(
+                1.85rem,
+                2.7vw,
+                2.35rem
+            );
+
+        font-weight:
+            730;
+
+        line-height:
+            1.15;
+
+        letter-spacing:
+            -0.04em;
+    }
+
+
+    .rems-admin-description {
+
+        max-width:
+            640px;
+
+        margin:
+            9px 0 0;
+
+        color:
+            var(--admin-text-muted);
+
+        font-size:
+            0.82rem;
+
+        line-height:
+            1.65;
+    }
+
+
+    .rems-admin-date {
+
+        flex:
+            0 0 auto;
+
+        display:
+            flex;
+
+        align-items:
+            center;
+
+        gap:
+            11px;
+
+        min-width:
+            185px;
+
+        padding:
+            10px 13px;
+
+        border:
+            1px solid
+            var(--admin-border);
+
+        border-radius:
+            13px;
+
+        color:
+            inherit;
+
+        background:
+            rgba(
+                255,
+                255,
+                255,
+                0.58
+            );
+
+        box-shadow:
+            0 8px 24px
+            rgba(
+                15,
+                23,
+                42,
+                0.035
+            );
+
+        backdrop-filter:
+            blur(14px);
+
+        -webkit-backdrop-filter:
+            blur(14px);
+    }
+
+
+    .rems-admin-date-icon {
+
+        width:
+            38px;
+
+        height:
+            38px;
+
+        flex:
+            0 0 38px;
+
+        display:
+            flex;
+
+        align-items:
+            center;
+
+        justify-content:
+            center;
+
+        border-radius:
+            10px;
+
+        color:
+            #596678;
+
+        background:
+            #f0f3f7;
+
+        font-size:
+            0.9rem;
+    }
+
+
+    .rems-admin-date-copy {
+
+        min-width:
+            0;
+
+        display:
+            flex;
+
+        flex-direction:
+            column;
+
+        gap:
+            2px;
+
+        text-align:
+            left;
+    }
+
+
+    .rems-admin-date-label {
+
+        color:
+            #9aa3ae;
+
+        font-size:
+            0.68rem;
+
+        font-weight:
+            700;
+
+        letter-spacing:
+            0.10em;
+
+        text-transform:
+            uppercase;
+    }
+
+
+    .rems-admin-date-copy strong {
+
+        color:
+            #354152;
+
+        font-size:
+            0.82rem;
+
+        font-weight:
+            650;
+
+        white-space:
+            nowrap;
+    }
+
+
+    /* =====================================================
+       SECTION HEADINGS
+    ===================================================== */
+
+    .rems-admin-section {
+
+        margin-bottom:
+            28px;
+    }
+
+
+    .rems-admin-section-heading {
+
+        display:
+            flex;
+
+        align-items:
+            flex-end;
+
+        justify-content:
+            space-between;
+
+        gap:
+            18px;
+
+        margin-bottom:
+            14px;
+    }
+
+
+    .rems-admin-section-heading h2 {
+
+        margin:
+            0;
+
+        color:
+            #253043;
+
+        font-size:
+            1rem;
+
+        font-weight:
+            700;
+    }
+
+
+    .rems-admin-section-heading p {
+
+        margin:
+            4px 0 0;
+
+        color:
+            #929baa;
+
+        font-size:
+            0.74rem;
+
+        line-height:
+            1.5;
+    }
+
+
+    .rems-admin-live-badge {
+
+        display:
+            inline-flex;
+
+        align-items:
+            center;
+
+        gap:
+            6px;
+
+        min-height:
+            28px;
+
+        padding:
+            5px 10px;
+
+        border:
+            1px solid
+            rgba(
+                93,
+                155,
+                114,
+                0.10
+            );
+
+        border-radius:
+            999px;
+
+        color:
+            #64826f;
+
+        background:
+            rgba(
+                93,
+                155,
+                114,
+                0.06
+            );
+
+        font-size:
+            0.66rem;
+
+        font-weight:
+            700;
+
+        white-space:
+            nowrap;
+    }
+
+
+    .rems-admin-live-badge span {
+
+        width:
+            6px;
+
+        height:
+            6px;
+
+        border-radius:
+            50%;
+
+        background:
+            #5d9b72;
+    }
+
+
+    /* =====================================================
+       OVERVIEW
+    ===================================================== */
+
+    .rems-admin-overview-grid {
+
+        display:
+            grid;
+
+        grid-template-columns:
+            repeat(
+                4,
+                minmax(0, 1fr)
+            );
+
+        gap:
+            16px;
+    }
+
+
+    .rems-admin-overview-card {
+
+        min-width:
+            0;
+
+        min-height:
+            170px;
+
+        display:
+            flex;
+
+        flex-direction:
+            column;
+
+        padding:
+            18px;
+
+        border:
+            1px solid
+            var(--admin-border);
+
+        border-radius:
+            17px;
+
+        color:
+            inherit;
+
+        text-decoration:
+            none;
+
+        background:
+            var(--admin-bg);
+
+        box-shadow:
+            var(--admin-shadow);
+
+        backdrop-filter:
+            blur(17px);
+
+        -webkit-backdrop-filter:
+            blur(17px);
+
+        transition:
+            transform 180ms ease,
+            box-shadow 180ms ease;
+    }
+
+
+    .rems-admin-overview-card:hover {
+
+        color:
+            inherit;
+
+        text-decoration:
+            none;
+
+        transform:
+            translateY(-2px);
+
+        box-shadow:
+            var(--admin-shadow-hover);
+    }
+
+
+    .rems-admin-overview-top {
+
+        display:
+            flex;
+
+        align-items:
+            center;
+
+        justify-content:
+            space-between;
+
+        gap:
+            12px;
+
+        margin-bottom:
+            22px;
+    }
+
+
+    .rems-admin-overview-icon {
+
+        width:
+            42px;
+
+        height:
+            42px;
+
+        display:
+            flex;
+
+        align-items:
+            center;
+
+        justify-content:
+            center;
+
+        border-radius:
+            11px;
+
+        color:
+            #566274;
+
+        background:
+            #f0f3f7;
+
+        font-size:
+            1rem;
+    }
+
+
+    .rems-admin-overview-arrow {
+
+        color:
+            #b0b8c4;
+
+        font-size:
+            0.78rem;
+    }
+
+
+    .rems-admin-overview-value {
+
+        color:
+            #1d2737;
+
+        font-size:
+            2rem;
+
+        font-weight:
+            730;
+
+        line-height:
+            1;
+
+        letter-spacing:
+            -0.045em;
+    }
+
+
+    .rems-admin-overview-label {
+
+        margin-top:
+            5px;
+
+        color:
+            #394556;
+
+        font-size:
+            0.84rem;
+
+        font-weight:
+            680;
+    }
+
+
+    .rems-admin-overview-description {
+
+        margin-top:
+            auto;
+
+        padding-top:
+            9px;
+
+        color:
+            #969fac;
+
+        font-size:
+            0.70rem;
+
+        line-height:
+            1.55;
+    }
+
+
+    /* =====================================================
+       MAIN PANELS
+    ===================================================== */
+
+    .rems-admin-panels-grid {
+
+        display:
+            grid;
+
+        grid-template-columns:
+            minmax(0, 1.32fr)
+            minmax(320px, 0.78fr);
+
+        gap:
+            18px;
+
+        align-items:
+            stretch;
+    }
+
+
+    .rems-admin-panel {
+
+        min-width:
+            0;
+
+        overflow:
+            hidden;
+
+        border:
+            1px solid
+            var(--admin-border);
+
+        border-radius:
+            18px;
+
+        background:
+            var(--admin-bg);
+
+        box-shadow:
+            var(--admin-shadow);
+
+        backdrop-filter:
+            blur(18px);
+
+        -webkit-backdrop-filter:
+            blur(18px);
+    }
+
+
+    .rems-admin-panel-header {
+
+        display:
+            flex;
+
+        align-items:
+            flex-start;
+
+        justify-content:
+            space-between;
+
+        gap:
+            16px;
+
+        padding:
+            19px 20px 15px;
+
+        border-bottom:
+            1px solid
+            var(--admin-border-light);
+    }
+
+
+    .rems-admin-panel-header-copy {
+
+        min-width:
+            0;
+    }
+
+
+    .rems-admin-panel-title {
+
+        margin:
+            0;
+
+        color:
+            #293446;
+
+        font-size:
+            0.92rem;
+
+        font-weight:
+            700;
+    }
+
+
+    .rems-admin-panel-subtitle {
+
+        margin:
+            4px 0 0;
+
+        color:
+            #98a0ac;
+
+        font-size:
+            0.70rem;
+
+        line-height:
+            1.5;
+    }
+
+
+    .rems-admin-panel-icon {
+
+        width:
+            36px;
+
+        height:
+            36px;
+
+        flex:
+            0 0 36px;
+
+        display:
+            flex;
+
+        align-items:
+            center;
+
+        justify-content:
+            center;
+
+        border-radius:
+            10px;
+
+        color:
+            #6c7889;
+
+        background:
+            #f0f3f7;
+
+        font-size:
+            0.85rem;
+    }
+
+
+    .rems-admin-panel-body {
+
+        padding:
+            18px 20px 20px;
+    }
+
+
+    /* =====================================================
+       QUICK ACTIONS
+    ===================================================== */
+
+    .rems-admin-actions-grid {
+
+        display:
+            grid;
+
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+
+        gap:
+            11px;
+    }
+
+
+    .rems-admin-action-card {
+
+        min-width:
+            0;
+
+        display:
+            flex;
+
+        align-items:
+            center;
+
+        gap:
+            12px;
+
+        min-height:
+            78px;
+
+        padding:
+            12px;
+
+        border:
+            1px solid
+            rgba(
+                148,
+                163,
+                184,
+                0.11
+            );
+
+        border-radius:
+            13px;
+
+        color:
+            inherit;
+
+        background:
+            rgba(
+                248,
+                250,
+                252,
+                0.58
+            );
+
+        text-decoration:
+            none;
+    }
+
+
+    .rems-admin-action-icon {
+
+        width:
+            38px;
+
+        height:
+            38px;
+
+        flex:
+            0 0 38px;
+
+        display:
+            flex;
+
+        align-items:
+            center;
+
+        justify-content:
+            center;
+
+        border-radius:
+            10px;
+
+        color:
+            #5d697b;
+
+        background:
+            #eef1f5;
+
+        font-size:
+            0.86rem;
+    }
+
+
+    .rems-admin-action-copy {
+
+        min-width:
+            0;
+
+        flex:
+            1;
+    }
+
+
+    .rems-admin-action-title {
+
+        overflow:
+            hidden;
+
+        color:
+            #354051;
+
+        font-size:
+            0.78rem;
+
+        font-weight:
+            680;
+
+        line-height:
+            1.35;
+
+        text-overflow:
+            ellipsis;
+
+        white-space:
+            nowrap;
+    }
+
+
+    .rems-admin-action-description {
+
+        margin-top:
+            3px;
+
+        overflow:
+            hidden;
+
+        color:
+            #999faa;
+
+        font-size:
+            0.68rem;
+
+        line-height:
+            1.45;
+
+        text-overflow:
+            ellipsis;
+
+        white-space:
+            nowrap;
+    }
+
+
+    .rems-admin-action-arrow {
+
+        flex:
+            0 0 auto;
+
+        color:
+            #b3bac4;
+
+        font-size:
+            0.72rem;
+    }
+
+
+    /* =====================================================
+       SECURITY
+    ===================================================== */
+
+    .rems-admin-security-content {
+
+        display:
+            flex;
+
+        flex-direction:
+            column;
+    }
+
+
+    .rems-admin-gate-status {
+
+        display:
+            flex;
+
+        align-items:
+            center;
+
+        gap:
+            12px;
+
+        padding-bottom:
+            15px;
+    }
+
+
+    .rems-admin-gate-icon {
+
+        width:
+            42px;
+
+        height:
+            42px;
+
+        flex:
+            0 0 42px;
+
+        display:
+            flex;
+
+        align-items:
+            center;
+
+        justify-content:
+            center;
+
+        border-radius:
+            11px;
+
+        color:
+            #5e9272;
+
+        background:
+            #edf5ef;
+
+        font-size:
+            0.86rem;
+    }
+
+
+    .rems-admin-gate-copy {
+
+        min-width:
+            0;
+
+        display:
+            flex;
+
+        flex-direction:
+            column;
+
+        gap:
+            2px;
+    }
+
+
+    .rems-admin-gate-copy span {
+
+        overflow:
+            hidden;
+
+        color:
+            #8c95a2;
+
+        font-size:
+            0.68rem;
+
+        text-overflow:
+            ellipsis;
+
+        white-space:
+            nowrap;
+    }
+
+
+    .rems-admin-gate-copy strong {
+
+        color:
+            #394456;
+
+        font-size:
+            0.82rem;
+
+        font-weight:
+            680;
+    }
+
+
+    .rems-admin-security-stat {
+
+        display:
+            flex;
+
+        align-items:
+            center;
+
+        justify-content:
+            space-between;
+
+        gap:
+            15px;
+
+        padding:
+            11px 0;
+    }
+
+
+    .rems-admin-security-stat span {
+
+        color:
+            #808a98;
+
+        font-size:
+            0.70rem;
+
+        line-height:
+            1.4;
+    }
+
+
+    .rems-admin-security-stat strong {
+
+        color:
+            #2d394a;
+
+        font-size:
+            0.84rem;
+
+        font-weight:
+            720;
+    }
+
+
+    .rems-admin-security-link {
+
+        display:
+            flex;
+
+        align-items:
+            center;
+
+        justify-content:
+            space-between;
+
+        gap:
+            12px;
+
+        margin-top:
+            6px;
+
+        padding-top:
+            13px;
+
+        border-top:
+            1px solid
+            rgba(
+                148,
+                163,
+                184,
+                0.10
+            );
+
+        color:
+            #677285;
+
+        font-size:
+            0.68rem;
+
+        font-weight:
+            650;
+
+        text-decoration:
+            none;
+    }
+
+
+    /* =====================================================
+       LOWER GRID
+    ===================================================== */
+
+    .rems-admin-lower-grid {
+
+        display:
+            grid;
+
+        grid-template-columns:
+            minmax(0, 1.42fr)
+            minmax(320px, 0.82fr);
+
+        gap:
+            18px;
+
+        align-items:
+            stretch;
+    }
+
+
+    /* =====================================================
+       ADMIN TABLE
+    ===================================================== */
+
+    .rems-admin-table-wrapper {
+
+        width:
+            100%;
+
+        overflow:
+            hidden;
+    }
+
+
+    .rems-admin-table {
+
+        width:
+            100%;
+
+        margin:
+            0;
+
+        border-collapse:
+            separate;
+
+        border-spacing:
+            0;
+    }
+
+
+    .rems-admin-table thead th {
+
+        padding:
+            11px 18px;
+
+        color:
+            #98a1ad;
+
+        background:
+            rgba(
+                248,
+                250,
+                252,
+                0.58
+            );
+
+        border-bottom:
+            1px solid
+            rgba(
+                148,
+                163,
+                184,
+                0.10
+            );
+
+        font-size:
+            0.66rem;
+
+        font-weight:
+            800;
+
+        letter-spacing:
+            0.07em;
+
+        text-transform:
+            uppercase;
+
+        white-space:
+            nowrap;
+    }
+
+
+    .rems-admin-table tbody td {
+
+        padding:
+            13px 18px;
+
+        color:
+            #6c7786;
+
+        border-bottom:
+            1px solid
+            rgba(
+                148,
+                163,
+                184,
+                0.075
+            );
+
+        font-size:
+            0.74rem;
+
+        vertical-align:
+            middle;
+    }
+
+
+    .rems-admin-table strong {
+
+        color:
+            #3a4555;
+
+        font-weight:
+            680;
+    }
+
+
+    .rems-admin-table-subtext {
+
+        margin-top:
+            2px;
+
+        color:
+            #a0a7b2;
+
+        font-size:
+            0.64rem;
+    }
+
+
+    .rems-admin-status {
+
+        display:
+            inline-flex;
+
+        align-items:
+            center;
+
+        justify-content:
+            center;
+
+        min-height:
+            24px;
+
+        padding:
+            4px 9px;
+
+        border-radius:
+            999px;
+
+        color:
+            #687486;
+
+        background:
+            rgba(
+                100,
+                116,
+                139,
+                0.08
+            );
+
+        font-size:
+            0.62rem;
+
+        font-weight:
+            700;
+
+        white-space:
+            nowrap;
+    }
+
+
+    /* =====================================================
+       SNAPSHOT
+    ===================================================== */
+
+    .rems-admin-snapshot {
+
+        height:
+            100%;
+
+        display:
+            flex;
+
+        flex-direction:
+            column;
+
+        justify-content:
+            center;
+
+        padding:
+            26px;
+    }
+
+
+    .rems-admin-snapshot-icon {
+
+        width:
+            46px;
+
+        height:
+            46px;
+
+        display:
+            flex;
+
+        align-items:
+            center;
+
+        justify-content:
+            center;
+
+        margin-bottom:
+            15px;
+
+        border-radius:
+            12px;
+
+        color:
+            #667386;
+
+        background:
+            #eef1f5;
+
+        font-size:
+            1rem;
+    }
+
+
+    .rems-admin-snapshot-label {
+
+        margin-bottom:
+            7px;
+
+        color:
+            #99a1ac;
+
+        font-size:
+            0.64rem;
+
+        font-weight:
+            800;
+
+        letter-spacing:
+            0.12em;
+    }
+
+
+    .rems-admin-snapshot h2 {
+
+        max-width:
+            360px;
+
+        margin:
+            0 0 9px;
+
+        color:
+            #344052;
+
+        font-size:
+            1.12rem;
+
+        font-weight:
+            720;
+
+        line-height:
+            1.35;
+    }
+
+
+    .rems-admin-snapshot p {
+
+        max-width:
+            400px;
+
+        margin:
+            0;
+
+        color:
+            #929aa7;
+
+        font-size:
+            0.70rem;
+
+        line-height:
+            1.7;
+    }
+
+
+    .rems-admin-snapshot-items {
+
+        display:
+            flex;
+
+        flex-wrap:
+            wrap;
+
+        gap:
+            8px 14px;
+
+        margin-top:
+            19px;
+    }
+
+
+    .rems-admin-snapshot-items span {
+
+        display:
+            inline-flex;
+
+        align-items:
+            center;
+
+        gap:
+            5px;
+
+        color:
+            #7b8695;
+
+        font-size:
+            0.64rem;
+    }
+
+
+    /* =====================================================
+       ERROR
+    ===================================================== */
+
+    .rems-admin-error {
+
+        display:
+            flex;
+
+        align-items:
+            center;
+
+        gap:
+            8px;
+
+        margin-bottom:
+            20px;
+
+        padding:
+            11px 13px;
+
+        border:
+            1px solid
+            rgba(
+                245,
+                158,
+                11,
+                0.12
+            );
+
+        border-radius:
+            10px;
+
+        color:
+            #956a18;
+
+        background:
+            rgba(
+                245,
+                158,
+                11,
+                0.06
+            );
+
+        font-size:
+            0.72rem;
+
+        line-height:
+            1.5;
+    }
+
+
+    /* =====================================================
+       TABLET
+    ===================================================== */
+
+    @media (max-width: 1199.98px) {
 
         .rems-admin-dashboard {
 
-            --admin-bg:
-                rgba(255, 255, 255, 0.70);
-
-            --admin-bg-strong:
-                rgba(255, 255, 255, 0.84);
-
-            --admin-border:
-                rgba(148, 163, 184, 0.14);
-
-            --admin-border-light:
-                rgba(148, 163, 184, 0.10);
-
-            --admin-text:
-                #1d2737;
-
-            --admin-text-soft:
-                #647084;
-
-            --admin-text-muted:
-                #929baa;
-
-            --admin-shadow:
-                0 10px 30px
-                rgba(15, 23, 42, 0.045);
-
-            --admin-shadow-hover:
-                0 18px 42px
-                rgba(15, 23, 42, 0.085);
-
-            width: 100%;
-
-            max-width: 1580px;
-
-            margin:
-                0 auto;
-
             padding:
-                28px 30px 42px;
+                24px;
         }
 
-
-        /* =====================================================
-           HEADER
-        ===================================================== */
-
-        .rems-admin-header {
-
-            display: flex;
-
-            align-items: flex-end;
-
-            justify-content: space-between;
-
-            gap: 24px;
-
-            margin-bottom: 30px;
-        }
-
-
-        .rems-admin-header-copy {
-
-            min-width: 0;
-
-            max-width: 760px;
-        }
-
-
-        .rems-admin-eyebrow {
-
-            margin-bottom: 8px;
-
-            color:
-                #7d8796;
-
-            font-size:
-                0.68rem;
-
-            font-weight:
-                800;
-
-            letter-spacing:
-                0.14em;
-
-            text-transform:
-                uppercase;
-        }
-
-
-        .rems-admin-title {
-
-            margin: 0;
-
-            color:
-                var(--admin-text);
-
-            font-size:
-                clamp(
-                    1.75rem,
-                    2.7vw,
-                    2.35rem
-                );
-
-            font-weight:
-                730;
-
-            line-height:
-                1.15;
-
-            letter-spacing:
-                -0.04em;
-        }
-
-
-        .rems-admin-description {
-
-            max-width: 640px;
-
-            margin:
-                9px 0 0;
-
-            color:
-                var(--admin-text-muted);
-
-            font-size:
-                0.78rem;
-
-            line-height:
-                1.65;
-        }
-
-
-        .rems-admin-date {
-
-            flex:
-                0 0 auto;
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 11px;
-
-            min-width: 185px;
-
-            padding:
-                10px 13px;
-
-            border:
-                1px solid
-                var(--admin-border);
-
-            border-radius:
-                13px;
-
-            color:
-                inherit;
-
-            background:
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.58
-                );
-
-            box-shadow:
-                0 8px 24px
-                rgba(
-                    15,
-                    23,
-                    42,
-                    0.035
-                );
-
-            backdrop-filter:
-                blur(14px);
-
-            -webkit-backdrop-filter:
-                blur(14px);
-
-            transition:
-                transform 160ms ease,
-                box-shadow 160ms ease;
-        }
-
-
-        .rems-admin-date:hover:not(:disabled) {
-
-            transform:
-                translateY(-1px);
-
-            box-shadow:
-                0 12px 28px
-                rgba(
-                    15,
-                    23,
-                    42,
-                    0.06
-                );
-        }
-
-
-        .rems-admin-date:disabled {
-
-            cursor:
-                default;
-        }
-
-
-        .rems-admin-date-icon {
-
-            width: 36px;
-
-            height: 36px;
-
-            flex:
-                0 0 36px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            border-radius:
-                10px;
-
-            color:
-                #596678;
-
-            background:
-                #f0f3f7;
-
-            font-size:
-                0.82rem;
-        }
-
-
-        .rems-admin-date-copy {
-
-            display: flex;
-
-            flex-direction: column;
-
-            gap: 2px;
-
-            text-align:
-                left;
-        }
-
-
-        .rems-admin-date-label {
-
-            color:
-                #9aa3ae;
-
-            font-size:
-                0.61rem;
-
-            font-weight:
-                700;
-
-            letter-spacing:
-                0.10em;
-
-            text-transform:
-                uppercase;
-        }
-
-
-        .rems-admin-date-copy strong {
-
-            color:
-                #354152;
-
-            font-size:
-                0.74rem;
-
-            font-weight:
-                650;
-        }
-
-
-        /* =====================================================
-           SECTION HEADINGS
-        ===================================================== */
-
-        .rems-admin-section {
-
-            margin-bottom:
-                28px;
-        }
-
-
-        .rems-admin-section-heading {
-
-            display: flex;
-
-            align-items: flex-end;
-
-            justify-content: space-between;
-
-            gap: 18px;
-
-            margin-bottom:
-                14px;
-        }
-
-
-        .rems-admin-section-heading h2 {
-
-            margin:
-                0;
-
-            color:
-                #253043;
-
-            font-size:
-                0.95rem;
-
-            font-weight:
-                700;
-
-            letter-spacing:
-                -0.02em;
-        }
-
-
-        .rems-admin-section-heading p {
-
-            margin:
-                4px 0 0;
-
-            color:
-                #929baa;
-
-            font-size:
-                0.70rem;
-
-            line-height:
-                1.5;
-        }
-
-
-        .rems-admin-live-badge {
-
-            display: inline-flex;
-
-            align-items: center;
-
-            gap: 6px;
-
-            min-height:
-                26px;
-
-            padding:
-                5px 9px;
-
-            border:
-                1px solid
-                rgba(
-                    93,
-                    155,
-                    114,
-                    0.10
-                );
-
-            border-radius:
-                999px;
-
-            color:
-                #64826f;
-
-            background:
-                rgba(
-                    93,
-                    155,
-                    114,
-                    0.06
-                );
-
-            font-size:
-                0.61rem;
-
-            font-weight:
-                700;
-
-            white-space:
-                nowrap;
-        }
-
-
-        .rems-admin-live-badge span {
-
-            width:
-                5px;
-
-            height:
-                5px;
-
-            border-radius:
-                50%;
-
-            background:
-                #5d9b72;
-        }
-
-
-        /* =====================================================
-           OVERVIEW CARDS
-        ===================================================== */
 
         .rems-admin-overview-grid {
 
-            display: grid;
-
             grid-template-columns:
                 repeat(
-                    4,
-                    minmax(
-                        0,
-                        1fr
-                    )
+                    2,
+                    minmax(0, 1fr)
                 );
+        }
+
+
+        .rems-admin-panels-grid,
+        .rems-admin-lower-grid {
+
+            grid-template-columns:
+                1fr;
+        }
+
+    }
+
+
+    /* =====================================================
+       MOBILE
+    ===================================================== */
+
+    @media (max-width: 767.98px) {
+
+        .rems-admin-dashboard {
+
+            padding:
+                18px 14px 26px;
+        }
+
+
+        .rems-admin-header {
+
+            align-items:
+                stretch;
+
+            flex-direction:
+                column;
 
             gap:
                 16px;
-        }
-
-
-        .rems-admin-overview-card {
-
-            min-width: 0;
-
-            display: block;
-
-            padding:
-                18px;
-
-            border:
-                1px solid
-                var(--admin-border);
-
-            border-radius:
-                17px;
-
-            color:
-                inherit;
-
-            text-decoration:
-                none;
-
-            background:
-                var(--admin-bg);
-
-            box-shadow:
-                var(--admin-shadow);
-
-            backdrop-filter:
-                blur(17px);
-
-            -webkit-backdrop-filter:
-                blur(17px);
-
-            transition:
-                transform 180ms ease,
-                box-shadow 180ms ease,
-                border-color 180ms ease,
-                background 180ms ease;
-        }
-
-
-        .rems-admin-overview-card:hover {
-
-            color:
-                inherit;
-
-            text-decoration:
-                none;
-
-            transform:
-                translateY(-2px);
-
-            border-color:
-                rgba(
-                    100,
-                    116,
-                    139,
-                    0.20
-                );
-
-            background:
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.80
-                );
-
-            box-shadow:
-                var(--admin-shadow-hover);
-        }
-
-
-        .rems-admin-overview-top {
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: space-between;
-
-            gap: 12px;
 
             margin-bottom:
                 22px;
         }
 
 
-        .rems-admin-overview-icon {
-
-            width: 40px;
-
-            height: 40px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            border-radius:
-                11px;
-
-            color:
-                #566274;
-
-            background:
-                #f0f3f7;
+        .rems-admin-title {
 
             font-size:
-                0.88rem;
+                1.75rem;
         }
 
 
-        .rems-admin-overview-arrow {
-
-            color:
-                #b0b8c4;
+        .rems-admin-description {
 
             font-size:
-                0.72rem;
-        }
-
-
-        .rems-admin-overview-value {
-
-            margin-bottom:
-                4px;
-
-            color:
-                #1d2737;
-
-            font-size:
-                1.85rem;
-
-            font-weight:
-                730;
-
-            line-height:
-                1;
-
-            letter-spacing:
-                -0.045em;
-        }
-
-
-        .rems-admin-overview-label {
-
-            color:
-                #394556;
-
-            font-size:
-                0.77rem;
-
-            font-weight:
-                680;
-        }
-
-
-        .rems-admin-overview-description {
-
-            min-height:
-                30px;
-
-            margin-top:
-                7px;
-
-            color:
-                #969fac;
-
-            font-size:
-                0.64rem;
+                0.82rem;
 
             line-height:
                 1.55;
         }
 
 
-        /* =====================================================
-           MAIN PANELS
-        ===================================================== */
+        .rems-admin-date {
 
-        .rems-admin-panels-grid {
+            width:
+                100%;
 
-            display: grid;
+            min-width:
+                0;
 
-            grid-template-columns:
-                minmax(
-                    0,
-                    1.32fr
-                )
-                minmax(
-                    330px,
-                    0.78fr
-                );
-
-            gap:
-                18px;
-
-            align-items:
-                stretch;
+            min-height:
+                52px;
         }
 
 
-        .rems-admin-panel {
+        .rems-admin-overview-grid {
 
-            min-width: 0;
+            grid-template-columns:
+                repeat(
+                    2,
+                    minmax(0, 1fr)
+                );
 
-            overflow:
-                hidden;
+            gap:
+                10px;
+        }
 
-            border:
-                1px solid
-                var(--admin-border);
 
-            border-radius:
-                18px;
+        .rems-admin-overview-card {
 
-            background:
-                var(--admin-bg);
+            min-height:
+                145px;
 
-            box-shadow:
-                var(--admin-shadow);
+            padding:
+                14px;
+        }
 
-            backdrop-filter:
-                blur(18px);
 
-            -webkit-backdrop-filter:
-                blur(18px);
+        .rems-admin-overview-top {
+
+            margin-bottom:
+                16px;
+        }
+
+
+        .rems-admin-overview-icon {
+
+            width:
+                38px;
+
+            height:
+                38px;
+
+            font-size:
+                0.9rem;
+        }
+
+
+        .rems-admin-overview-value {
+
+            font-size:
+                1.65rem;
+        }
+
+
+        .rems-admin-overview-label {
+
+            font-size:
+                0.80rem;
+        }
+
+
+        .rems-admin-overview-description {
+
+            font-size:
+                0.66rem;
+
+            line-height:
+                1.45;
+        }
+
+
+        .rems-admin-section-heading {
+
+            align-items:
+                flex-start;
+
+            margin-bottom:
+                12px;
+        }
+
+
+        .rems-admin-section-heading h2 {
+
+            font-size:
+                0.98rem;
+        }
+
+
+        .rems-admin-section-heading p {
+
+            font-size:
+                0.70rem;
+        }
+
+
+        .rems-admin-live-badge {
+
+            flex:
+                0 0 auto;
+
+            font-size:
+                0.62rem;
+        }
+
+
+        .rems-admin-actions-grid {
+
+            grid-template-columns:
+                1fr;
         }
 
 
         .rems-admin-panel-header {
 
-            display: flex;
-
-            align-items: flex-start;
-
-            justify-content: space-between;
-
-            gap: 16px;
-
             padding:
-                19px 20px 15px;
-
-            border-bottom:
-                1px solid
-                var(--admin-border-light);
-        }
-
-
-        .rems-admin-panel-header-copy {
-
-            min-width: 0;
-        }
-
-
-        .rems-admin-panel-title {
-
-            margin:
-                0;
-
-            color:
-                #293446;
-
-            font-size:
-                0.86rem;
-
-            font-weight:
-                700;
-
-            letter-spacing:
-                -0.015em;
-        }
-
-
-        .rems-admin-panel-subtitle {
-
-            margin:
-                4px 0 0;
-
-            color:
-                #98a0ac;
-
-            font-size:
-                0.64rem;
-
-            line-height:
-                1.5;
-        }
-
-
-        .rems-admin-panel-icon {
-
-            width: 33px;
-
-            height: 33px;
-
-            flex:
-                0 0 33px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            border-radius:
-                9px;
-
-            color:
-                #6c7889;
-
-            background:
-                #f0f3f7;
-
-            font-size:
-                0.76rem;
+                15px;
         }
 
 
         .rems-admin-panel-body {
 
             padding:
-                18px 20px 20px;
+                14px;
         }
 
 
-        /* =====================================================
-           QUICK ACTIONS
-        ===================================================== */
+        .rems-admin-panel-title {
 
-        .rems-admin-actions-grid {
+            font-size:
+                0.92rem;
+        }
 
-            display: grid;
 
-            grid-template-columns:
-                repeat(
-                    2,
-                    minmax(
-                        0,
-                        1fr
-                    )
-                );
+        .rems-admin-panel-subtitle {
 
-            gap:
-                11px;
+            font-size:
+                0.68rem;
         }
 
 
         .rems-admin-action-card {
 
-            min-width: 0;
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 12px;
-
             min-height:
-                76px;
+                68px;
 
             padding:
-                12px;
+                11px;
+        }
+
+
+        .rems-admin-action-title {
+
+            font-size:
+                0.78rem;
+        }
+
+
+        .rems-admin-action-description {
+
+            font-size:
+                0.66rem;
+        }
+
+
+        .rems-admin-security-stat span {
+
+            font-size:
+                0.70rem;
+        }
+
+
+        .rems-admin-security-stat strong {
+
+            font-size:
+                0.82rem;
+        }
+
+
+        /* ================================================
+           MOBILE TABLE -> STACKED RECORD CARDS
+        ================================================= */
+
+        .rems-admin-table-wrapper {
+
+            overflow:
+                visible;
+
+            padding:
+                10px;
+        }
+
+
+        .rems-admin-table {
+
+            display:
+                block;
+
+            width:
+                100%;
+        }
+
+
+        .rems-admin-table thead {
+
+            display:
+                none;
+        }
+
+
+        .rems-admin-table tbody {
+
+            display:
+                flex;
+
+            flex-direction:
+                column;
+
+            gap:
+                9px;
+        }
+
+
+        .rems-admin-table tbody tr {
+
+            display:
+                block;
+
+            width:
+                100%;
+
+            padding:
+                11px 12px;
 
             border:
                 1px solid
@@ -916,844 +1972,36 @@ export default function AdminDashboard() {
                     148,
                     163,
                     184,
-                    0.11
+                    0.14
                 );
 
             border-radius:
                 13px;
 
-            color:
-                inherit;
-
-            background:
-                rgba(
-                    248,
-                    250,
-                    252,
-                    0.58
-                );
-
-            text-decoration:
-                none;
-
-            transition:
-                transform 160ms ease,
-                background 160ms ease,
-                border-color 160ms ease,
-                box-shadow 160ms ease;
-        }
-
-
-        .rems-admin-action-card:hover {
-
-            color:
-                inherit;
-
-            text-decoration:
-                none;
-
-            transform:
-                translateY(-1px);
-
-            border-color:
-                rgba(
-                    100,
-                    116,
-                    139,
-                    0.18
-                );
-
             background:
                 rgba(
                     255,
                     255,
                     255,
-                    0.88
+                    0.66
                 );
 
             box-shadow:
-                0 8px 20px
-                rgba(
-                    15,
-                    23,
-                    42,
-                    0.045
-                );
-        }
-
-
-        .rems-admin-action-icon {
-
-            width: 36px;
-
-            height: 36px;
-
-            flex:
-                0 0 36px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            border-radius:
-                10px;
-
-            color:
-                #5d697b;
-
-            background:
-                #eef1f5;
-
-            font-size:
-                0.82rem;
-        }
-
-
-        .rems-admin-action-copy {
-
-            min-width: 0;
-
-            flex: 1;
-        }
-
-
-        .rems-admin-action-title {
-
-            overflow: hidden;
-
-            color:
-                #354051;
-
-            font-size:
-                0.71rem;
-
-            font-weight:
-                680;
-
-            line-height:
-                1.35;
-
-            text-overflow:
-                ellipsis;
-
-            white-space:
-                nowrap;
-        }
-
-
-        .rems-admin-action-description {
-
-            margin-top:
-                3px;
-
-            overflow:
-                hidden;
-
-            color:
-                #999faa;
-
-            font-size:
-                0.59rem;
-
-            line-height:
-                1.45;
-
-            text-overflow:
-                ellipsis;
-
-            white-space:
-                nowrap;
-        }
-
-
-        .rems-admin-action-arrow {
-
-            flex:
-                0 0 auto;
-
-            color:
-                #b3bac4;
-
-            font-size:
-                0.66rem;
-        }
-
-
-        /* =====================================================
-           SECURITY
-        ===================================================== */
-
-        .rems-admin-security-content {
-
-            display:
-                flex;
-
-            flex-direction:
-                column;
-        }
-
-
-        .rems-admin-gate-status {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 12px;
-
-            padding-bottom:
-                15px;
-        }
-
-
-        .rems-admin-gate-icon {
-
-            width: 41px;
-
-            height: 41px;
-
-            flex:
-                0 0 41px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            border-radius:
-                11px;
-
-            color:
-                #5e9272;
-
-            background:
-                #edf5ef;
-
-            font-size:
-                0.82rem;
-        }
-
-
-        .rems-admin-gate-copy {
-
-            min-width: 0;
-
-            display: flex;
-
-            flex-direction:
-                column;
-
-            gap:
-                2px;
-        }
-
-
-        .rems-admin-gate-copy span {
-
-            overflow: hidden;
-
-            color:
-                #8c95a2;
-
-            font-size:
-                0.61rem;
-
-            text-overflow:
-                ellipsis;
-
-            white-space:
-                nowrap;
-        }
-
-
-        .rems-admin-gate-copy strong {
-
-            color:
-                #394456;
-
-            font-size:
-                0.74rem;
-
-            font-weight:
-                680;
-        }
-
-
-        .rems-admin-security-divider {
-
-            height:
-                1px;
-
-            margin-bottom:
-                2px;
-
-            background:
-                rgba(
-                    148,
-                    163,
-                    184,
-                    0.10
-                );
-        }
-
-
-        .rems-admin-security-stat {
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: space-between;
-
-            gap: 15px;
-
-            padding:
-                11px 0;
-        }
-
-
-        .rems-admin-security-stat span {
-
-            color:
-                #808a98;
-
-            font-size:
-                0.63rem;
-
-            line-height:
-                1.4;
-        }
-
-
-        .rems-admin-security-stat strong {
-
-            color:
-                #2d394a;
-
-            font-size:
-                0.79rem;
-
-            font-weight:
-                720;
-        }
-
-
-        .rems-admin-security-link {
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: space-between;
-
-            gap: 12px;
-
-            margin-top:
-                6px;
-
-            padding-top:
-                13px;
-
-            border-top:
-                1px solid
-                rgba(
-                    148,
-                    163,
-                    184,
-                    0.10
-                );
-
-            color:
-                #677285;
-
-            font-size:
-                0.62rem;
-
-            font-weight:
-                650;
-
-            text-decoration:
-                none;
-        }
-
-
-        .rems-admin-security-link:hover {
-
-            color:
-                #303b4c;
-        }
-
-
-        /* =====================================================
-           LOWER SECTION
-        ===================================================== */
-
-        .rems-admin-lower-grid {
-
-            display: grid;
-
-            grid-template-columns:
-                minmax(
-                    0,
-                    1.42fr
-                )
-                minmax(
-                    320px,
-                    0.82fr
-                );
-
-            gap:
-                18px;
-
-            align-items:
-                stretch;
-        }
-
-
-        /* =====================================================
-           TABLE
-        ===================================================== */
-
-        .rems-admin-table-wrapper {
-
-            overflow-x:
-                auto;
-        }
-
-
-        .rems-admin-table {
-
-            width:
-                100%;
-
-            margin:
-                0;
-
-            border-collapse:
-                separate;
-
-            border-spacing:
-                0;
-        }
-
-
-        .rems-admin-table thead th {
-
-            padding:
-                11px 18px;
-
-            color:
-                #98a1ad;
-
-            background:
-                rgba(
-                    248,
-                    250,
-                    252,
-                    0.58
-                );
-
-            border-bottom:
-                1px solid
-                rgba(
-                    148,
-                    163,
-                    184,
-                    0.10
-                );
-
-            font-size:
-                0.59rem;
-
-            font-weight:
-                800;
-
-            letter-spacing:
-                0.07em;
-
-            text-transform:
-                uppercase;
-
-            white-space:
-                nowrap;
+                var(--admin-shadow);
         }
 
 
         .rems-admin-table tbody td {
 
-            padding:
-                13px 18px;
-
-            color:
-                #6c7786;
-
-            border-bottom:
-                1px solid
-                rgba(
-                    148,
-                    163,
-                    184,
-                    0.075
-                );
-
-            font-size:
-                0.67rem;
-
-            vertical-align:
-                middle;
-        }
-
-
-        .rems-admin-table tbody tr:last-child td {
-
-            border-bottom:
-                0;
-        }
-
-
-        .rems-admin-table tbody tr {
-
-            transition:
-                background 140ms ease;
-        }
-
-
-        .rems-admin-table tbody tr:hover {
-
-            background:
-                rgba(
-                    248,
-                    250,
-                    252,
-                    0.68
-                );
-        }
-
-
-        .rems-admin-table strong {
-
-            color:
-                #3a4555;
-
-            font-weight:
-                680;
-        }
-
-
-        .rems-admin-table-subtext {
-
-            margin-top:
-                2px;
-
-            color:
-                #a0a7b2;
-
-            font-size:
-                0.55rem;
-        }
-
-
-        .rems-admin-status {
-
-            display: inline-flex;
-
-            align-items: center;
-
-            justify-content:
-                center;
-
-            min-height:
-                22px;
-
-            padding:
-                4px 8px;
-
-            border-radius:
-                999px;
-
-            color:
-                #687486;
-
-            background:
-                rgba(
-                    100,
-                    116,
-                    139,
-                    0.08
-                );
-
-            font-size:
-                0.54rem;
-
-            font-weight:
-                700;
-        }
-
-
-        /* =====================================================
-           EMPTY STATE
-        ===================================================== */
-
-        .rems-admin-empty {
-
-            min-height:
-                245px;
+            position:
+                relative;
 
             display:
-                flex;
-
-            flex-direction:
-                column;
-
-            align-items:
-                center;
-
-            justify-content:
-                center;
-
-            padding:
-                32px 22px;
-
-            text-align:
-                center;
-        }
-
-
-        .rems-admin-empty-icon {
-
-            width: 48px;
-
-            height: 48px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            margin-bottom:
-                12px;
-
-            border-radius:
-                14px;
-
-            color:
-                #8c96a4;
-
-            background:
-                #f0f3f6;
-
-            font-size:
-                1rem;
-        }
-
-
-        .rems-admin-empty h3 {
-
-            margin:
-                0 0 5px;
-
-            color:
-                #4a5667;
-
-            font-size:
-                0.76rem;
-
-            font-weight:
-                680;
-        }
-
-
-        .rems-admin-empty p {
-
-            max-width:
-                320px;
-
-            margin:
-                0;
-
-            color:
-                #9ba2ad;
-
-            font-size:
-                0.60rem;
-
-            line-height:
-                1.6;
-        }
-
-
-        /* =====================================================
-           DATABASE SNAPSHOT
-        ===================================================== */
-
-        .rems-admin-snapshot {
-
-            height:
-                100%;
-
-            display:
-                flex;
-
-            flex-direction:
-                column;
-
-            justify-content:
-                center;
-
-            padding:
-                26px;
-        }
-
-
-        .rems-admin-snapshot-icon {
-
-            width: 44px;
-
-            height: 44px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            margin-bottom:
-                15px;
-
-            border-radius:
-                12px;
-
-            color:
-                #667386;
-
-            background:
-                #eef1f5;
-
-            font-size:
-                0.92rem;
-        }
-
-
-        .rems-admin-snapshot-label {
-
-            margin-bottom:
-                7px;
-
-            color:
-                #99a1ac;
-
-            font-size:
-                0.58rem;
-
-            font-weight:
-                800;
-
-            letter-spacing:
-                0.12em;
-        }
-
-
-        .rems-admin-snapshot h2 {
-
-            max-width:
-                360px;
-
-            margin:
-                0 0 9px;
-
-            color:
-                #344052;
-
-            font-size:
-                1.05rem;
-
-            font-weight:
-                720;
-
-            line-height:
-                1.35;
-
-            letter-spacing:
-                -0.018em;
-        }
-
-
-        .rems-admin-snapshot p {
-
-            max-width:
-                400px;
-
-            margin:
-                0;
-
-            color:
-                #929aa7;
-
-            font-size:
-                0.63rem;
-
-            line-height:
-                1.7;
-        }
-
-
-        .rems-admin-snapshot-items {
-
-            display:
-                flex;
-
-            flex-wrap:
-                wrap;
-
-            gap:
-                8px 14px;
-
-            margin-top:
-                19px;
-        }
-
-
-        .rems-admin-snapshot-items span {
-
-            display:
-                inline-flex;
-
-            align-items:
-                center;
-
-            gap:
-                5px;
-
-            color:
-                #7b8695;
-
-            font-size:
-                0.58rem;
-        }
-
-
-        .rems-admin-snapshot-items i {
-
-            color:
-                #76957f;
-
-            font-size:
-                0.62rem;
-        }
-
-
-        /* =====================================================
-           ERROR
-        ===================================================== */
-
-        .rems-admin-error {
-
-            display:
-                flex;
+                grid;
+
+            grid-template-columns:
+                92px
+                minmax(0, 1fr);
 
             align-items:
                 center;
@@ -1761,224 +2009,245 @@ export default function AdminDashboard() {
             gap:
                 8px;
 
-            margin-bottom:
-                20px;
+            width:
+                100%;
 
             padding:
-                10px 12px;
+                6px 0;
 
             border:
-                1px solid
-                rgba(
-                    245,
-                    158,
-                    11,
-                    0.12
-                );
+                0;
 
-            border-radius:
-                10px;
+            font-size:
+                0.78rem;
+
+            line-height:
+                1.45;
+        }
+
+
+        .rems-admin-table tbody td:nth-child(1)::before {
+            content:
+                "Visitor";
+        }
+
+
+        .rems-admin-table tbody td:nth-child(2)::before {
+            content:
+                "Host";
+        }
+
+
+        .rems-admin-table tbody td:nth-child(3)::before {
+            content:
+                "Time In";
+        }
+
+
+        .rems-admin-table tbody td:nth-child(4)::before {
+            content:
+                "Status";
+        }
+
+
+        .rems-admin-table tbody td::before {
 
             color:
-                #956a18;
+                var(--admin-text-muted);
 
-            background:
-                rgba(
-                    245,
-                    158,
-                    11,
-                    0.06
-                );
+            font-size:
+                0.62rem;
+
+            font-weight:
+                800;
+
+            letter-spacing:
+                0.06em;
+
+            text-transform:
+                uppercase;
+
+            white-space:
+                nowrap;
+        }
+
+
+        .rems-admin-table strong {
+
+            font-size:
+                0.80rem;
+        }
+
+
+        .rems-admin-table-subtext {
+
+            font-size:
+                0.66rem;
+        }
+
+
+        .rems-admin-status {
+
+            justify-self:
+                start;
+
+            min-height:
+                25px;
+
+            padding:
+                4px 9px;
 
             font-size:
                 0.64rem;
         }
 
 
-        /* =====================================================
-           RESPONSIVE
-        ===================================================== */
+        .rems-admin-snapshot {
 
-        @media (max-width: 1199.98px) {
-
-            .rems-admin-dashboard {
-
-                padding:
-                    24px 24px 36px;
-            }
-
-
-            .rems-admin-overview-grid {
-
-                grid-template-columns:
-                    repeat(
-                        2,
-                        minmax(
-                            0,
-                            1fr
-                        )
-                    );
-            }
-
-
-            .rems-admin-panels-grid,
-            .rems-admin-lower-grid {
-
-                grid-template-columns:
-                    1fr;
-            }
-
+            padding:
+                20px;
         }
 
 
-        @media (max-width: 767.98px) {
+        .rems-admin-snapshot h2 {
 
-            .rems-admin-dashboard {
-
-                padding:
-                    21px 18px 30px;
-            }
-
-
-            .rems-admin-header {
-
-                align-items:
-                    stretch;
-
-                flex-direction:
-                    column;
-
-                margin-bottom:
-                    24px;
-            }
-
-
-            .rems-admin-date {
-
-                width:
-                    100%;
-
-                min-width:
-                    0;
-            }
-
-
-            .rems-admin-overview-grid {
-
-                grid-template-columns:
-                    1fr;
-
-                gap:
-                    12px;
-            }
-
-
-            .rems-admin-overview-card {
-
-                padding:
-                    16px;
-            }
-
-
-            .rems-admin-actions-grid {
-
-                grid-template-columns:
-                    1fr;
-            }
-
-
-            .rems-admin-panel-header {
-
-                padding:
-                    17px 16px 14px;
-            }
-
-
-            .rems-admin-panel-body {
-
-                padding:
-                    15px 16px 16px;
-            }
-
-
-            .rems-admin-snapshot {
-
-                padding:
-                    22px;
-            }
-
+            font-size:
+                1rem;
         }
 
 
-        @media (max-width: 480px) {
+        .rems-admin-snapshot p {
 
-            .rems-admin-dashboard {
-
-                padding:
-                    18px 14px 26px;
-            }
-
-
-            .rems-admin-title {
-
-                font-size:
-                    1.65rem;
-            }
-
-
-            .rems-admin-description {
-
-                font-size:
-                    0.71rem;
-            }
-
-
-            .rems-admin-section-heading {
-
-                align-items:
-                    flex-start;
-
-                flex-direction:
-                    column;
-            }
-
-
-            .rems-admin-overview-value {
-
-                font-size:
-                    1.65rem;
-            }
-
-
-            .rems-admin-table thead th {
-
-                padding:
-                    10px 13px;
-            }
-
-
-            .rems-admin-table tbody td {
-
-                padding:
-                    11px 13px;
-            }
-
+            font-size:
+                0.72rem;
         }
 
 
-        @media (prefers-reduced-motion: reduce) {
+        .rems-admin-snapshot-items span {
 
-            .rems-admin-dashboard *,
-            .rems-admin-dashboard *::before,
-            .rems-admin-dashboard *::after {
-
-                transition:
-                    none !important;
-            }
-
+            font-size:
+                0.66rem;
         }
 
-    `;
+    }
+
+
+    /* =====================================================
+       VERY SMALL PHONES
+    ===================================================== */
+
+    @media (max-width: 575.98px) {
+
+        .rems-admin-dashboard {
+
+            padding:
+                16px 10px 22px;
+        }
+
+
+        .rems-admin-title {
+
+            font-size:
+                1.55rem;
+        }
+
+
+        .rems-admin-description {
+
+            font-size:
+                0.79rem;
+        }
+
+
+        .rems-admin-date-copy strong {
+
+            font-size:
+                0.78rem;
+        }
+
+
+        .rems-admin-overview-grid {
+
+            gap:
+                8px;
+        }
+
+
+        .rems-admin-overview-card {
+
+            min-height:
+                135px;
+
+            padding:
+                12px;
+        }
+
+
+        .rems-admin-overview-icon {
+
+            width:
+                36px;
+
+            height:
+                36px;
+        }
+
+
+        .rems-admin-overview-value {
+
+            font-size:
+                1.45rem;
+        }
+
+
+        .rems-admin-overview-label {
+
+            font-size:
+                0.74rem;
+        }
+
+
+        .rems-admin-overview-description {
+
+            font-size:
+                0.62rem;
+        }
+
+
+        .rems-admin-table-wrapper {
+
+            padding:
+                8px;
+        }
+
+
+        .rems-admin-table tbody tr {
+
+            padding:
+                10px;
+        }
+
+
+        .rems-admin-table tbody td {
+
+            grid-template-columns:
+                82px
+                minmax(0, 1fr);
+
+            font-size:
+                0.76rem;
+        }
+
+
+        .rems-admin-table tbody td::before {
+
+            font-size:
+                0.58rem;
+        }
+
+    }
+
+`;
 
 
     /* =========================================================

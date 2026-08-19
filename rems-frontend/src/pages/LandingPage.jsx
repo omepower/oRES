@@ -1,4 +1,3 @@
-
 import {
     Link,
 } from "react-router-dom";
@@ -13,7 +12,7 @@ export default function LandingPage() {
 
                     /* =====================================================
                        oRES LANDING PAGE
-                       Self-contained styling
+                       Responsive / Mobile First
                     ===================================================== */
 
                     .rems-landing {
@@ -22,7 +21,8 @@ export default function LandingPage() {
 
                         position: relative;
 
-                        overflow: hidden;
+                        overflow-x: hidden;
+                        overflow-y: auto;
 
                         color: #18202d;
 
@@ -43,17 +43,20 @@ export default function LandingPage() {
                         position: absolute;
 
                         width: 520px;
-
                         height: 520px;
 
                         top: -260px;
-
                         right: -120px;
 
                         border-radius: 50%;
 
                         background:
-                            rgba(37, 99, 235, 0.075);
+                            rgba(
+                                37,
+                                99,
+                                235,
+                                0.075
+                            );
 
                         filter:
                             blur(12px);
@@ -69,17 +72,20 @@ export default function LandingPage() {
                         position: absolute;
 
                         width: 430px;
-
                         height: 430px;
 
                         left: -210px;
-
                         bottom: -210px;
 
                         border-radius: 50%;
 
                         background:
-                            rgba(148, 163, 184, 0.10);
+                            rgba(
+                                148,
+                                163,
+                                184,
+                                0.10
+                            );
 
                         filter:
                             blur(10px);
@@ -89,281 +95,396 @@ export default function LandingPage() {
 
 
                     /* =====================================================
-                       HEADER
+                       NAVIGATION
                     ===================================================== */
 
                     .rems-landing-nav {
 
-                        position: relative;
+                        position:
+                            relative;
 
-                        z-index: 10;
+                        z-index:
+                            10;
 
-                        width: min(
-                            100%,
-                            1240px
-                        );
+                        width:
+                            min(
+                                100%,
+                                1240px
+                            );
 
-                        margin: 0 auto;
+                        margin:
+                            0 auto;
 
                         padding:
-                            22px 28px;
+                            20px 28px;
 
-                        display: flex;
+                        display:
+                            flex;
 
-                        align-items: center;
+                        align-items:
+                            center;
 
-                        justify-content: space-between;
+                        justify-content:
+                            space-between;
 
-                        gap: 20px;
+                        gap:
+                            18px;
+
+                        box-sizing:
+                            border-box;
                     }
 
 
                     .rems-landing-brand {
 
-                        display: inline-flex;
+                        min-width:
+                            0;
 
-                        align-items: center;
+                        display:
+                            inline-flex;
 
-                        gap: 11px;
+                        align-items:
+                            center;
 
-                        color: inherit;
+                        gap:
+                            10px;
 
-                        text-decoration: none;
+                        color:
+                            inherit;
+
+                        text-decoration:
+                            none;
                     }
 
 
                     .rems-landing-brand-mark {
 
-                        width: 42px;
+                        width:
+                            42px;
 
-                        height: 42px;
+                        height:
+                            42px;
 
-                        display: flex;
+                        flex:
+                            0 0 42px;
 
-                        align-items: center;
+                        display:
+                            flex;
 
-                        justify-content: center;
+                        align-items:
+                            center;
 
-                        border-radius: 13px;
+                        justify-content:
+                            center;
 
-                        color: #ffffff;
+                        border-radius:
+                            13px;
+
+                        color:
+                            #ffffff;
 
                         background:
                             #1f2937;
 
                         box-shadow:
                             0 10px 22px
-                            rgba(15, 23, 42, 0.12);
+                            rgba(
+                                15,
+                                23,
+                                42,
+                                0.12
+                            );
                     }
 
 
                     .rems-landing-brand-mark i {
 
-                        font-size: 18px;
+                        font-size:
+                            18px;
                     }
 
 
                     .rems-landing-brand-name {
 
-                        font-size: 15px;
+                        font-size:
+                            15px;
 
-                        font-weight: 800;
+                        font-weight:
+                            800;
 
-                        letter-spacing: 0.13em;
+                        letter-spacing:
+                            0.13em;
 
-                        line-height: 1;
+                        line-height:
+                            1;
                     }
 
 
                     .rems-landing-brand-caption {
 
-                        margin-top: 4px;
+                        margin-top:
+                            4px;
 
-                        color: #929aa7;
+                        color:
+                            #929aa7;
 
-                        font-size: 8px;
+                        font-size:
+                            8px;
 
-                        font-weight: 700;
+                        font-weight:
+                            700;
 
-                        letter-spacing: 0.10em;
+                        letter-spacing:
+                            0.10em;
 
-                        text-transform: uppercase;
+                        text-transform:
+                            uppercase;
+
+                        white-space:
+                            nowrap;
                     }
 
 
                     .rems-landing-login-button {
 
-                        display: inline-flex;
+                        display:
+                            inline-flex;
 
-                        align-items: center;
+                        align-items:
+                            center;
 
-                        justify-content: center;
+                        justify-content:
+                            center;
 
-                        gap: 8px;
+                        gap:
+                            8px;
 
-                        min-height: 41px;
+                        min-height:
+                            42px;
 
                         padding:
                             9px 16px;
 
                         border:
                             1px solid
-                            rgba(31, 41, 55, 0.12);
+                            rgba(
+                                31,
+                                41,
+                                55,
+                                0.12
+                            );
 
-                        border-radius: 10px;
+                        border-radius:
+                            10px;
 
-                        color: #ffffff;
+                        color:
+                            #ffffff;
 
                         background:
                             #1f2937;
 
                         box-shadow:
                             0 9px 22px
-                            rgba(31, 41, 55, 0.13);
+                            rgba(
+                                31,
+                                41,
+                                55,
+                                0.13
+                            );
 
-                        font-size: 12px;
+                        font-size:
+                            12px;
 
-                        font-weight: 650;
+                        font-weight:
+                            650;
 
-                        text-decoration: none;
+                        text-decoration:
+                            none;
 
-                        transition:
-                            transform 180ms ease,
-                            background 180ms ease,
-                            box-shadow 180ms ease;
+                        white-space:
+                            nowrap;
                     }
 
 
                     .rems-landing-login-button:hover {
 
-                        color: #ffffff;
+                        color:
+                            #ffffff;
 
                         background:
                             #374151;
-
-                        transform:
-                            translateY(-1px);
-
-                        box-shadow:
-                            0 12px 26px
-                            rgba(31, 41, 55, 0.16);
                     }
 
 
                     /* =====================================================
-                       HERO
+                       MAIN
                     ===================================================== */
 
                     .rems-landing-main {
 
-                        position: relative;
+                        position:
+                            relative;
 
-                        z-index: 2;
+                        z-index:
+                            2;
 
-                        width: min(
-                            100%,
-                            1240px
-                        );
+                        width:
+                            min(
+                                100%,
+                                1240px
+                            );
 
                         min-height:
                             calc(
                                 100vh - 88px
                             );
 
-                        margin: 0 auto;
+                        margin:
+                            0 auto;
 
                         padding:
-                            45px 28px 70px;
+                            35px 28px 70px;
 
-                        display: flex;
+                        display:
+                            flex;
 
-                        align-items: center;
+                        align-items:
+                            center;
+
+                        box-sizing:
+                            border-box;
                     }
 
 
                     .rems-landing-grid {
 
-                        width: 100%;
+                        width:
+                            100%;
 
-                        display: grid;
+                        display:
+                            grid;
 
                         grid-template-columns:
-                            minmax(0, 1.08fr)
-                            minmax(420px, 0.92fr);
+                            minmax(
+                                0,
+                                1.08fr
+                            )
+                            minmax(
+                                390px,
+                                0.92fr
+                            );
 
-                        gap: 65px;
+                        gap:
+                            55px;
 
-                        align-items: center;
+                        align-items:
+                            center;
                     }
 
 
                     /* =====================================================
-                       HERO COPY
+                       COPY
                     ===================================================== */
 
                     .rems-landing-copy {
 
-                        max-width: 680px;
+                        min-width:
+                            0;
+
+                        max-width:
+                            680px;
                     }
 
 
                     .rems-landing-eyebrow {
 
-                        display: inline-flex;
+                        display:
+                            inline-flex;
 
-                        align-items: center;
+                        align-items:
+                            center;
 
-                        gap: 8px;
+                        gap:
+                            8px;
 
-                        margin-bottom: 18px;
+                        margin-bottom:
+                            18px;
 
                         padding:
                             7px 10px;
 
                         border:
                             1px solid
-                            rgba(148, 163, 184, 0.16);
+                            rgba(
+                                148,
+                                163,
+                                184,
+                                0.16
+                            );
 
                         border-radius:
                             999px;
 
-                        color: #697586;
+                        color:
+                            #697586;
 
                         background:
-                            rgba(255, 255, 255, 0.62);
+                            rgba(
+                                255,
+                                255,
+                                255,
+                                0.62
+                            );
 
-                        font-size: 9px;
+                        font-size:
+                            9px;
 
-                        font-weight: 800;
+                        font-weight:
+                            800;
 
-                        letter-spacing: 0.12em;
+                        letter-spacing:
+                            0.12em;
 
-                        text-transform: uppercase;
+                        text-transform:
+                            uppercase;
                     }
 
 
                     .rems-landing-eyebrow span {
 
-                        width: 6px;
+                        width:
+                            6px;
 
-                        height: 6px;
+                        height:
+                            6px;
 
-                        border-radius: 50%;
+                        flex:
+                            0 0 6px;
+
+                        border-radius:
+                            50%;
 
                         background:
                             #5d9b72;
 
                         box-shadow:
                             0 0 0 4px
-                            rgba(93, 155, 114, 0.10);
+                            rgba(
+                                93,
+                                155,
+                                114,
+                                0.10
+                            );
                     }
 
 
                     .rems-landing-title {
 
-                        margin: 0;
+                        margin:
+                            0;
 
-                        color: #172033;
+                        color:
+                            #172033;
 
                         font-size:
                             clamp(
@@ -372,129 +493,174 @@ export default function LandingPage() {
                                 5rem
                             );
 
-                        font-weight: 760;
+                        font-weight:
+                            760;
 
-                        line-height: 1.02;
+                        line-height:
+                            1.02;
 
-                        letter-spacing: -0.055em;
+                        letter-spacing:
+                            -0.055em;
                     }
 
 
                     .rems-landing-title-accent {
 
-                        color: #667085;
+                        color:
+                            #667085;
                     }
 
 
                     .rems-landing-description {
 
-                        max-width: 610px;
+                        max-width:
+                            610px;
 
                         margin:
-                            24px 0 0;
+                            23px 0 0;
 
-                        color: #7a8493;
+                        color:
+                            #7a8493;
 
-                        font-size: 15px;
+                        font-size:
+                            15px;
 
-                        line-height: 1.8;
+                        line-height:
+                            1.8;
                     }
 
 
                     .rems-landing-actions {
 
-                        display: flex;
+                        display:
+                            flex;
 
-                        align-items: center;
+                        align-items:
+                            center;
 
-                        gap: 12px;
+                        gap:
+                            12px;
 
-                        margin-top: 30px;
+                        margin-top:
+                            28px;
+                    }
+
+
+                    .rems-landing-primary-action,
+                    .rems-landing-secondary-action {
+
+                        min-height:
+                            48px;
+
+                        box-sizing:
+                            border-box;
                     }
 
 
                     .rems-landing-primary-action {
 
-                        display: inline-flex;
+                        display:
+                            inline-flex;
 
-                        align-items: center;
+                        align-items:
+                            center;
 
-                        justify-content: center;
+                        justify-content:
+                            center;
 
-                        gap: 9px;
-
-                        min-height: 48px;
+                        gap:
+                            9px;
 
                         padding:
                             11px 19px;
 
-                        border-radius: 12px;
+                        border-radius:
+                            12px;
 
-                        color: #ffffff;
+                        color:
+                            #ffffff;
 
                         background:
                             #1f2937;
 
                         box-shadow:
                             0 12px 28px
-                            rgba(31, 41, 55, 0.15);
+                            rgba(
+                                31,
+                                41,
+                                55,
+                                0.15
+                            );
 
-                        font-size: 12px;
+                        font-size:
+                            12px;
 
-                        font-weight: 700;
+                        font-weight:
+                            700;
 
-                        text-decoration: none;
-
-                        transition:
-                            transform 180ms ease,
-                            background 180ms ease,
-                            box-shadow 180ms ease;
+                        text-decoration:
+                            none;
                     }
 
 
                     .rems-landing-primary-action:hover {
 
-                        color: #ffffff;
+                        color:
+                            #ffffff;
 
                         background:
                             #374151;
-
-                        transform:
-                            translateY(-2px);
-
-                        box-shadow:
-                            0 16px 32px
-                            rgba(31, 41, 55, 0.18);
                     }
 
 
                     .rems-landing-secondary-action {
 
-                        display: inline-flex;
+                        display:
+                            inline-flex;
 
-                        align-items: center;
+                        align-items:
+                            center;
 
-                        gap: 7px;
+                        justify-content:
+                            center;
 
-                        min-height: 48px;
+                        gap:
+                            7px;
 
                         padding:
                             11px 16px;
 
-                        color: #657184;
+                        color:
+                            #657184;
 
                         border:
                             1px solid
-                            rgba(148, 163, 184, 0.16);
+                            rgba(
+                                148,
+                                163,
+                                184,
+                                0.16
+                            );
 
-                        border-radius: 12px;
+                        border-radius:
+                            12px;
 
                         background:
-                            rgba(255, 255, 255, 0.58);
+                            rgba(
+                                255,
+                                255,
+                                255,
+                                0.58
+                            );
 
-                        font-size: 11px;
+                        font-size:
+                            11px;
 
-                        font-weight: 650;
+                        font-weight:
+                            650;
+
+                        text-align:
+                            center;
                     }
 
 
@@ -504,140 +670,218 @@ export default function LandingPage() {
 
                     .rems-landing-trust {
 
-                        display: flex;
+                        display:
+                            flex;
 
-                        align-items: center;
+                        align-items:
+                            center;
 
-                        flex-wrap: wrap;
+                        flex-wrap:
+                            wrap;
 
-                        gap: 17px;
+                        gap:
+                            15px;
 
-                        margin-top: 28px;
+                        margin-top:
+                            26px;
 
-                        color: #9aa2ae;
+                        color:
+                            #9aa2ae;
 
-                        font-size: 9px;
+                        font-size:
+                            9px;
 
-                        font-weight: 600;
+                        font-weight:
+                            600;
                     }
 
 
                     .rems-landing-trust-item {
 
-                        display: inline-flex;
+                        display:
+                            inline-flex;
 
-                        align-items: center;
+                        align-items:
+                            center;
 
-                        gap: 6px;
+                        gap:
+                            6px;
                     }
 
 
                     .rems-landing-trust-item i {
 
-                        color: #7b8797;
+                        color:
+                            #7b8797;
 
-                        font-size: 11px;
+                        font-size:
+                            11px;
                     }
 
 
                     /* =====================================================
-                       VISUAL PANEL
+                       VISUAL
                     ===================================================== */
 
                     .rems-landing-visual {
 
-                        position: relative;
+                        position:
+                            relative;
 
-                        min-height: 510px;
+                        min-width:
+                            0;
 
-                        display: flex;
+                        min-height:
+                            490px;
 
-                        align-items: center;
+                        display:
+                            flex;
 
-                        justify-content: center;
+                        align-items:
+                            center;
+
+                        justify-content:
+                            center;
                     }
 
 
                     .rems-landing-orbit {
 
-                        position: absolute;
+                        position:
+                            absolute;
 
-                        width: 440px;
+                        width:
+                            440px;
 
-                        height: 440px;
+                        height:
+                            440px;
+
+                        max-width:
+                            100%;
+
+                        max-height:
+                            100%;
 
                         border:
                             1px solid
-                            rgba(148, 163, 184, 0.12);
+                            rgba(
+                                148,
+                                163,
+                                184,
+                                0.12
+                            );
 
-                        border-radius: 50%;
+                        border-radius:
+                            50%;
                     }
 
 
                     .rems-landing-orbit::before {
 
-                        content: "";
+                        content:
+                            "";
 
-                        position: absolute;
+                        position:
+                            absolute;
 
                         inset:
                             45px;
 
                         border:
                             1px dashed
-                            rgba(148, 163, 184, 0.14);
+                            rgba(
+                                148,
+                                163,
+                                184,
+                                0.14
+                            );
 
-                        border-radius: 50%;
+                        border-radius:
+                            50%;
                     }
 
 
                     .rems-landing-orbit::after {
 
-                        content: "";
+                        content:
+                            "";
 
-                        position: absolute;
+                        position:
+                            absolute;
 
                         inset:
                             98px;
 
                         border:
                             1px solid
-                            rgba(148, 163, 184, 0.10);
+                            rgba(
+                                148,
+                                163,
+                                184,
+                                0.10
+                            );
 
-                        border-radius: 50%;
+                        border-radius:
+                            50%;
                     }
 
 
                     .rems-landing-glass-panel {
 
-                        position: relative;
+                        position:
+                            relative;
 
-                        z-index: 3;
+                        z-index:
+                            3;
 
-                        width: min(
-                            100%,
-                            435px
-                        );
+                        width:
+                            min(
+                                100%,
+                                435px
+                            );
+
+                        box-sizing:
+                            border-box;
 
                         padding:
                             25px;
 
                         border:
                             1px solid
-                            rgba(255, 255, 255, 0.84);
+                            rgba(
+                                255,
+                                255,
+                                255,
+                                0.84
+                            );
 
                         border-radius:
                             24px;
 
                         background:
-                            rgba(255, 255, 255, 0.72);
+                            rgba(
+                                255,
+                                255,
+                                255,
+                                0.72
+                            );
 
                         box-shadow:
                             0 30px 70px
-                            rgba(15, 23, 42, 0.10),
+                            rgba(
+                                15,
+                                23,
+                                42,
+                                0.10
+                            ),
 
                             inset 0 1px 0
-                            rgba(255, 255, 255, 0.88);
+                            rgba(
+                                255,
+                                255,
+                                255,
+                                0.88
+                            );
 
                         -webkit-backdrop-filter:
                             blur(24px);
@@ -649,81 +893,118 @@ export default function LandingPage() {
 
                     .rems-landing-panel-top {
 
-                        display: flex;
+                        display:
+                            flex;
 
-                        align-items: center;
+                        align-items:
+                            center;
 
-                        justify-content: space-between;
+                        justify-content:
+                            space-between;
 
-                        gap: 15px;
+                        gap:
+                            12px;
 
-                        margin-bottom: 25px;
+                        margin-bottom:
+                            23px;
                     }
 
 
                     .rems-landing-panel-brand {
 
-                        display: flex;
+                        min-width:
+                            0;
 
-                        align-items: center;
+                        display:
+                            flex;
 
-                        gap: 9px;
+                        align-items:
+                            center;
+
+                        gap:
+                            9px;
                     }
 
 
                     .rems-landing-panel-mark {
 
-                        width: 33px;
+                        width:
+                            33px;
 
-                        height: 33px;
+                        height:
+                            33px;
 
-                        display: flex;
+                        flex:
+                            0 0 33px;
 
-                        align-items: center;
+                        display:
+                            flex;
 
-                        justify-content: center;
+                        align-items:
+                            center;
 
-                        border-radius: 10px;
+                        justify-content:
+                            center;
 
-                        color: #ffffff;
+                        border-radius:
+                            10px;
 
-                        background: #1f2937;
+                        color:
+                            #ffffff;
 
-                        font-size: 12px;
+                        background:
+                            #1f2937;
+
+                        font-size:
+                            12px;
                     }
 
 
                     .rems-landing-panel-name {
 
-                        color: #303b4c;
+                        color:
+                            #303b4c;
 
-                        font-size: 10px;
+                        font-size:
+                            10px;
 
-                        font-weight: 750;
+                        font-weight:
+                            750;
 
-                        letter-spacing: 0.08em;
+                        letter-spacing:
+                            0.08em;
                     }
 
 
                     .rems-landing-panel-label {
 
-                        color: #a0a8b3;
+                        margin-top:
+                            2px;
 
-                        font-size: 8px;
+                        color:
+                            #a0a8b3;
 
-                        letter-spacing: 0.07em;
+                        font-size:
+                            8px;
 
-                        text-transform: uppercase;
+                        letter-spacing:
+                            0.07em;
+
+                        text-transform:
+                            uppercase;
                     }
 
 
                     .rems-landing-online {
 
-                        display: inline-flex;
+                        display:
+                            inline-flex;
 
-                        align-items: center;
+                        align-items:
+                            center;
 
-                        gap: 6px;
+                        gap:
+                            6px;
 
                         padding:
                             6px 8px;
@@ -731,216 +1012,314 @@ export default function LandingPage() {
                         border-radius:
                             999px;
 
-                        color: #598369;
+                        color:
+                            #598369;
 
                         background:
-                            rgba(93, 155, 114, 0.08);
+                            rgba(
+                                93,
+                                155,
+                                114,
+                                0.08
+                            );
 
-                        font-size: 8px;
+                        font-size:
+                            8px;
 
-                        font-weight: 700;
+                        font-weight:
+                            700;
+
+                        white-space:
+                            nowrap;
                     }
 
 
                     .rems-landing-online span {
 
-                        width: 5px;
+                        width:
+                            5px;
 
-                        height: 5px;
+                        height:
+                            5px;
 
-                        border-radius: 50%;
+                        border-radius:
+                            50%;
 
-                        background: #5d9b72;
+                        background:
+                            #5d9b72;
                     }
 
-
-                    /* =====================================================
-                       VISUAL METRIC
-                    ===================================================== */
 
                     .rems-landing-panel-heading {
 
                         margin-bottom:
-                            18px;
+                            16px;
 
-                        color: #8892a0;
+                        color:
+                            #8892a0;
 
-                        font-size: 9px;
+                        font-size:
+                            9px;
 
-                        font-weight: 700;
+                        font-weight:
+                            700;
 
-                        letter-spacing: 0.08em;
+                        letter-spacing:
+                            0.08em;
 
-                        text-transform: uppercase;
+                        text-transform:
+                            uppercase;
                     }
 
 
                     .rems-landing-panel-metric {
 
-                        display: grid;
+                        display:
+                            grid;
 
                         grid-template-columns:
-                            repeat(2, minmax(0, 1fr));
+                            repeat(
+                                2,
+                                minmax(0, 1fr)
+                            );
 
-                        gap: 11px;
+                        gap:
+                            10px;
                     }
 
 
                     .rems-landing-mini-card {
 
-                        min-height: 94px;
+                        min-width:
+                            0;
+
+                        min-height:
+                            94px;
 
                         padding:
                             14px;
 
+                        box-sizing:
+                            border-box;
+
                         border:
                             1px solid
-                            rgba(148, 163, 184, 0.11);
+                            rgba(
+                                148,
+                                163,
+                                184,
+                                0.11
+                            );
 
-                        border-radius: 14px;
+                        border-radius:
+                            14px;
 
                         background:
-                            rgba(248, 250, 252, 0.64);
+                            rgba(
+                                248,
+                                250,
+                                252,
+                                0.64
+                            );
                     }
 
 
                     .rems-landing-mini-icon {
 
-                        width: 28px;
+                        width:
+                            28px;
 
-                        height: 28px;
+                        height:
+                            28px;
 
-                        display: flex;
+                        display:
+                            flex;
 
-                        align-items: center;
+                        align-items:
+                            center;
 
-                        justify-content: center;
+                        justify-content:
+                            center;
 
-                        margin-bottom: 10px;
+                        margin-bottom:
+                            10px;
 
-                        border-radius: 8px;
+                        border-radius:
+                            8px;
 
-                        color: #667386;
+                        color:
+                            #667386;
 
-                        background: #eef1f5;
+                        background:
+                            #eef1f5;
 
-                        font-size: 11px;
+                        font-size:
+                            11px;
                     }
 
 
                     .rems-landing-mini-value {
 
-                        color: #293445;
+                        color:
+                            #293445;
 
-                        font-size: 18px;
+                        font-size:
+                            18px;
 
-                        font-weight: 750;
+                        font-weight:
+                            750;
 
-                        line-height: 1;
+                        line-height:
+                            1;
                     }
 
 
                     .rems-landing-mini-label {
 
-                        margin-top: 5px;
+                        margin-top:
+                            5px;
 
-                        color: #8e98a5;
+                        color:
+                            #8e98a5;
 
-                        font-size: 8px;
+                        font-size:
+                            8px;
+
+                        line-height:
+                            1.35;
                     }
 
 
-                    /* =====================================================
-                       PANEL BOTTOM
-                    ===================================================== */
-
                     .rems-landing-panel-bottom {
 
-                        display: flex;
+                        display:
+                            flex;
 
-                        align-items: center;
+                        align-items:
+                            center;
 
-                        justify-content: space-between;
+                        justify-content:
+                            space-between;
 
-                        gap: 15px;
+                        gap:
+                            12px;
 
-                        margin-top: 18px;
+                        margin-top:
+                            18px;
 
-                        padding-top: 17px;
+                        padding-top:
+                            17px;
 
                         border-top:
                             1px solid
-                            rgba(148, 163, 184, 0.10);
+                            rgba(
+                                148,
+                                163,
+                                184,
+                                0.10
+                            );
                     }
 
 
                     .rems-landing-panel-security {
 
-                        display: flex;
+                        min-width:
+                            0;
 
-                        align-items: center;
+                        display:
+                            flex;
 
-                        gap: 8px;
+                        align-items:
+                            center;
+
+                        gap:
+                            8px;
                     }
 
 
                     .rems-landing-security-icon {
 
-                        width: 30px;
+                        width:
+                            30px;
 
-                        height: 30px;
+                        height:
+                            30px;
 
-                        display: flex;
+                        flex:
+                            0 0 30px;
 
-                        align-items: center;
+                        display:
+                            flex;
 
-                        justify-content: center;
+                        align-items:
+                            center;
 
-                        border-radius: 9px;
+                        justify-content:
+                            center;
 
-                        color: #5b9270;
+                        border-radius:
+                            9px;
 
-                        background: #edf5ef;
+                        color:
+                            #5b9270;
 
-                        font-size: 10px;
+                        background:
+                            #edf5ef;
+
+                        font-size:
+                            10px;
                     }
 
 
                     .rems-landing-security-copy {
 
-                        display: flex;
+                        min-width:
+                            0;
 
-                        flex-direction: column;
+                        display:
+                            flex;
 
-                        gap: 2px;
+                        flex-direction:
+                            column;
+
+                        gap:
+                            2px;
                     }
 
 
                     .rems-landing-security-copy span {
 
-                        color: #9aa3ae;
+                        color:
+                            #9aa3ae;
 
-                        font-size: 7px;
+                        font-size:
+                            7px;
 
-                        text-transform: uppercase;
+                        text-transform:
+                            uppercase;
 
-                        letter-spacing: 0.06em;
+                        letter-spacing:
+                            0.06em;
                     }
 
 
                     .rems-landing-security-copy strong {
 
-                        color: #536071;
+                        color:
+                            #536071;
 
-                        font-size: 9px;
+                        font-size:
+                            9px;
                     }
 
 
                     .rems-landing-panel-arrow {
 
-                        color: #a4adb9;
+                        color:
+                            #a4adb9;
 
-                        font-size: 13px;
+                        font-size:
+                            13px;
                     }
 
 
@@ -950,44 +1329,59 @@ export default function LandingPage() {
 
                     .rems-landing-footer {
 
-                        position: relative;
+                        position:
+                            relative;
 
-                        z-index: 4;
+                        z-index:
+                            4;
 
-                        width: min(
-                            100%,
-                            1240px
-                        );
+                        width:
+                            min(
+                                100%,
+                                1240px
+                            );
 
-                        margin: -25px auto 0;
+                        margin:
+                            -25px auto 0;
 
                         padding:
                             0 28px 22px;
 
-                        display: flex;
+                        display:
+                            flex;
 
-                        align-items: center;
+                        align-items:
+                            center;
 
-                        justify-content: space-between;
+                        justify-content:
+                            space-between;
 
-                        gap: 20px;
+                        gap:
+                            20px;
 
-                        color: #a0a8b3;
+                        color:
+                            #a0a8b3;
 
-                        font-size: 8px;
+                        font-size:
+                            9px;
+
+                        box-sizing:
+                            border-box;
                     }
 
 
                     .rems-landing-footer strong {
 
-                        color: #7d8794;
+                        color:
+                            #7d8794;
 
-                        font-weight: 650;
+                        font-weight:
+                            650;
                     }
 
 
                     /* =====================================================
-                       RESPONSIVE
+                       TABLET
                     ===================================================== */
 
                     @media (max-width: 1050px) {
@@ -997,36 +1391,84 @@ export default function LandingPage() {
                             grid-template-columns:
                                 1fr;
 
-                            gap: 35px;
+                            gap:
+                                30px;
                         }
 
 
                         .rems-landing-copy {
 
-                            max-width: 760px;
+                            max-width:
+                                760px;
                         }
 
 
                         .rems-landing-visual {
 
-                            min-height: 460px;
+                            min-height:
+                                430px;
                         }
 
 
                         .rems-landing-main {
 
-                            padding-top: 30px;
+                            padding-top:
+                                30px;
                         }
 
                     }
 
+
+                    /* =====================================================
+                       MOBILE
+                    ===================================================== */
 
                     @media (max-width: 767.98px) {
 
                         .rems-landing-nav {
 
                             padding:
-                                18px 18px;
+                                16px 14px;
+                        }
+
+
+                        .rems-landing-brand-mark {
+
+                            width:
+                                38px;
+
+                            height:
+                                38px;
+
+                            flex-basis:
+                                38px;
+                        }
+
+
+                        .rems-landing-brand-name {
+
+                            font-size:
+                                14px;
+                        }
+
+
+                        .rems-landing-brand-caption {
+
+                            font-size:
+                                7px;
+                        }
+
+
+                        .rems-landing-login-button {
+
+                            min-width:
+                                42px;
+
+                            min-height:
+                                42px;
+
+                            padding:
+                                9px 12px;
                         }
 
 
@@ -1036,7 +1478,31 @@ export default function LandingPage() {
                                 auto;
 
                             padding:
-                                28px 18px 55px;
+                                26px 14px 45px;
+                        }
+
+
+                        .rems-landing-grid {
+
+                            gap:
+                                30px;
+                        }
+
+
+                        .rems-landing-copy {
+
+                            text-align:
+                                left;
+                        }
+
+
+                        .rems-landing-eyebrow {
+
+                            margin-bottom:
+                                15px;
+
+                            font-size:
+                                9px;
                         }
 
 
@@ -1044,26 +1510,42 @@ export default function LandingPage() {
 
                             font-size:
                                 clamp(
-                                    2.5rem,
-                                    12vw,
-                                    4rem
+                                    2.25rem,
+                                    11.5vw,
+                                    3.5rem
                                 );
+
+                            line-height:
+                                1.04;
                         }
 
 
                         .rems-landing-description {
 
-                            font-size: 13px;
+                            margin-top:
+                                18px;
+
+                            font-size:
+                                14px;
+
+                            line-height:
+                                1.7;
                         }
 
 
                         .rems-landing-actions {
+
+                            width:
+                                100%;
 
                             flex-direction:
                                 column;
 
                             align-items:
                                 stretch;
+
+                            margin-top:
+                                24px;
                         }
 
 
@@ -1072,37 +1554,143 @@ export default function LandingPage() {
 
                             width:
                                 100%;
+
+                            min-height:
+                                48px;
+
+                            font-size:
+                                13px;
                         }
 
 
                         .rems-landing-trust {
 
                             gap:
-                                12px;
+                                10px 14px;
+
+                            margin-top:
+                                21px;
+
+                            font-size:
+                                10px;
+
+                            line-height:
+                                1.4;
                         }
 
 
                         .rems-landing-visual {
 
                             min-height:
-                                400px;
+                                auto;
+
+                            padding:
+                                8px 0 5px;
                         }
 
 
                         .rems-landing-orbit {
 
                             width:
-                                350px;
+                                min(
+                                    350px,
+                                    88vw
+                                );
 
                             height:
-                                350px;
+                                min(
+                                    350px,
+                                    88vw
+                                );
+                        }
+
+
+                        .rems-landing-orbit::before {
+
+                            inset:
+                                35px;
+                        }
+
+
+                        .rems-landing-orbit::after {
+
+                            inset:
+                                75px;
                         }
 
 
                         .rems-landing-glass-panel {
 
+                            width:
+                                min(
+                                    100%,
+                                    430px
+                                );
+
                             padding:
+                                18px;
+
+                            border-radius:
                                 20px;
+                        }
+
+
+                        .rems-landing-panel-name {
+
+                            font-size:
+                                11px;
+                        }
+
+
+                        .rems-landing-panel-label {
+
+                            font-size:
+                                8px;
+                        }
+
+
+                        .rems-landing-online {
+
+                            font-size:
+                                8px;
+                        }
+
+
+                        .rems-landing-panel-heading {
+
+                            font-size:
+                                10px;
+                        }
+
+
+                        .rems-landing-mini-card {
+
+                            min-height:
+                                88px;
+
+                            padding:
+                                12px;
+                        }
+
+
+                        .rems-landing-mini-value {
+
+                            font-size:
+                                17px;
+                        }
+
+
+                        .rems-landing-mini-label {
+
+                            font-size:
+                                9px;
+                        }
+
+
+                        .rems-landing-security-copy strong {
+
+                            font-size:
+                                10px;
                         }
 
 
@@ -1112,19 +1700,36 @@ export default function LandingPage() {
                                 0;
 
                             padding:
-                                0 18px 18px;
+                                0 14px 18px;
 
                             flex-direction:
                                 column;
 
                             align-items:
                                 flex-start;
+
+                            font-size:
+                                9px;
+
+                            line-height:
+                                1.5;
                         }
 
                     }
 
 
+                    /* =====================================================
+                       SMALL PHONES
+                    ===================================================== */
+
                     @media (max-width: 480px) {
+
+                        .rems-landing-nav {
+
+                            padding:
+                                14px 12px;
+                        }
+
 
                         .rems-landing-brand-caption {
 
@@ -1143,37 +1748,135 @@ export default function LandingPage() {
                         .rems-landing-login-button {
 
                             width:
-                                40px;
+                                42px;
 
                             height:
-                                40px;
+                                42px;
+
+                            min-width:
+                                42px;
 
                             padding:
                                 0;
                         }
 
 
-                        .rems-landing-visual {
+                        .rems-landing-main {
 
-                            min-height:
-                                350px;
+                            padding:
+                                24px 12px 38px;
                         }
 
 
-                        .rems-landing-orbit {
+                        .rems-landing-title {
 
-                            width:
-                                300px;
+                            font-size:
+                                2.2rem;
+                        }
 
-                            height:
-                                300px;
+
+                        .rems-landing-description {
+
+                            font-size:
+                                13px;
+
+                            line-height:
+                                1.65;
+                        }
+
+
+                        .rems-landing-trust {
+
+                            display:
+                                grid;
+
+                            grid-template-columns:
+                                1fr 1fr;
+
+                            gap:
+                                10px;
+                        }
+
+
+                        .rems-landing-visual {
+
+                            padding-top:
+                                4px;
+                        }
+
+
+                        .rems-landing-glass-panel {
+
+                            padding:
+                                15px;
+                        }
+
+
+                        .rems-landing-panel-top {
+
+                            align-items:
+                                flex-start;
+                        }
+
+
+                        .rems-landing-online {
+
+                            font-size:
+                                7px;
+
+                            padding:
+                                5px 7px;
                         }
 
 
                         .rems-landing-panel-metric {
 
-                            grid-template-columns:
-                                1fr 1fr;
+                            gap:
+                                8px;
+                        }
+
+
+                        .rems-landing-mini-card {
+
+                            min-height:
+                                82px;
+
+                            padding:
+                                10px;
+                        }
+
+
+                        .rems-landing-mini-icon {
+
+                            width:
+                                26px;
+
+                            height:
+                                26px;
+
+                            margin-bottom:
+                                8px;
+                        }
+
+
+                        .rems-landing-mini-value {
+
+                            font-size:
+                                16px;
+                        }
+
+
+                        .rems-landing-mini-label {
+
+                            font-size:
+                                8px;
+                        }
+
+
+                        .rems-landing-panel-bottom {
+
+                            align-items:
+                                flex-start;
                         }
 
                     }
@@ -1203,7 +1906,6 @@ export default function LandingPage() {
                 ================================================= */}
 
                 <nav className="rems-landing-nav">
-
 
                     <Link
                         to="/"
@@ -1257,16 +1959,11 @@ export default function LandingPage() {
                     <div className="rems-landing-grid">
 
 
-                        {/* =================================================
-                            LEFT CONTENT
-                        ================================================= */}
-
                         <div className="rems-landing-copy">
-
 
                             <div className="rems-landing-eyebrow">
 
-                                <span />
+                                
 
                                 SECURE COMMUNITY MANAGEMENT
 
@@ -1296,7 +1993,6 @@ export default function LandingPage() {
 
 
                             <div className="rems-landing-actions">
-
 
                                 <Link
                                     to="/login"
@@ -1357,20 +2053,12 @@ export default function LandingPage() {
                         </div>
 
 
-                        {/* =================================================
-                            RIGHT VISUAL
-                        ================================================= */}
-
                         <div className="rems-landing-visual">
-
 
                             <div className="rems-landing-orbit" />
 
 
                             <div className="rems-landing-glass-panel">
-
-
-                                {/* PANEL HEADER */}
 
                                 <div className="rems-landing-panel-top">
 
@@ -1398,18 +2086,9 @@ export default function LandingPage() {
                                     </div>
 
 
-                                    <div className="rems-landing-online">
-
-                                        <span />
-
-                                        System ready
-
-                                    </div>
 
                                 </div>
 
-
-                                {/* METRICS */}
 
                                 <div className="rems-landing-panel-heading">
 
@@ -1420,13 +2099,10 @@ export default function LandingPage() {
 
                                 <div className="rems-landing-panel-metric">
 
-
                                     <div className="rems-landing-mini-card">
 
                                         <div className="rems-landing-mini-icon">
-
                                             <i className="bi bi-buildings" />
-
                                         </div>
 
                                         <div className="rems-landing-mini-value">
@@ -1443,9 +2119,7 @@ export default function LandingPage() {
                                     <div className="rems-landing-mini-card">
 
                                         <div className="rems-landing-mini-icon">
-
                                             <i className="bi bi-people" />
-
                                         </div>
 
                                         <div className="rems-landing-mini-value">
@@ -1462,9 +2136,7 @@ export default function LandingPage() {
                                     <div className="rems-landing-mini-card">
 
                                         <div className="rems-landing-mini-icon">
-
                                             <i className="bi bi-shield-check" />
-
                                         </div>
 
                                         <div className="rems-landing-mini-value">
@@ -1481,9 +2153,7 @@ export default function LandingPage() {
                                     <div className="rems-landing-mini-card">
 
                                         <div className="rems-landing-mini-icon">
-
                                             <i className="bi bi-qr-code" />
-
                                         </div>
 
                                         <div className="rems-landing-mini-value">
@@ -1496,20 +2166,15 @@ export default function LandingPage() {
 
                                     </div>
 
-
                                 </div>
 
-
-                                {/* BOTTOM STATUS */}
 
                                 <div className="rems-landing-panel-bottom">
 
                                     <div className="rems-landing-panel-security">
 
                                         <div className="rems-landing-security-icon">
-
                                             <i className="bi bi-check2" />
-
                                         </div>
 
 
@@ -1541,23 +2206,25 @@ export default function LandingPage() {
                 </main>
 
 
-                {/* =================================================
-                    FOOTER
-                ================================================= */}
-
                 <footer className="rems-landing-footer">
 
                     <div>
+
                         © {new Date().getFullYear()}{" "}
+
                         <strong>
                             oRES
                         </strong>
-                        . Real Estate Management System.
+
+                        
+
                     </div>
 
 
                     <div>
+
                         Secure community management platform
+
                     </div>
 
                 </footer>
