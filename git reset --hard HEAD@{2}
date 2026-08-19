@@ -1,0 +1,6 @@
+[33m62a5c5c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m HEAD@{0}: reset: moving to HEAD~1
+[33m17aa264[m HEAD@{1}: reset: moving to HEAD~1
+[33md43cca5[m HEAD@{2}: commit: Fixes for the mobile display + minor data display error
+[33m17aa264[m HEAD@{3}: commit: Updated Security Guard portal + app.css + error with variable names
+[33m62a5c5c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m HEAD@{4}: Branch: renamed refs/heads/master to refs/heads/main
+[33m62a5c5c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m HEAD@{6}: commit (initial): Initial commit: Django backend and React Vite frontend with locked dependencies
