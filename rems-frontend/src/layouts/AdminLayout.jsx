@@ -15,6 +15,9 @@ import ProfileModal
 import ChangePasswordModal
     from "../components/account/ChangePasswordModal";
 
+import NotificationBell
+    from "../components/notifications/NotificationBell";
+
 
 export default function AdminLayout() {
 
@@ -480,6 +483,8 @@ export default function AdminLayout() {
                     {/* TOPBAR RIGHT */}
 
                     <div className="rems-topbar-right">
+
+                        <NotificationBell />
 
                         <div className="rems-topbar-divider" />
 

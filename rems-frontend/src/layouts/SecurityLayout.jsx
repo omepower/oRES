@@ -12,6 +12,9 @@ import {
 
 import useAuth from "../hooks/useAuth";
 
+import NotificationBell
+    from "../components/notifications/NotificationBell";
+
 
 // ============================================================
 // SECURITY LAYOUT
@@ -502,6 +505,8 @@ export default function SecurityLayout() {
                     ================================================= */}
 
                     <div className="rems-topbar-right">
+
+                        <NotificationBell />
 
                         <div className="rems-topbar-divider" />
 

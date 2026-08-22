@@ -80,6 +80,11 @@ urlpatterns = [
             "vehicles.urls"
         ),
     ),
+    
+    path(
+        "api/",
+        include("notifications.urls"),
+    ),
 ]
 
 

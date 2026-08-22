@@ -6,6 +6,17 @@ from .models import (
     MotoristSticker,
 )
 
+from residents.models import Resident
+
+
+from rest_framework import serializers
+
+from .models import (
+    Vehicle,
+    MotoristSticker,
+)
+
+
 
 class VehicleSerializer(
     serializers.ModelSerializer
@@ -38,6 +49,7 @@ class VehicleSerializer(
     motorist_sticker = serializers.SerializerMethodField(
         read_only=True,
     )
+
 
     class Meta:
 
@@ -88,6 +100,22 @@ class VehicleSerializer(
             "updated_at",
         ]
 
+        extra_kwargs = {
+
+            "registered_resident": {
+                "required": False,
+            },
+
+            "property": {
+                "required": True,
+            },
+        }
+
+
+    # ========================================================
+    # MOTORIST STICKER
+    # ========================================================
+
     def get_motorist_sticker(
         self,
         obj,
@@ -104,7 +132,8 @@ class VehicleSerializer(
             return None
 
         return {
-            "id": sticker.id,
+            "id":
+                sticker.id,
 
             "sticker_number":
                 sticker.sticker_number,
@@ -130,13 +159,20 @@ class VehicleSerializer(
                 sticker.expires_at,
         }
 
+
+    # ========================================================
+    # VALIDATION
+    # ========================================================
+
     def validate(
         self,
         attrs,
     ):
 
-        request = self.context.get(
-            "request"
+        request = (
+            self.context.get(
+                "request"
+            )
         )
 
         user = (
@@ -146,32 +182,38 @@ class VehicleSerializer(
         )
 
 
-        # ========================================================
+        # ====================================================
         # ADMIN
-        # ========================================================
+        # ====================================================
 
         if (
             user
-            and user.role == user.Roles.ADMIN
+            and user.role ==
+            user.Roles.ADMIN
         ):
 
-            resident = attrs.get(
-                "registered_resident",
-                getattr(
-                    self.instance,
+            resident = (
+                attrs.get(
                     "registered_resident",
-                    None,
-                ),
+                    getattr(
+                        self.instance,
+                        "registered_resident",
+                        None,
+                    ),
+                )
             )
 
-            property_obj = attrs.get(
-                "property",
-                getattr(
-                    self.instance,
+            property_obj = (
+                attrs.get(
                     "property",
-                    None,
-                ),
+                    getattr(
+                        self.instance,
+                        "property",
+                        None,
+                    ),
+                )
             )
+
 
             if not resident:
 
@@ -182,6 +224,7 @@ class VehicleSerializer(
                     }
                 )
 
+
             if not property_obj:
 
                 raise serializers.ValidationError(
@@ -191,6 +234,7 @@ class VehicleSerializer(
                     }
                 )
 
+
             authorized = (
                 property_obj
                 .occupancy_history
@@ -199,7 +243,9 @@ class VehicleSerializer(
                     is_active=True,
                 )
                 .exists()
+
                 or
+
                 property_obj
                 .ownership_history
                 .filter(
@@ -208,6 +254,7 @@ class VehicleSerializer(
                 )
                 .exists()
             )
+
 
             if not authorized:
 
@@ -218,18 +265,22 @@ class VehicleSerializer(
                     }
                 )
 
+
             return attrs
 
 
-        # ========================================================
-        # RESIDENT
-        # HOMEOWNER / TENANT
-        # ========================================================
+        # ====================================================
+        # NO AUTHENTICATED USER
+        # ====================================================
 
         if not user:
 
             return attrs
 
+
+        # ====================================================
+        # NON-RESIDENT ROLES
+        # ====================================================
 
         if user.role not in [
             user.Roles.HOMEOWNER,
@@ -239,16 +290,26 @@ class VehicleSerializer(
             return attrs
 
 
-        resident = (
-            getattr(
-                user,
-                "resident",
-                None,
+        # ====================================================
+        # RESIDENT PROFILE
+        #
+        # Do not rely on user.resident here.
+        # Resolve the Resident explicitly by user.
+        # ====================================================
+
+        try:
+
+            resident = (
+                Resident.objects
+                .select_related(
+                    "user"
+                )
+                .get(
+                    user=user
+                )
             )
-        )
 
-
-        if not resident:
+        except Resident.DoesNotExist:
 
             raise serializers.ValidationError(
                 {
@@ -258,13 +319,19 @@ class VehicleSerializer(
             )
 
 
-        property_obj = attrs.get(
-            "property",
-            getattr(
-                self.instance,
+        # ====================================================
+        # PROPERTY
+        # ====================================================
+
+        property_obj = (
+            attrs.get(
                 "property",
-                None,
-            ),
+                getattr(
+                    self.instance,
+                    "property",
+                    None,
+                ),
+            )
         )
 
 
@@ -278,6 +345,10 @@ class VehicleSerializer(
             )
 
 
+        # ====================================================
+        # PROPERTY AUTHORIZATION
+        # ====================================================
+
         authorized = (
             property_obj
             .occupancy_history
@@ -286,7 +357,9 @@ class VehicleSerializer(
                 is_active=True,
             )
             .exists()
+
             or
+
             property_obj
             .ownership_history
             .filter(
@@ -307,13 +380,16 @@ class VehicleSerializer(
             )
 
 
+        # ====================================================
+        # DERIVE RESIDENT
+        # ====================================================
+
         attrs[
             "registered_resident"
         ] = resident
 
 
         return attrs
-
 
 class MotoristStickerSerializer(
     serializers.ModelSerializer

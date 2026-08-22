@@ -1,4 +1,4 @@
-
+from django.contrib.auth import get_user_model
 from django.db import transaction
 from django.utils import timezone
 
@@ -8,21 +8,33 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
+
 from accounts.permissions import (
     IsAdmin,
     IsAdminOrResident,
     IsAdminOrSecurity,
 )
 
+from notifications.services import (
+    NotificationService,
+)
+from notifications.models import (
+    Notification,
+)
+
+
 from .models import (
     VisitorInvitation,
     VisitorVisit,
+    
 )
 
 from .serializers import (
     VisitorInvitationSerializer,
     VisitorVisitSerializer,
 )
+
+User = get_user_model()
 
 
 # ============================================================
@@ -257,6 +269,33 @@ class VisitorInvitationViewSet(
         )
 
         invitation.save()
+        
+        NotificationService.visitor(
+
+            recipient=invitation.host.user,
+
+            actor=request.user,
+
+            title="Visitor Invitation Cancelled",
+
+            message=(
+                f"The visitor invitation for "
+                f"{invitation.visitor_name} "
+                f"has been cancelled."
+            ),
+
+            action_url=self._host_action_url(
+                invitation.host
+            ),
+
+            metadata={
+                "type": "visitor_invitation_cancelled",
+                "invitation_id": invitation.id,
+                "visitor_name": invitation.visitor_name,
+            },
+
+            priority=Notification.Priority.WARNING,
+        )
 
         serializer = self.get_serializer(
             invitation
@@ -341,7 +380,68 @@ class VisitorInvitationViewSet(
                 ),
             }
         )
+    
+    def _host_action_url(
+        self,
+        host,
+    ):
+        role = (
+            str(
+                host.user.role
+            )
+            .strip()
+            .upper()
+        )
 
+        if role == "HOMEOWNER":
+            return "/homeowner/visitors"
+
+        if role == "TENANT":
+            return "/tenant/visitors"
+
+        return "/"
+    
+    
+    def perform_create(
+        self,
+        serializer,
+    ):
+
+        invitation = serializer.save()
+
+        host_user = (
+            invitation.host.user
+        )
+
+        NotificationService.visitor(
+
+            recipient=host_user,
+
+            actor=self.request.user,
+
+            title="Visitor Invitation Created",
+
+            message=(
+                f"{invitation.visitor_name} "
+                f"has been added as a visitor "
+                f"for {invitation.visit_date}."
+            ),
+
+            action_url=self._host_action_url(
+                invitation.host
+            ),
+
+            metadata={
+                "type": "visitor_invitation_created",
+                "invitation_id": invitation.id,
+                "visitor_name": invitation.visitor_name,
+                "visit_date": str(
+                    invitation.visit_date
+                ),
+            },
+
+            priority=Notification.Priority.SUCCESS,
+        )
 
 # ============================================================
 # VISITOR VISITS
@@ -424,6 +524,32 @@ class VisitorVisitViewSet(
         return queryset.filter(
             invitation__host__user=user
         )
+
+
+    # ========================================================
+    # RESIDENT PORTAL URL
+    # ========================================================
+
+    def _resident_visitors_url(
+        self,
+        resident,
+    ):
+
+        role = str(
+            getattr(
+                resident.user,
+                "role",
+                "",
+            )
+        ).strip().upper()
+
+
+        if role == "TENANT":
+
+            return "/tenant/visitors"
+
+
+        return "/homeowner/visitors"
 
 
     # ========================================================
@@ -554,8 +680,6 @@ class VisitorVisitViewSet(
     # SCAN VISITOR QR
     #
     # Legacy endpoint retained for compatibility.
-    # The Security portal should use:
-    # /api/security/gates/visitor-scan/
     # ========================================================
 
     @action(
@@ -576,7 +700,8 @@ class VisitorVisitViewSet(
             request.data.get(
                 "qr_value"
             )
-            or request.data.get(
+            or
+            request.data.get(
                 "invitation_code"
             )
         )
@@ -587,6 +712,10 @@ class VisitorVisitViewSet(
             )
         )
 
+
+        # ====================================================
+        # QR VALUE
+        # ====================================================
 
         if not qr_value:
 
@@ -599,9 +728,9 @@ class VisitorVisitViewSet(
             )
 
 
-        # ----------------------------------------------------
+        # ====================================================
         # FIND INVITATION
-        # ----------------------------------------------------
+        # ====================================================
 
         try:
 
@@ -630,20 +759,18 @@ class VisitorVisitViewSet(
             )
 
 
-        # ----------------------------------------------------
+        # ====================================================
         # AUTOMATIC EXPIRATION
-        # ----------------------------------------------------
+        # ====================================================
 
         invitation.expire_if_needed()
 
-
-        # Re-check after expiration.
         invitation.refresh_from_db()
 
 
-        # ----------------------------------------------------
-        # STATUS
-        # ----------------------------------------------------
+        # ====================================================
+        # INVITATION STATUS
+        # ====================================================
 
         if invitation.status == (
             VisitorInvitation.Status.CANCELLED
@@ -690,9 +817,9 @@ class VisitorVisitViewSet(
             )
 
 
-        # ----------------------------------------------------
+        # ====================================================
         # DATE
-        # ----------------------------------------------------
+        # ====================================================
 
         if (
             invitation.visit_date
@@ -710,9 +837,9 @@ class VisitorVisitViewSet(
             )
 
 
-        # ----------------------------------------------------
+        # ====================================================
         # TIME WINDOW
-        # ----------------------------------------------------
+        # ====================================================
 
         current_time = (
             timezone.localtime().time()
@@ -751,6 +878,10 @@ class VisitorVisitViewSet(
                 ]
             )
 
+            # IMPORTANT:
+            # Do not create a VISITOR ENTERED notification here.
+            # No gate visit has been created.
+
             return Response(
                 {
                     "allowed": False,
@@ -762,9 +893,9 @@ class VisitorVisitViewSet(
             )
 
 
-        # ----------------------------------------------------
+        # ====================================================
         # GATE
-        # ----------------------------------------------------
+        # ====================================================
 
         from security.models import Gate
 
@@ -820,9 +951,9 @@ class VisitorVisitViewSet(
             )
 
 
-        # ----------------------------------------------------
+        # ====================================================
         # CREATE VISIT
-        # ----------------------------------------------------
+        # ====================================================
 
         with transaction.atomic():
 
@@ -900,9 +1031,95 @@ class VisitorVisitViewSet(
             )
 
 
-        # ----------------------------------------------------
+            # =================================================
+            # VISITOR ENTERED NOTIFICATION
+            #
+            # This belongs here because the visit now exists.
+            # =================================================
+
+            resident = (
+                invitation.host
+            )
+
+            resident_user = (
+                resident.user
+            )
+
+
+            action_url = (
+                self._resident_visitors_url(
+                    resident
+                )
+            )
+
+
+            def notify_entry():
+
+                NotificationService.security(
+
+                    recipient=resident_user,
+
+                    actor=request.user,
+
+                    title=(
+                        "Visitor Entered Community"
+                    ),
+
+                    message=(
+                        f"{invitation.visitor_name} "
+                        f"has entered the community "
+                        f"through {gate.name}."
+                    ),
+
+                    action_url=(
+                        action_url
+                    ),
+
+                    metadata={
+
+                        "event":
+                            "VISITOR_ENTERED",
+
+                        "type":
+                            "visitor_gate_entry",
+
+                        "visit_id":
+                            visit.id,
+
+                        "invitation_id":
+                            invitation.id,
+
+                        "visitor_name":
+                            invitation.visitor_name,
+
+                        "gate_id":
+                            gate.id,
+
+                        "gate_name":
+                            gate.name,
+
+                        "time_in":
+                            (
+                                visit.time_in.isoformat()
+                                if visit.time_in
+                                else None
+                            ),
+                    },
+
+                    priority=(
+                        Notification.Priority.INFO
+                    ),
+                )
+
+
+            transaction.on_commit(
+                notify_entry
+            )
+
+
+        # ====================================================
         # RESPONSE
-        # ----------------------------------------------------
+        # ====================================================
 
         return Response(
             {
@@ -934,12 +1151,20 @@ class VisitorVisitViewSet(
 
                 "invitation":
                     VisitorInvitationSerializer(
-                        invitation
+                        invitation,
+                        context={
+                            "request":
+                                request,
+                        },
                     ).data,
 
                 "visit":
                     VisitorVisitSerializer(
-                        visit
+                        visit,
+                        context={
+                            "request":
+                                request,
+                        },
                     ).data,
             },
             status=status.HTTP_201_CREATED,
@@ -968,6 +1193,8 @@ class VisitorVisitViewSet(
                 .select_for_update()
                 .select_related(
                     "invitation",
+                    "invitation__host",
+                    "invitation__host__user",
                     "gate",
                 )
                 .filter(
@@ -1018,6 +1245,104 @@ class VisitorVisitViewSet(
             )
 
 
+            invitation = (
+                visit.invitation
+            )
+
+            resident = (
+                invitation.host
+            )
+
+            resident_user = (
+                resident.user
+            )
+
+
+            action_url = (
+                self._resident_visitors_url(
+                    resident
+                )
+            )
+
+
+            # =================================================
+            # VISITOR CHECKED OUT NOTIFICATION
+            # =================================================
+
+            def notify_checkout():
+
+                NotificationService.security(
+
+                    recipient=resident_user,
+
+                    actor=request.user,
+
+                    title=(
+                        "Visitor Checked Out"
+                    ),
+
+                    message=(
+                        f"{invitation.visitor_name} "
+                        f"has left the community."
+                    ),
+
+                    action_url=(
+                        action_url
+                    ),
+
+                    metadata={
+
+                        "event":
+                            "VISITOR_CHECKED_OUT",
+
+                        "type":
+                            "visitor_gate_exit",
+
+                        "visit_id":
+                            visit.id,
+
+                        "invitation_id":
+                            invitation.id,
+
+                        "visitor_name":
+                            invitation.visitor_name,
+
+                        "gate_id":
+                            visit.gate_id,
+
+                        "gate_name":
+                            (
+                                visit.gate.name
+                                if visit.gate
+                                else None
+                            ),
+
+                        "time_in":
+                            (
+                                visit.time_in.isoformat()
+                                if visit.time_in
+                                else None
+                            ),
+
+                        "time_out":
+                            (
+                                visit.time_out.isoformat()
+                                if visit.time_out
+                                else None
+                            ),
+                    },
+
+                    priority=(
+                        Notification.Priority.SUCCESS
+                    ),
+                )
+
+
+            transaction.on_commit(
+                notify_checkout
+            )
+
+
         return Response(
             {
                 "message":
@@ -1029,15 +1354,21 @@ class VisitorVisitViewSet(
                     ).data,
             }
         )
-    
-    
+
+
+    # ========================================================
+    # COMPLETED TODAY
+    # ========================================================
 
     @action(
         detail=False,
         methods=["get"],
         url_path="completed-today",
     )
-    def completed_today(self, request):
+    def completed_today(
+        self,
+        request,
+    ):
         """
         Return visitor visits completed today.
         Existing completed/ endpoint remains unchanged.
@@ -1045,9 +1376,14 @@ class VisitorVisitViewSet(
 
         today = timezone.localdate()
 
-        queryset = self.get_queryset().filter(
-            status=VisitorVisit.Status.COMPLETED,
-            time_out__date=today,
+        queryset = (
+            self.get_queryset()
+            .filter(
+                status=(
+                    VisitorVisit.Status.COMPLETED
+                ),
+                time_out__date=today,
+            )
         )
 
         serializer = self.get_serializer(

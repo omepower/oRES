@@ -1,3 +1,5 @@
+from notifications.models import Notification
+from django.contrib.auth import get_user_model
 from django.db import transaction
 from django.utils import timezone
 
@@ -21,6 +23,13 @@ from .serializers import (
     VehicleSerializer,
     MotoristStickerSerializer,
 )
+
+from notifications.services import (
+    NotificationService,
+)
+
+User = get_user_model()
+
 
 
 class VehicleViewSet(
@@ -75,6 +84,122 @@ class VehicleViewSet(
     ordering = [
         "plate_number",
     ]
+    
+    # ========================================================
+    # CREATE VEHICLE
+    #
+    # Resident vehicle registration
+    # → Admin notification
+    # ========================================================
+
+    def perform_create(
+        self,
+        serializer,
+    ):
+
+        vehicle = (
+            serializer.save()
+        )
+
+        actor = (
+            self.request.user
+        )
+
+
+        # ----------------------------------------------------
+        # Only resident-created vehicles generate an
+        # administrator notification.
+        # ----------------------------------------------------
+
+        if actor.role == actor.Roles.ADMIN:
+
+            return
+
+
+        resident = (
+            vehicle.registered_resident
+        )
+
+
+        resident_name = (
+            resident.full_name
+            if resident
+            else "A resident"
+        )
+
+
+        vehicle_name = (
+            f"{vehicle.color} "
+            f"{vehicle.make} "
+            f"{vehicle.model}"
+        ).strip()
+
+
+        def notify():
+
+            admin_users = (
+                User.objects
+                .filter(
+                    role=User.Roles.ADMIN,
+                    is_active=True,
+                )
+            )
+
+
+            for admin_user in admin_users:
+
+                NotificationService.vehicle(
+
+                    recipient=admin_user,
+
+                    actor=actor,
+
+                    title=(
+                        "New Vehicle Registration"
+                    ),
+
+                    message=(
+                        f"{resident_name} registered "
+                        f"{vehicle_name} "
+                        f"({vehicle.plate_number})."
+                    ),
+
+                    action_url=(
+                        "/admin/vehicles"
+                    ),
+
+                    metadata={
+
+                        "event":
+                            "VEHICLE_REGISTERED",
+
+                        "vehicle_id":
+                            vehicle.id,
+
+                        "vehicle_uuid":
+                            str(
+                                vehicle.vehicle_uuid
+                            ),
+
+                        "plate_number":
+                            vehicle.plate_number,
+
+                        "registered_resident":
+                            vehicle.registered_resident_id,
+
+                        "property_id":
+                            vehicle.property_id,
+                    },
+
+                    priority=(
+                        Notification.Priority.INFO
+                    ),
+                )
+
+
+        transaction.on_commit(
+            notify
+        )
 
     def get_queryset(
         self
@@ -144,7 +269,14 @@ class VehicleViewSet(
         return Response(
             serializer.data
         )
+    
+    
 
+
+
+# ============================================================
+# MOTORIST STICKERS
+# ============================================================
 
 class MotoristStickerViewSet(
     ModelViewSet
@@ -199,21 +331,184 @@ class MotoristStickerViewSet(
         "-created_at",
     ]
 
+
+    # ========================================================
+    # HELPERS
+    # ========================================================
+
+    def _resident_sticker_url(
+        self,
+        resident_user,
+    ):
+
+        role = str(
+            getattr(
+                resident_user,
+                "role",
+                "",
+            )
+        ).upper()
+
+        if role == "TENANT":
+
+            return "/tenant/stickers"
+
+        return "/homeowner/stickers"
+
+
+    def _notify_admins_sticker_request(
+        self,
+        sticker,
+        actor,
+    ):
+
+        admin_users = (
+            User.objects
+            .filter(
+                role=User.Roles.ADMIN,
+                is_active=True,
+            )
+        )
+
+        vehicle = (
+            sticker.vehicle
+        )
+
+        resident = (
+            sticker.resident
+        )
+
+        resident_name = (
+            resident.full_name
+            if resident
+            else "A resident"
+        )
+
+        vehicle_description = (
+            f"{vehicle.plate_number}"
+            if vehicle
+            else "vehicle"
+        )
+
+        for admin_user in admin_users:
+
+            NotificationService.sticker(
+
+                recipient=admin_user,
+
+                actor=actor,
+
+                title=(
+                    "New Motorist Sticker Request"
+                ),
+
+                message=(
+                    f"{resident_name} submitted "
+                    f"a motorist sticker request "
+                    f"for {vehicle_description}."
+                ),
+
+                action_url="/admin/stickers",
+
+                metadata={
+
+                    "event":
+                        "STICKER_REQUESTED",
+
+                    "sticker_id":
+                        sticker.id,
+
+                    "sticker_number":
+                        sticker.sticker_number,
+
+                    "vehicle_id":
+                        sticker.vehicle_id,
+
+                    "plate_number":
+                        vehicle.plate_number
+                        if vehicle
+                        else "",
+
+                    "resident_id":
+                        resident.id
+                        if resident
+                        else None,
+
+                    "property_id":
+                        sticker.property_id,
+
+                },
+
+                priority=(
+                    NotificationService
+                    .create.__func__.__defaults__[1]
+                    if False
+                    else Notification.Priority.INFO
+                ),
+            )
+
+
+    # ========================================================
+    # QUERYSET
+    # ========================================================
+
     def get_queryset(
         self
     ):
 
-        queryset = super().get_queryset()
+        queryset = (
+            super().get_queryset()
+        )
 
-        user = self.request.user
+        user = (
+            self.request.user
+        )
 
-        if user.role == user.Roles.ADMIN:
+        if (
+            user.role ==
+            user.Roles.ADMIN
+        ):
 
             return queryset
 
         return queryset.filter(
             resident__user=user
         )
+
+
+    # ========================================================
+    # CREATE
+    # Sticker request
+    # ========================================================
+
+    def perform_create(
+        self,
+        serializer,
+    ):
+
+        sticker = (
+            serializer.save()
+        )
+
+        actor = (
+            self.request.user
+        )
+
+        def notify():
+
+            self._notify_admins_sticker_request(
+                sticker,
+                actor,
+            )
+
+        transaction.on_commit(
+            notify
+        )
+
+
+    # ========================================================
+    # MINE
+    # ========================================================
 
     @action(
         detail=False,
@@ -240,6 +535,11 @@ class MotoristStickerViewSet(
         return Response(
             serializer.data
         )
+
+
+    # ========================================================
+    # PENDING
+    # ========================================================
 
     @action(
         detail=False,
@@ -279,6 +579,11 @@ class MotoristStickerViewSet(
             serializer.data
         )
 
+
+    # ========================================================
+    # ACTIVE
+    # ========================================================
+
     @action(
         detail=False,
         methods=["get"],
@@ -306,6 +611,11 @@ class MotoristStickerViewSet(
         return Response(
             serializer.data
         )
+
+
+    # ========================================================
+    # AVAILABLE SLOTS
+    # ========================================================
 
     @action(
         detail=False,
@@ -359,6 +669,12 @@ class MotoristStickerViewSet(
             }
         )
 
+
+    # ========================================================
+    # APPROVE
+    # Sticker approved → Resident notification
+    # ========================================================
+
     @action(
         detail=True,
         methods=["post"],
@@ -374,7 +690,9 @@ class MotoristStickerViewSet(
         pk=None,
     ):
 
-        sticker = self.get_object()
+        sticker = (
+            self.get_object()
+        )
 
         if sticker.status != (
             MotoristSticker.Status.PENDING
@@ -390,6 +708,7 @@ class MotoristStickerViewSet(
                 ),
             )
 
+
         with transaction.atomic():
 
             sticker = (
@@ -399,11 +718,13 @@ class MotoristStickerViewSet(
                     "property",
                     "vehicle",
                     "resident",
+                    "resident__user",
                 )
                 .get(
                     pk=sticker.pk
                 )
             )
+
 
             active_count = (
                 MotoristSticker.objects
@@ -420,6 +741,7 @@ class MotoristStickerViewSet(
                 .count()
             )
 
+
             if active_count >= 3:
 
                 return Response(
@@ -431,6 +753,7 @@ class MotoristStickerViewSet(
                         status.HTTP_400_BAD_REQUEST
                     ),
                 )
+
 
             sticker.status = (
                 MotoristSticker.Status.ACTIVE
@@ -446,6 +769,69 @@ class MotoristStickerViewSet(
 
             sticker.save()
 
+
+            resident_user = (
+                sticker.resident.user
+            )
+
+
+            def notify():
+
+                NotificationService.sticker(
+
+                    recipient=resident_user,
+
+                    actor=request.user,
+
+                    title=(
+                        "Motorist Sticker Approved"
+                    ),
+
+                    message=(
+                        f"Your motorist sticker "
+                        f"{sticker.sticker_number} "
+                        f"has been approved."
+                    ),
+
+                    action_url=(
+                        self._resident_sticker_url(
+                            resident_user
+                        )
+                    ),
+
+                    metadata={
+
+                        "event":
+                            "STICKER_APPROVED",
+
+                        "sticker_id":
+                            sticker.id,
+
+                        "sticker_number":
+                            sticker.sticker_number,
+
+                        "vehicle_id":
+                            sticker.vehicle_id,
+
+                        "plate_number":
+                            sticker.vehicle.plate_number,
+
+                        "property_id":
+                            sticker.property_id,
+
+                    },
+
+                    priority=(
+                        Notification.Priority.SUCCESS
+                    ),
+                )
+
+
+            transaction.on_commit(
+                notify
+            )
+
+
         serializer = self.get_serializer(
             sticker
         )
@@ -453,6 +839,12 @@ class MotoristStickerViewSet(
         return Response(
             serializer.data
         )
+
+
+    # ========================================================
+    # REVOKE
+    # Sticker revoked → Resident notification
+    # ========================================================
 
     @action(
         detail=True,
@@ -469,7 +861,9 @@ class MotoristStickerViewSet(
         pk=None,
     ):
 
-        sticker = self.get_object()
+        sticker = (
+            self.get_object()
+        )
 
         if sticker.status != (
             MotoristSticker.Status.ACTIVE
@@ -485,15 +879,96 @@ class MotoristStickerViewSet(
                 ),
             )
 
-        sticker.status = (
-            MotoristSticker.Status.REVOKED
-        )
 
-        sticker.revoked_at = (
-            timezone.now()
-        )
+        with transaction.atomic():
 
-        sticker.save()
+            sticker = (
+                MotoristSticker.objects
+                .select_for_update()
+                .select_related(
+                    "property",
+                    "vehicle",
+                    "resident",
+                    "resident__user",
+                )
+                .get(
+                    pk=sticker.pk
+                )
+            )
+
+
+            sticker.status = (
+                MotoristSticker.Status.REVOKED
+            )
+
+            sticker.revoked_at = (
+                timezone.now()
+            )
+
+            sticker.save()
+
+
+            resident_user = (
+                sticker.resident.user
+            )
+
+
+            def notify():
+
+                NotificationService.sticker(
+
+                    recipient=resident_user,
+
+                    actor=request.user,
+
+                    title=(
+                        "Motorist Sticker Revoked"
+                    ),
+
+                    message=(
+                        f"Your motorist sticker "
+                        f"{sticker.sticker_number} "
+                        f"has been revoked."
+                    ),
+
+                    action_url=(
+                        self._resident_sticker_url(
+                            resident_user
+                        )
+                    ),
+
+                    metadata={
+
+                        "event":
+                            "STICKER_REVOKED",
+
+                        "sticker_id":
+                            sticker.id,
+
+                        "sticker_number":
+                            sticker.sticker_number,
+
+                        "vehicle_id":
+                            sticker.vehicle_id,
+
+                        "plate_number":
+                            sticker.vehicle.plate_number,
+
+                        "property_id":
+                            sticker.property_id,
+
+                    },
+
+                    priority=(
+                        Notification.Priority.WARNING
+                    ),
+                )
+
+
+            transaction.on_commit(
+                notify
+            )
+
 
         serializer = self.get_serializer(
             sticker
@@ -502,6 +977,12 @@ class MotoristStickerViewSet(
         return Response(
             serializer.data
         )
+
+
+    # ========================================================
+    # EXPIRE
+    # Sticker expired → Resident notification
+    # ========================================================
 
     @action(
         detail=True,
@@ -518,7 +999,9 @@ class MotoristStickerViewSet(
         pk=None,
     ):
 
-        sticker = self.get_object()
+        sticker = (
+            self.get_object()
+        )
 
         if sticker.status != (
             MotoristSticker.Status.ACTIVE
@@ -534,11 +1017,92 @@ class MotoristStickerViewSet(
                 ),
             )
 
-        sticker.status = (
-            MotoristSticker.Status.EXPIRED
-        )
 
-        sticker.save()
+        with transaction.atomic():
+
+            sticker = (
+                MotoristSticker.objects
+                .select_for_update()
+                .select_related(
+                    "property",
+                    "vehicle",
+                    "resident",
+                    "resident__user",
+                )
+                .get(
+                    pk=sticker.pk
+                )
+            )
+
+
+            sticker.status = (
+                MotoristSticker.Status.EXPIRED
+            )
+
+            sticker.save()
+
+
+            resident_user = (
+                sticker.resident.user
+            )
+
+
+            def notify():
+
+                NotificationService.sticker(
+
+                    recipient=resident_user,
+
+                    actor=request.user,
+
+                    title=(
+                        "Motorist Sticker Expired"
+                    ),
+
+                    message=(
+                        f"Your motorist sticker "
+                        f"{sticker.sticker_number} "
+                        f"has expired."
+                    ),
+
+                    action_url=(
+                        self._resident_sticker_url(
+                            resident_user
+                        )
+                    ),
+
+                    metadata={
+
+                        "event":
+                            "STICKER_EXPIRED",
+
+                        "sticker_id":
+                            sticker.id,
+
+                        "sticker_number":
+                            sticker.sticker_number,
+
+                        "vehicle_id":
+                            sticker.vehicle_id,
+
+                        "plate_number":
+                            sticker.vehicle.plate_number,
+
+                        "property_id":
+                            sticker.property_id,
+
+                    },
+
+                    priority=(
+                        Notification.Priority.WARNING
+                    ),
+                )
+
+
+            transaction.on_commit(
+                notify
+            )
+
 
         serializer = self.get_serializer(
             sticker

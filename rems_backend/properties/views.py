@@ -1,5 +1,5 @@
+from django.db import transaction
 from django.db.models import Prefetch, Q
-
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
@@ -9,6 +9,12 @@ from rest_framework.viewsets import ModelViewSet
 from accounts.permissions import (
     IsAdmin,
     IsAdminOrResident,
+)
+
+from notifications.models import Notification
+
+from notifications.services import (
+    NotificationService,
 )
 
 from .models import (
@@ -22,6 +28,8 @@ from .serializers import (
     PropertyOwnershipSerializer,
     PropertyOccupancySerializer,
 )
+
+
 
 
 class PropertyViewSet(
@@ -423,6 +431,191 @@ class PropertyOwnershipViewSet(
         return Response(
             serializer.data
         )
+    
+    # ========================================================
+    # HOMEOWNER PORTAL URL
+    # ========================================================
+
+    def _homeowner_property_url(
+        self,
+    ):
+
+        return "/homeowner/properties"
+    
+    # ========================================================
+    # CREATE OWNERSHIP
+    #
+    # Property assigned to homeowner
+    # → Homeowner notification
+    # ========================================================
+
+    def perform_create(
+        self,
+        serializer,
+    ):
+
+        ownership = (
+            serializer.save()
+        )
+
+        homeowner = (
+            ownership.homeowner
+        )
+
+        property_obj = (
+            ownership.property
+        )
+
+
+        if not homeowner:
+            return
+
+
+        def notify():
+
+            NotificationService.property(
+
+                recipient=homeowner,
+
+                actor=self.request.user,
+
+                title=(
+                    "Property Ownership Assigned"
+                ),
+
+                message=(
+                    f"You have been assigned ownership "
+                    f"of {property_obj.address}."
+                ),
+
+                action_url=(
+                    self._homeowner_property_url()
+                ),
+
+                metadata={
+
+                    "event":
+                        "PROPERTY_OWNERSHIP_ASSIGNED",
+
+                    "ownership_id":
+                        ownership.id,
+
+                    "property_id":
+                        property_obj.id,
+
+                    "property_address":
+                        property_obj.address,
+
+                    "homeowner_id":
+                        homeowner.id,
+                },
+
+                priority=(
+                    Notification.Priority.SUCCESS
+                ),
+            )
+
+
+        transaction.on_commit(
+            notify
+        )
+    
+    # ========================================================
+    # UPDATE OWNERSHIP
+    #
+    # Active ownership → inactive
+    # → Homeowner notification
+    # ========================================================
+
+    def perform_update(
+        self,
+        serializer,
+    ):
+
+        previous_instance = (
+            self.get_object()
+        )
+
+        was_active = (
+            previous_instance.is_active
+        )
+
+        ownership = (
+            serializer.save()
+        )
+
+        became_inactive = (
+            was_active
+            and not ownership.is_active
+        )
+
+
+        if not became_inactive:
+            return
+
+
+        homeowner = (
+            ownership.homeowner
+        )
+
+        property_obj = (
+            ownership.property
+        )
+
+
+        if not homeowner:
+            return
+
+
+        def notify():
+
+            NotificationService.property(
+
+                recipient=homeowner,
+
+                actor=self.request.user,
+
+                title=(
+                    "Property Ownership Ended"
+                ),
+
+                message=(
+                    f"Your ownership of "
+                    f"{property_obj.address} "
+                    f"has ended."
+                ),
+
+                action_url=(
+                    self._homeowner_property_url()
+                ),
+
+                metadata={
+
+                    "event":
+                        "PROPERTY_OWNERSHIP_ENDED",
+
+                    "ownership_id":
+                        ownership.id,
+
+                    "property_id":
+                        property_obj.id,
+
+                    "property_address":
+                        property_obj.address,
+
+                    "homeowner_id":
+                        homeowner.id,
+                },
+
+                priority=(
+                    Notification.Priority.WARNING
+                ),
+            )
+
+
+        transaction.on_commit(
+            notify
+        )
 
 
 class PropertyOccupancyViewSet(
@@ -492,4 +685,218 @@ class PropertyOccupancyViewSet(
 
         return Response(
             serializer.data
+        )
+    
+    # ========================================================
+    # RESIDENT PORTAL URL
+    # ========================================================
+
+    def _resident_property_url(
+        self,
+        resident,
+    ):
+
+        role = str(
+            getattr(
+                resident.user,
+                "role",
+                "",
+            )
+        ).strip().upper()
+
+
+        if role == "TENANT":
+
+            return "/tenant/property"
+
+
+        return "/homeowner/properties"
+    
+    # ========================================================
+    # CREATE OCCUPANCY
+    #
+    # Resident assigned to property
+    # → Resident notification
+    # ========================================================
+
+    def perform_create(
+        self,
+        serializer,
+    ):
+
+        occupancy = (
+            serializer.save()
+        )
+
+        resident = (
+            occupancy.resident
+        )
+
+        property_obj = (
+            occupancy.property
+        )
+
+
+        if not resident:
+            return
+
+
+        resident_user = (
+            resident.user
+        )
+
+
+        def notify():
+
+            NotificationService.property(
+
+                recipient=resident_user,
+
+                actor=self.request.user,
+
+                title=(
+                    "Residence Assignment Updated"
+                ),
+
+                message=(
+                    f"You have been assigned to "
+                    f"{property_obj.address}."
+                ),
+
+                action_url=(
+                    self._resident_property_url(
+                        resident
+                    )
+                ),
+
+                metadata={
+
+                    "event":
+                        "PROPERTY_OCCUPANCY_ASSIGNED",
+
+                    "occupancy_id":
+                        occupancy.id,
+
+                    "property_id":
+                        property_obj.id,
+
+                    "property_address":
+                        property_obj.address,
+
+                    "resident_id":
+                        resident.id,
+                },
+
+                priority=(
+                    Notification.Priority.SUCCESS
+                ),
+            )
+
+
+        transaction.on_commit(
+            notify
+        )
+    
+    # ========================================================
+    # UPDATE OCCUPANCY
+    #
+    # Active occupancy → inactive
+    # → Resident notification
+    # ========================================================
+
+    def perform_update(
+        self,
+        serializer,
+    ):
+
+        previous_instance = (
+            self.get_object()
+        )
+
+        was_active = (
+            previous_instance.is_active
+        )
+
+        occupancy = (
+            serializer.save()
+        )
+
+        became_inactive = (
+            was_active
+            and not occupancy.is_active
+        )
+
+
+        if not became_inactive:
+            return
+
+
+        resident = (
+            occupancy.resident
+        )
+
+        property_obj = (
+            occupancy.property
+        )
+
+
+        if not resident:
+            return
+
+
+        resident_user = (
+            resident.user
+        )
+
+
+        def notify():
+
+            NotificationService.property(
+
+                recipient=resident_user,
+
+                actor=self.request.user,
+
+                title=(
+                    "Residence Assignment Ended"
+                ),
+
+                message=(
+                    f"Your occupancy of "
+                    f"{property_obj.address} "
+                    f"has ended."
+                ),
+
+                action_url=(
+                    self._resident_property_url(
+                        resident
+                    )
+                ),
+
+                metadata={
+
+                    "event":
+                        "PROPERTY_OCCUPANCY_ENDED",
+
+                    "occupancy_id":
+                        occupancy.id,
+
+                    "property_id":
+                        property_obj.id,
+
+                    "property_address":
+                        property_obj.address,
+
+                    "resident_id":
+                        resident.id,
+                },
+
+                priority=(
+                    Notification.Priority.WARNING
+                ),
+            )
+
+
+        transaction.on_commit(
+            notify
         )

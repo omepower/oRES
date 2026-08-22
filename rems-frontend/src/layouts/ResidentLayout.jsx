@@ -18,6 +18,9 @@ import ProfileModal
 import ChangePasswordModal
     from "../components/account/ChangePasswordModal";
 
+import NotificationBell
+    from "../components/notifications/NotificationBell";
+
 
 export default function ResidentLayout() {
 
@@ -613,6 +616,8 @@ export default function ResidentLayout() {
                     ================================================= */}
 
                     <div className="rems-topbar-right">
+
+                        <NotificationBell />
 
                         <div className="rems-topbar-divider" />
 

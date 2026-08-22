@@ -1,4 +1,3 @@
-
 import {
     Navigate,
     Route,
@@ -109,6 +108,15 @@ import GateHistory
 
 
 // ============================================================
+// NOTIFICATION CENTER
+// Shared page, rendered inside the active portal layout.
+// ============================================================
+
+import NotificationCenter
+    from "../pages/notifications/NotificationCenter";
+
+
+// ============================================================
 // APP ROUTES
 // ============================================================
 
@@ -160,7 +168,10 @@ export default function AppRoutes() {
                     }
                 >
 
-                    {/* ADMIN DASHBOARD */}
+
+                    {/* =================================================
+                        DASHBOARD
+                    ================================================= */}
 
                     <Route
                         index
@@ -170,7 +181,9 @@ export default function AppRoutes() {
                     />
 
 
-                    {/* VISITORS */}
+                    {/* =================================================
+                        VISITORS
+                    ================================================= */}
 
                     <Route
                         path="visitors"
@@ -180,7 +193,9 @@ export default function AppRoutes() {
                     />
 
 
-                    {/* RESIDENTS */}
+                    {/* =================================================
+                        RESIDENTS
+                    ================================================= */}
 
                     <Route
                         path="residents"
@@ -190,7 +205,9 @@ export default function AppRoutes() {
                     />
 
 
-                    {/* PROPERTIES */}
+                    {/* =================================================
+                        PROPERTIES
+                    ================================================= */}
 
                     <Route
                         path="properties"
@@ -200,7 +217,9 @@ export default function AppRoutes() {
                     />
 
 
-                    {/* VEHICLES */}
+                    {/* =================================================
+                        VEHICLES
+                    ================================================= */}
 
                     <Route
                         path="vehicles"
@@ -210,7 +229,9 @@ export default function AppRoutes() {
                     />
 
 
-                    {/* MOTORIST STICKERS */}
+                    {/* =================================================
+                        MOTORIST STICKERS
+                    ================================================= */}
 
                     <Route
                         path="stickers"
@@ -220,7 +241,9 @@ export default function AppRoutes() {
                     />
 
 
-                    {/* GATES */}
+                    {/* =================================================
+                        GATES
+                    ================================================= */}
 
                     <Route
                         path="gates"
@@ -230,12 +253,26 @@ export default function AppRoutes() {
                     />
 
 
-                    {/* OCCUPANCY */}
+                    {/* =================================================
+                        OCCUPANCY
+                    ================================================= */}
 
                     <Route
                         path="occupancy"
                         element={
                             <Occupancy />
+                        }
+                    />
+
+
+                    {/* =================================================
+                        NOTIFICATION CENTER
+                    ================================================= */}
+
+                    <Route
+                        path="notifications"
+                        element={
+                            <NotificationCenter />
                         }
                     />
 
@@ -246,7 +283,6 @@ export default function AppRoutes() {
 
             {/* ==================================================
                 HOMEOWNER PORTAL
-                ResidentDashboard serves this route directly.
             ================================================== */}
 
             <Route
@@ -266,7 +302,10 @@ export default function AppRoutes() {
                     }
                 >
 
-                    {/* SHARED RESIDENT DASHBOARD */}
+
+                    {/* =================================================
+                        DASHBOARD
+                    ================================================= */}
 
                     <Route
                         index
@@ -276,7 +315,9 @@ export default function AppRoutes() {
                     />
 
 
-                    {/* VISITORS */}
+                    {/* =================================================
+                        VISITORS
+                    ================================================= */}
 
                     <Route
                         path="visitors"
@@ -286,7 +327,9 @@ export default function AppRoutes() {
                     />
 
 
-                    {/* VEHICLES */}
+                    {/* =================================================
+                        VEHICLES
+                    ================================================= */}
 
                     <Route
                         path="vehicles"
@@ -296,7 +339,9 @@ export default function AppRoutes() {
                     />
 
 
-                    {/* STICKERS */}
+                    {/* =================================================
+                        STICKERS
+                    ================================================= */}
 
                     <Route
                         path="stickers"
@@ -306,7 +351,9 @@ export default function AppRoutes() {
                     />
 
 
-                    {/* PROPERTIES */}
+                    {/* =================================================
+                        PROPERTIES
+                    ================================================= */}
 
                     <Route
                         path="properties"
@@ -316,12 +363,26 @@ export default function AppRoutes() {
                     />
 
 
-                    {/* HOMEOWNER OCCUPANCY */}
+                    {/* =================================================
+                        OCCUPANCY
+                    ================================================= */}
 
                     <Route
                         path="occupancy"
                         element={
                             <HomeownerOccupancy />
+                        }
+                    />
+
+
+                    {/* =================================================
+                        NOTIFICATION CENTER
+                    ================================================= */}
+
+                    <Route
+                        path="notifications"
+                        element={
+                            <NotificationCenter />
                         }
                     />
 
@@ -332,7 +393,6 @@ export default function AppRoutes() {
 
             {/* ==================================================
                 TENANT PORTAL
-                ResidentDashboard serves this route directly.
             ================================================== */}
 
             <Route
@@ -352,7 +412,10 @@ export default function AppRoutes() {
                     }
                 >
 
-                    {/* SHARED RESIDENT DASHBOARD */}
+
+                    {/* =================================================
+                        DASHBOARD
+                    ================================================= */}
 
                     <Route
                         index
@@ -362,7 +425,9 @@ export default function AppRoutes() {
                     />
 
 
-                    {/* VISITORS */}
+                    {/* =================================================
+                        VISITORS
+                    ================================================= */}
 
                     <Route
                         path="visitors"
@@ -372,7 +437,9 @@ export default function AppRoutes() {
                     />
 
 
-                    {/* VEHICLES */}
+                    {/* =================================================
+                        VEHICLES
+                    ================================================= */}
 
                     <Route
                         path="vehicles"
@@ -382,7 +449,9 @@ export default function AppRoutes() {
                     />
 
 
-                    {/* STICKERS */}
+                    {/* =================================================
+                        STICKERS
+                    ================================================= */}
 
                     <Route
                         path="stickers"
@@ -392,12 +461,26 @@ export default function AppRoutes() {
                     />
 
 
-                    {/* PROPERTY */}
+                    {/* =================================================
+                        PROPERTY
+                    ================================================= */}
 
                     <Route
                         path="property"
                         element={
                             <ResidentProperties />
+                        }
+                    />
+
+
+                    {/* =================================================
+                        NOTIFICATION CENTER
+                    ================================================= */}
+
+                    <Route
+                        path="notifications"
+                        element={
+                            <NotificationCenter />
                         }
                     />
 
@@ -429,7 +512,10 @@ export default function AppRoutes() {
                     }
                 >
 
-                    {/* SECURITY DASHBOARD */}
+
+                    {/* =================================================
+                        DASHBOARD
+                    ================================================= */}
 
                     <Route
                         index
@@ -439,7 +525,9 @@ export default function AppRoutes() {
                     />
 
 
-                    {/* QR SCANNER */}
+                    {/* =================================================
+                        QR SCANNER
+                    ================================================= */}
 
                     <Route
                         path="scan"
@@ -449,7 +537,9 @@ export default function AppRoutes() {
                     />
 
 
-                    {/* VISITORS INSIDE */}
+                    {/* =================================================
+                        VISITORS INSIDE
+                    ================================================= */}
 
                     <Route
                         path="inside"
@@ -459,12 +549,26 @@ export default function AppRoutes() {
                     />
 
 
-                    {/* GATE HISTORY */}
+                    {/* =================================================
+                        GATE HISTORY
+                    ================================================= */}
 
                     <Route
                         path="history"
                         element={
                             <GateHistory />
+                        }
+                    />
+
+
+                    {/* =================================================
+                        NOTIFICATION CENTER
+                    ================================================= */}
+
+                    <Route
+                        path="notifications"
+                        element={
+                            <NotificationCenter />
                         }
                     />
 
@@ -493,7 +597,6 @@ export default function AppRoutes() {
 
 }
 
-
 // import {
 //     Navigate,
 //     Route,
@@ -521,6 +624,9 @@ export default function AppRoutes() {
 
 // import ResidentLayout
 //     from "../layouts/ResidentLayout";
+
+// import SecurityLayout
+//     from "../layouts/SecurityLayout";
 
 
 // // ============================================================
@@ -561,11 +667,11 @@ export default function AppRoutes() {
 
 
 // // ============================================================
-// // HOMEOWNER PAGES
+// // SHARED RESIDENT PAGES
 // // ============================================================
 
-// import HomeownerDashboard
-//     from "../pages/resident/HomeownerDashboard";
+// import ResidentDashboard
+//     from "../pages/resident/ResidentDashboard";
 
 // import ResidentVisitors
 //     from "../pages/resident/ResidentVisitors";
@@ -581,18 +687,11 @@ export default function AppRoutes() {
 
 // import HomeownerOccupancy
 //     from "../pages/resident/HomeownerOccupancy";
-// // ============================================================
-// // TENANT PAGES
-// // ============================================================
 
-// import TenantDashboard
-//     from "../pages/resident/TenantDashboard";
 
 // // ============================================================
-// // SECURITY GUARD PAGES
+// // SECURITY PAGES
 // // ============================================================
-// import SecurityLayout
-//     from "../layouts/SecurityLayout";
 
 // import SecurityDashboard
 //     from "../pages/security/SecurityDashboard";
@@ -659,9 +758,7 @@ export default function AppRoutes() {
 //                     }
 //                 >
 
-//                     {/* ------------------------------------------
-//                         ADMIN DASHBOARD
-//                     ------------------------------------------ */}
+//                     {/* ADMIN DASHBOARD */}
 
 //                     <Route
 //                         index
@@ -671,9 +768,7 @@ export default function AppRoutes() {
 //                     />
 
 
-//                     {/* ------------------------------------------
-//                         VISITORS
-//                     ------------------------------------------ */}
+//                     {/* VISITORS */}
 
 //                     <Route
 //                         path="visitors"
@@ -683,9 +778,7 @@ export default function AppRoutes() {
 //                     />
 
 
-//                     {/* ------------------------------------------
-//                         RESIDENTS
-//                     ------------------------------------------ */}
+//                     {/* RESIDENTS */}
 
 //                     <Route
 //                         path="residents"
@@ -695,9 +788,7 @@ export default function AppRoutes() {
 //                     />
 
 
-//                     {/* ------------------------------------------
-//                         PROPERTIES
-//                     ------------------------------------------ */}
+//                     {/* PROPERTIES */}
 
 //                     <Route
 //                         path="properties"
@@ -707,9 +798,7 @@ export default function AppRoutes() {
 //                     />
 
 
-//                     {/* ------------------------------------------
-//                         VEHICLES
-//                     ------------------------------------------ */}
+//                     {/* VEHICLES */}
 
 //                     <Route
 //                         path="vehicles"
@@ -719,9 +808,7 @@ export default function AppRoutes() {
 //                     />
 
 
-//                     {/* ------------------------------------------
-//                         MOTORIST STICKERS
-//                     ------------------------------------------ */}
+//                     {/* MOTORIST STICKERS */}
 
 //                     <Route
 //                         path="stickers"
@@ -731,9 +818,7 @@ export default function AppRoutes() {
 //                     />
 
 
-//                     {/* ------------------------------------------
-//                         GATES
-//                     ------------------------------------------ */}
+//                     {/* GATES */}
 
 //                     <Route
 //                         path="gates"
@@ -743,9 +828,7 @@ export default function AppRoutes() {
 //                     />
 
 
-//                     {/* ------------------------------------------
-//                         OCCUPANCY
-//                     ------------------------------------------ */}
+//                     {/* OCCUPANCY */}
 
 //                     <Route
 //                         path="occupancy"
@@ -761,6 +844,7 @@ export default function AppRoutes() {
 
 //             {/* ==================================================
 //                 HOMEOWNER PORTAL
+//                 ResidentDashboard serves this route directly.
 //             ================================================== */}
 
 //             <Route
@@ -780,16 +864,17 @@ export default function AppRoutes() {
 //                     }
 //                 >
 
-//                     {/* ------------------------------------------
-//                         HOMEOWNER DASHBOARD
-//                     ------------------------------------------ */}
+//                     {/* SHARED RESIDENT DASHBOARD */}
 
 //                     <Route
 //                         index
 //                         element={
-//                             <HomeownerDashboard />
+//                             <ResidentDashboard />
 //                         }
 //                     />
+
+
+//                     {/* VISITORS */}
 
 //                     <Route
 //                         path="visitors"
@@ -798,12 +883,18 @@ export default function AppRoutes() {
 //                         }
 //                     />
 
+
+//                     {/* VEHICLES */}
+
 //                     <Route
 //                         path="vehicles"
 //                         element={
 //                             <ResidentVehicles />
 //                         }
 //                     />
+
+
+//                     {/* STICKERS */}
 
 //                     <Route
 //                         path="stickers"
@@ -812,12 +903,18 @@ export default function AppRoutes() {
 //                         }
 //                     />
 
+
+//                     {/* PROPERTIES */}
+
 //                     <Route
 //                         path="properties"
 //                         element={
 //                             <ResidentProperties />
 //                         }
 //                     />
+
+
+//                     {/* HOMEOWNER OCCUPANCY */}
 
 //                     <Route
 //                         path="occupancy"
@@ -833,6 +930,7 @@ export default function AppRoutes() {
 
 //             {/* ==================================================
 //                 TENANT PORTAL
+//                 ResidentDashboard serves this route directly.
 //             ================================================== */}
 
 //             <Route
@@ -852,16 +950,17 @@ export default function AppRoutes() {
 //                     }
 //                 >
 
-//                     {/* ------------------------------------------
-//                         TENANT DASHBOARD
-//                     ------------------------------------------ */}
+//                     {/* SHARED RESIDENT DASHBOARD */}
 
 //                     <Route
 //                         index
 //                         element={
-//                             <TenantDashboard />
+//                             <ResidentDashboard />
 //                         }
 //                     />
+
+
+//                     {/* VISITORS */}
 
 //                     <Route
 //                         path="visitors"
@@ -870,6 +969,9 @@ export default function AppRoutes() {
 //                         }
 //                     />
 
+
+//                     {/* VEHICLES */}
+
 //                     <Route
 //                         path="vehicles"
 //                         element={
@@ -877,12 +979,18 @@ export default function AppRoutes() {
 //                         }
 //                     />
 
+
+//                     {/* STICKERS */}
+
 //                     <Route
 //                         path="stickers"
 //                         element={
 //                             <ResidentStickers />
 //                         }
 //                     />
+
+
+//                     {/* PROPERTY */}
 
 //                     <Route
 //                         path="property"
@@ -895,8 +1003,9 @@ export default function AppRoutes() {
 
 //             </Route>
 
+
 //             {/* ==================================================
-//                 SECURITY GUARD PORTAL
+//                 SECURITY PORTAL
 //             ================================================== */}
 
 //             <Route
@@ -918,12 +1027,17 @@ export default function AppRoutes() {
 //                     }
 //                 >
 
+//                     {/* SECURITY DASHBOARD */}
+
 //                     <Route
 //                         index
 //                         element={
 //                             <SecurityDashboard />
 //                         }
 //                     />
+
+
+//                     {/* QR SCANNER */}
 
 //                     <Route
 //                         path="scan"
@@ -932,12 +1046,18 @@ export default function AppRoutes() {
 //                         }
 //                     />
 
+
+//                     {/* VISITORS INSIDE */}
+
 //                     <Route
 //                         path="inside"
 //                         element={
 //                             <VisitorsInside />
 //                         }
 //                     />
+
+
+//                     {/* GATE HISTORY */}
 
 //                     <Route
 //                         path="history"
@@ -970,3 +1090,4 @@ export default function AppRoutes() {
 //     );
 
 // }
+
