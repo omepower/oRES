@@ -22,7 +22,10 @@ import {
     BsShieldCheck,
     BsHouseDoor,
     BsExclamationCircle,
+    BsMegaphone,
 } from "react-icons/bs";
+
+
 
 import {
     getMyVehicles,
@@ -36,6 +39,10 @@ import {
 import {
     getMyVisitorInvitations,
 } from "../../api/visitors";
+
+import {
+    getAnnouncementFeed,
+} from "../../api/announcements";
 
 
 export default function ResidentDashboard() {
@@ -86,6 +93,11 @@ export default function ResidentDashboard() {
     const [
         visitors,
         setVisitors,
+    ] = useState([]);
+
+    const [
+        announcements,
+        setAnnouncements,
     ] = useState([]);
 
 
@@ -242,6 +254,7 @@ export default function ResidentDashboard() {
                         stickersResponse,
                         propertiesResponse,
                         visitorsResponse,
+                        announcementsResponse,
                     ] = await Promise.allSettled([
 
                         getMyVehicles(),
@@ -252,6 +265,8 @@ export default function ResidentDashboard() {
 
                         getMyVisitorInvitations(),
 
+                        getAnnouncementFeed(),
+
                     ]);
 
 
@@ -259,6 +274,7 @@ export default function ResidentDashboard() {
                     let stickerData = [];
                     let propertyData = [];
                     let visitorData = [];
+                    let announcementData = [];
 
 
                     if (
@@ -319,6 +335,18 @@ export default function ResidentDashboard() {
 
                     }
 
+                    if (
+                        announcementsResponse.status ===
+                        "fulfilled"
+                    ) {
+
+                        announcementData =
+                            normalize(
+                                announcementsResponse.value
+                            );
+
+                    }
+
 
                     setVehicles(
                         vehicleData
@@ -334,6 +362,10 @@ export default function ResidentDashboard() {
 
                     setVisitors(
                         visitorData
+                    );
+
+                    setAnnouncements(
+                        announcementData
                     );
 
                 } catch (err) {
@@ -367,100 +399,305 @@ export default function ResidentDashboard() {
     }, [
         loadDashboard,
     ]);
+    
 
+    {/* =================================================
+    COMMUNITY ANNOUNCEMENTS
+================================================= */}
+
+<div className="rems-glass-card mb-3">
+
+    <div className="rems-card-header">
+
+        <div>
+
+            <div className="rems-page-eyebrow">
+                COMMUNITY
+            </div>
+
+            <div className="rems-card-title">
+                Community Announcements
+            </div>
+
+            <div className="rems-card-subtitle">
+                Important notices and community updates.
+            </div>
+
+        </div>
+
+
+        <button
+            type="button"
+            className="btn btn-link p-0 text-decoration-none small"
+            onClick={() =>
+                navigate(
+                    `${portalPrefix}/announcements`
+                )
+            }
+        >
+
+            View all
+
+            <BsChevronRight className="ms-1" />
+
+        </button>
+
+    </div>
+
+
+    <div className="p-2 p-md-3">
+
+        {announcements.length === 0 ? (
+
+            <div className="rems-empty-state py-3">
+
+                <div className="rems-empty-icon">
+
+                    <BsMegaphone />
+
+                </div>
+
+                <div className="rems-empty-title">
+
+                    No announcements
+
+                </div>
+
+                <div className="rems-empty-text">
+
+                    Community notices will appear here.
+
+                </div>
+
+            </div>
+
+        ) : (
+
+            <div className="d-flex flex-column gap-2">
+
+                {announcements
+                    .slice(
+                        0,
+                        3
+                    )
+                    .map(
+                        (
+                            announcement
+                        ) => (
+
+                            <button
+                                key={
+                                    announcement.id
+                                }
+                                type="button"
+                                className="w-100 border-0 text-start rounded-3 p-3"
+                                style={{
+                                    background:
+                                        "rgba(15,23,42,.025)",
+                                    transition:
+                                        "background .22s ease",
+                                }}
+                                onClick={() =>
+                                    navigate(
+                                        `${portalPrefix}/announcements/${announcement.id}`
+                                    )
+                                }
+                            >
+
+                                <div className="d-flex align-items-start gap-3">
+
+                                    <div className="rems-action-icon">
+
+                                        <BsMegaphone />
+
+                                    </div>
+
+
+                                    <div className="min-width-0 flex-grow-1">
+
+                                        <div className="d-flex align-items-center flex-wrap gap-2">
+
+                                            <div className="rems-table-primary">
+
+                                                {
+                                                    announcement.title
+                                                }
+
+                                            </div>
+
+
+                                            <span className="rems-status-badge rems-status-info">
+
+                                                {
+                                                    announcement.category_display ||
+                                                    announcement.category
+                                                }
+
+                                            </span>
+
+                                        </div>
+
+
+                                        <div className="rems-table-secondary mt-1">
+
+                                            {
+                                                announcement.content
+                                            }
+
+                                        </div>
+
+
+                                        <div className="small text-muted mt-2">
+
+                                            {
+                                                announcement.published_at
+                                                    ? new Date(
+                                                        announcement.published_at
+                                                    ).toLocaleDateString()
+                                                    : "Recently published"
+                                            }
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </button>
+
+                        )
+                    )}
+
+            </div>
+
+        )}
+
+    </div>
+
+</div>
 
     // ========================================================
     // STATISTICS
     // ========================================================
 
     const statistics =
-        useMemo(
-            () => {
+    useMemo(
+        () => {
 
-                const activeVehicles =
-                    vehicles.filter(
-                        (vehicle) =>
-                            vehicle?.is_active !== false
-                    ).length;
-
-
-                const activeStickers =
-                    stickers.filter(
-                        (sticker) =>
-                            String(
-                                sticker?.status ||
-                                ""
-                            ).toUpperCase() ===
-                            "ACTIVE"
-                    ).length;
+            const activeVehicles =
+                vehicles.filter(
+                    (vehicle) =>
+                        vehicle?.is_active !== false
+                ).length;
 
 
-                const pendingStickers =
-                    stickers.filter(
-                        (sticker) =>
-                            String(
-                                sticker?.status ||
-                                ""
-                            ).toUpperCase() ===
-                            "PENDING"
-                    ).length;
+            const activeStickers =
+                stickers.filter(
+                    (sticker) =>
+                        String(
+                            sticker?.status ||
+                            ""
+                        ).toUpperCase() ===
+                        "ACTIVE"
+                ).length;
 
 
-                const activeVisitors =
-                    visitors.filter(
-                        (visitor) => {
-
-                            const status =
-                                String(
-                                    visitor?.status ||
-                                    ""
-                                ).toUpperCase();
-
-                            return [
-                                "APPROVED",
-                                "EXPECTED",
-                                "INSIDE",
-                                "ACTIVE",
-                            ].includes(
-                                status
-                            );
-
-                        }
-                    ).length;
+            const pendingStickers =
+                stickers.filter(
+                    (sticker) =>
+                        String(
+                            sticker?.status ||
+                            ""
+                        ).toUpperCase() ===
+                        "PENDING"
+                ).length;
 
 
-                return {
+            /*
+             * ====================================================
+             * ACTUAL VISITORS
+             *
+             * Only USED invitations represent visitors who
+             * successfully passed through the gate.
+             * ====================================================
+             */
 
-                    properties:
-                        properties.length,
+            const usedVisitors =
+                visitors.filter(
+                    (visitor) =>
+                        String(
+                            visitor?.status ||
+                            ""
+                        ).toUpperCase() ===
+                        "USED"
+                );
 
-                    vehicles:
-                        vehicles.length,
 
-                    activeVehicles,
+            /*
+             * ====================================================
+             * VISITORS CURRENTLY INSIDE
+             *
+             * This should be based on the actual gate visit
+             * state, not the invitation state.
+             *
+             * If the visitors API returns VisitorVisit data,
+             * INSIDE is the authoritative active state.
+             * ====================================================
+             */
 
-                    stickers:
-                        stickers.length,
+            const activeVisitors =
+                visitors.filter(
+                    (visitor) =>
+                        String(
+                            visitor?.status ||
+                            ""
+                        ).toUpperCase() ===
+                        "INSIDE"
+                ).length;
 
-                    activeStickers,
 
-                    pendingStickers,
+            return {
 
-                    visitors:
-                        visitors.length,
+                properties:
+                    properties.length,
 
-                    activeVisitors,
+                vehicles:
+                    vehicles.length,
 
-                };
+                activeVehicles,
 
-            },
-            [
-                properties,
-                vehicles,
-                stickers,
-                visitors,
-            ]
-        );
+                stickers:
+                    stickers.length,
+
+                activeStickers,
+
+                pendingStickers,
+
+
+                /*
+                 * Total actual visitors.
+                 */
+
+                visitors:
+                    usedVisitors.length,
+
+
+                /*
+                 * Visitors currently inside.
+                 */
+
+                activeVisitors,
+
+            };
+
+        },
+        [
+            properties,
+            vehicles,
+            stickers,
+            visitors,
+        ]
+    );
 
 
     // ========================================================
@@ -1273,7 +1510,7 @@ export default function ResidentDashboard() {
                         <div className="rems-stat-content">
 
                             <div className="rems-stat-label">
-                                Visitors
+                                Total Visitors
                             </div>
 
                             <div className="rems-stat-value">

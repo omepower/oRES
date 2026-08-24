@@ -631,8 +631,52 @@ export default function Visitors() {
        STATISTICS
     ========================================================= */
 
-    const totalInvitations =
-        invitations.length;
+    /*
+     * ONLY USED INVITATIONS COUNT AS ACTUAL VISITORS.
+     *
+     * PENDING   = no visitor entry yet
+     * CANCELLED = visitor never entered
+     * EXPIRED   = visitor never entered
+     * USED      = invitation was successfully scanned
+     */
+
+    const usedInvitations =
+        invitations.filter(
+            (
+                invitation
+            ) =>
+                invitation?.status ===
+                "USED"
+        ).length;
+
+
+    /*
+     * TOTAL VISITORS
+     *
+     * Only invitations that were actually used.
+     */
+
+    const totalVisitors =
+        usedInvitations;
+
+
+    /*
+     * VISITORS TODAY
+     *
+     * Only USED invitations scheduled for today.
+     */
+
+    const visitorsToday =
+        invitations.filter(
+            (
+                invitation
+            ) =>
+                invitation?.status ===
+                    "USED"
+                &&
+                invitation?.visit_date ===
+                    todayString
+        ).length;
 
 
     const pendingInvitations =
@@ -645,33 +689,12 @@ export default function Visitors() {
         ).length;
 
 
-    const todayInvitations =
-        invitations.filter(
-            (
-                invitation
-            ) =>
-                invitation?.visit_date ===
-                todayString
-        ).length;
-
-
     const insideCount =
         visitorsInside.length;
 
 
     const completedCount =
         completedVisits.length;
-
-
-    const usedInvitations =
-        invitations.filter(
-            (
-                invitation
-            ) =>
-                invitation?.status ===
-                "USED"
-        ).length;
-
 
     /* =========================================================
        RESET
@@ -816,13 +839,13 @@ export default function Visitors() {
                         <div className="rems-stat-content">
 
                             <div className="rems-stat-label">
-                                Total Invitations
+                                Total Visitors
                             </div>
 
 
                             <div className="rems-stat-value">
                                 {
-                                    totalInvitations
+                                     totalVisitors
                                 }
                             </div>
 
@@ -921,7 +944,7 @@ export default function Visitors() {
 
                             <div className="rems-stat-value">
                                 {
-                                    todayInvitations
+                                    visitorsToday
                                 }
                             </div>
 
@@ -1120,7 +1143,7 @@ export default function Visitors() {
                                                 "0.72rem",
                                         }}
                                     >
-                                        Today's Invitations
+                                        Today's Visitors
                                     </div>
 
 
@@ -1135,7 +1158,7 @@ export default function Visitors() {
                                         }}
                                     >
                                         {
-                                            todayInvitations
+                                            visitorsToday
                                         }
                                     </div>
 

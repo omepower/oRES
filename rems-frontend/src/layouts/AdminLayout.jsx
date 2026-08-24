@@ -383,6 +383,31 @@ export default function AdminLayout() {
 
                         </NavLink>
 
+
+                         {/* COMMUNITY ANNOUNCEMENT */}
+
+                        <NavLink
+                            to="/admin/announcements"
+                            onClick={
+                                closeMobileSidebar
+                            }
+                            className={({ isActive }) =>
+                                `rems-nav-link ${
+                                    isActive
+                                        ? "active"
+                                        : ""
+                                }`
+                            }
+                        >
+
+                            <i className="bi bi-megaphone" />
+
+                            <span>
+                                Announcements
+                            </span>
+
+                        </NavLink>
+
                     </nav>
 
                 </div>

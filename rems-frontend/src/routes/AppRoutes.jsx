@@ -66,6 +66,8 @@ import Gates
 import Occupancy
     from "../pages/admin/Occupancy";
 
+import Announcements
+    from "../pages/admin/Announcements";
 
 // ============================================================
 // SHARED RESIDENT PAGES
@@ -88,6 +90,12 @@ import ResidentProperties
 
 import HomeownerOccupancy
     from "../pages/resident/HomeownerOccupancy";
+
+import ResidentAnnouncements
+    from "../pages/resident/ResidentAnnouncements";
+
+import ResidentAnnouncementDetails
+    from "../pages/resident/ResidentAnnouncementDetails";
 
 
 // ============================================================
@@ -276,6 +284,17 @@ export default function AppRoutes() {
                         }
                     />
 
+                    {/* /*==========================================
+                                 ANNOUNCEMENT   
+                    =============================================*/ }
+
+                    <Route
+                        path="announcements"
+                        element={
+                            <Announcements />
+                        }
+                    />
+
                 </Route>
 
             </Route>
@@ -385,6 +404,24 @@ export default function AppRoutes() {
                             <NotificationCenter />
                         }
                     />
+                     
+                     {/* =======================================
+                             ANNOUNCEMENT   
+                    ========================================== */}
+
+                    <Route
+                        path="announcements"
+                        element={
+                            <ResidentAnnouncements />
+                        }
+                    />
+
+                    <Route
+                        path="announcements/:id"
+                        element={
+                            <ResidentAnnouncementDetails />
+                        }
+                    />
 
                 </Route>
 
@@ -481,6 +518,24 @@ export default function AppRoutes() {
                         path="notifications"
                         element={
                             <NotificationCenter />
+                        }
+                    />
+                    
+                    {/* ==========================================
+                              ANNOUNCEMENT    
+                    ============================================ */}
+
+                    <Route
+                        path="announcements"
+                        element={
+                            <ResidentAnnouncements />
+                        }
+                    />
+
+                    <Route
+                        path="announcements/:id"
+                        element={
+                            <ResidentAnnouncementDetails />
                         }
                     />
 

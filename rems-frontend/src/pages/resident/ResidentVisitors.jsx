@@ -238,28 +238,75 @@ export default function ResidentVisitors() {
                         .toISOString()
                         .split("T")[0];
 
+
+                /*
+                 * A visitor is counted only when the
+                 * invitation has actually been USED
+                 * by the security gate scan.
+                 */
+
+                const usedInvitations =
+                    invitations.filter(
+                        (item) =>
+                            item?.status ===
+                            "USED"
+                    );
+
+
                 return {
 
+                    /*
+                     * TOTAL VISITORS
+                     *
+                     * Only successfully used invitations.
+                     */
+
                     total:
-                        invitations.length,
+                        usedInvitations.length,
+
+
+                    /*
+                     * PENDING INVITATIONS
+                     *
+                     * These remain separate because
+                     * they are not actual visitors yet.
+                     */
 
                     pending:
                         invitations.filter(
                             (item) =>
-                                item.status === "PENDING"
+                                item?.status ===
+                                "PENDING"
                         ).length,
 
+
+                    /*
+                     * VISITORS TODAY
+                     *
+                     * Only USED invitations scheduled
+                     * for today.
+                     */
+
                     today:
-                        invitations.filter(
+                        usedInvitations.filter(
                             (item) =>
-                                item.visit_date === today
+                                item?.visit_date ===
+                                today
                         ).length,
+
+
+                    /*
+                     * QR READY
+                     *
+                     * This remains based on QR generation,
+                     * not actual visitor entry.
+                     */
 
                     qrReady:
                         invitations.filter(
                             (item) =>
                                 Boolean(
-                                    item.qr_generated_at
+                                    item?.qr_generated_at
                                 )
                         ).length,
 
@@ -270,7 +317,6 @@ export default function ResidentVisitors() {
                 invitations,
             ]
         );
-
 
     /* =========================================================
        STATUS
@@ -715,7 +761,7 @@ export default function ResidentVisitors() {
                         <div className="rems-stat-content">
 
                             <div className="rems-stat-label">
-                                Total Invitations
+                                Total Visitors
                             </div>
 
                             <div className="rems-stat-value">
@@ -769,7 +815,7 @@ export default function ResidentVisitors() {
                         <div className="rems-stat-content">
 
                             <div className="rems-stat-label">
-                                Visits Today
+                                Visitors Today
                             </div>
 
                             <div className="rems-stat-value">

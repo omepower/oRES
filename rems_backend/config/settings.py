@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "security",
     "core",
     "notifications",
+    "announcements",
 ]
 
 
@@ -244,3 +245,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5173",
     "http://192.168.18.53:5173",
 ]
+
+# Allow ngrok URLs for CSRF protection
+CSRF_TRUSTED_ORIGINS = ['https://*.ngrok-free.app']

@@ -61,7 +61,7 @@ export default function SecurityDashboard() {
         visitorsInside:
             0,
 
-        visitorsToday:
+        expectedToday:
             0,
 
         completedToday:
@@ -213,6 +213,32 @@ export default function SecurityDashboard() {
                                 visit?.status ===
                                 "COMPLETED"
                         );
+                    
+                    // ==================================================
+                    // EXPECTED VISITORS
+                    //
+                    // Only today's PENDING invitations count as
+                    // expected visitors.
+                    //
+                    // USED       = already entered
+                    // CANCELLED  = no longer expected
+                    // EXPIRED    = no longer valid
+                    // PENDING    = still expected
+                    // ==================================================
+
+                    const expectedToday =
+                        invitations.filter(
+                            (
+                                invitation
+                            ) =>
+                                String(
+                                    invitation?.status ||
+                                    ""
+                                ).toUpperCase() ===
+                                "PENDING"
+                        );
+
+                  
 
 
                     // ==================================================
@@ -270,8 +296,8 @@ export default function SecurityDashboard() {
                         visitorsInside:
                             inside.length,
 
-                        visitorsToday:
-                            invitations.length,
+                        expectedToday:
+                            expectedToday.length,
 
                         completedToday:
                             completedToday.length,
@@ -606,7 +632,7 @@ export default function SecurityDashboard() {
                             <div className="rems-stat-value">
 
                                 {
-                                    data.visitorsToday
+                                    data.expectedToday
                                 }
 
                             </div>

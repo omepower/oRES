@@ -2491,7 +2491,7 @@ export default function AdminDashboard() {
 
 
                 /* =====================================================
-                   VISITOR COUNTS
+                VISITOR COUNTS
                 ===================================================== */
 
                 const today =
@@ -2516,15 +2516,35 @@ export default function AdminDashboard() {
                     ].join("-");
 
 
+                /*
+                * =====================================================
+                * VISITORS TODAY
+                *
+                * Only USED invitations represent visitors who
+                * actually entered through the gate.
+                * =====================================================
+                */
+
                 const visitorsToday =
                     invitations.filter(
                         (
                             invitation
                         ) =>
+                            invitation?.status ===
+                                "USED"
+                            &&
                             invitation?.visit_date ===
-                            todayString
+                                todayString
                     );
 
+
+                /*
+                * =====================================================
+                * PENDING VISITORS
+                *
+                * These are invitations waiting to be used.
+                * =====================================================
+                */
 
                 const pendingVisitors =
                     invitations.filter(
@@ -2536,26 +2556,46 @@ export default function AdminDashboard() {
                     );
 
 
+                /*
+                * =====================================================
+                * VISITORS CURRENTLY INSIDE
+                *
+                * Authoritative source is VisitorVisit.status.
+                * =====================================================
+                */
+
                 const visitorsInside =
                     visits.filter(
                         (
                             visit
                         ) =>
-                            visit?.status ===
+                            String(
+                                visit?.status ||
+                                ""
+                            ).toUpperCase() ===
                             "INSIDE"
                     );
 
+
+                /*
+                * =====================================================
+                * COMPLETED VISITS
+                *
+                * Authoritative source is VisitorVisit.status.
+                * =====================================================
+                */
 
                 const completedVisitors =
                     visits.filter(
                         (
                             visit
                         ) =>
-                            visit?.status ===
+                            String(
+                                visit?.status ||
+                                ""
+                            ).toUpperCase() ===
                             "COMPLETED"
                     );
-
-
                 /* =====================================================
                    VEHICLES
                 ===================================================== */

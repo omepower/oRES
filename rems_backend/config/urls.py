@@ -85,6 +85,13 @@ urlpatterns = [
         "api/",
         include("notifications.urls"),
     ),
+    
+    path(
+        "api/announcements/",
+        include(
+            "announcements.urls"
+    ),
+    ),
 ]
 
 
