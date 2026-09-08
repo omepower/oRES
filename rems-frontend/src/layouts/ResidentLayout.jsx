@@ -309,6 +309,17 @@ export default function ResidentLayout() {
                 "bi-shield-check",
         },
 
+        {
+            path:
+                "/homeowner/facilities",
+
+            label:
+                "Facilities & Amenities",
+
+            icon:
+                "bi-calendar2-check",
+        },
+
     ];
 
 
@@ -370,6 +381,17 @@ export default function ResidentLayout() {
 
             icon:
                 "bi-shield-check",
+        },
+
+        {
+            path:
+                "/tenant/facilities",
+
+            label:
+                "Facilities & Amenities",
+
+            icon:
+                "bi-calendar2-check",
         },
 
     ];

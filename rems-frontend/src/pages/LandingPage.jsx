@@ -2720,13 +2720,7 @@ export default function LandingPage() {
 
                         <div className="rems-landing-copy">
 
-                            <div className="rems-landing-eyebrow">
-
-                                
-
-                                SECURE COMMUNITY MANAGEMENT
-
-                            </div>
+                            
 
 
                             <h1 className="rems-landing-title">

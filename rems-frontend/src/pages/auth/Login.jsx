@@ -1819,14 +1819,6 @@ export default function Login() {
 
                         <section className="rems-login-intro">
 
-                            <div className="rems-login-eyebrow">
-
-                                <span />
-
-                                SECURE PORTAL ACCESS
-
-                            </div>
-
 
                             <h1 className="rems-login-heading">
 

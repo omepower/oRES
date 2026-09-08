@@ -69,6 +69,12 @@ import Occupancy
 import Announcements
     from "../pages/admin/Announcements";
 
+import Facilities
+    from "../pages/admin/Facilities";
+
+import FacilityBookings
+    from "../pages/admin/FacilityBookings";
+
 // ============================================================
 // SHARED RESIDENT PAGES
 // ============================================================
@@ -96,6 +102,15 @@ import ResidentAnnouncements
 
 import ResidentAnnouncementDetails
     from "../pages/resident/ResidentAnnouncementDetails";
+
+import ResidentFacilities
+    from "../pages/resident/ResidentFacilities";
+
+import ResidentFacilityBookings
+    from "../pages/resident/ResidentFacilityBookings";
+
+import ResidentFacilityBookingDetails
+    from "../pages/resident/ResidentFacilityBookingDetails";
 
 
 // ============================================================
@@ -295,6 +310,24 @@ export default function AppRoutes() {
                         }
                     />
 
+                    {/* ===================================================
+                                      BOOKING      
+                    =================================================== */}
+
+                    <Route
+                        path="facilities"
+                        element={
+                            <Facilities />
+                        }
+                    />
+
+                    <Route
+                        path="facility-bookings"
+                        element={
+                            <FacilityBookings />
+                        }
+                    />
+
                 </Route>
 
             </Route>
@@ -422,6 +455,31 @@ export default function AppRoutes() {
                             <ResidentAnnouncementDetails />
                         }
                     />
+{/* 
+                    ============================================
+                           BOOKING  
+                    ============================================ */}
+
+                    <Route
+                        path="facilities"
+                        element={
+                            <ResidentFacilities />
+                        }
+                    />
+
+                    <Route
+                        path="facilities/bookings"
+                        element={
+                            <ResidentFacilityBookings />
+                        }
+                    />
+
+                    <Route
+                        path="facilities/bookings/:id"
+                        element={
+                            <ResidentFacilityBookingDetails />
+                        }
+                    />
 
                 </Route>
 
@@ -536,6 +594,31 @@ export default function AppRoutes() {
                         path="announcements/:id"
                         element={
                             <ResidentAnnouncementDetails />
+                        }
+                    />
+
+                    {/* ================================================
+                                     BOOKING     
+                    ================================================ */}
+
+                    <Route
+                        path="facilities"
+                        element={
+                            <ResidentFacilities />
+                        }
+                    />
+
+                    <Route
+                        path="facilities/bookings"
+                        element={
+                            <ResidentFacilityBookings />
+                        }
+                    />
+
+                    <Route
+                        path="facilities/bookings/:id"
+                        element={
+                            <ResidentFacilityBookingDetails />
                         }
                     />
 

@@ -408,6 +408,57 @@ export default function AdminLayout() {
 
                         </NavLink>
 
+
+                        {/* FACILITIES & AMENITIES */}
+
+                        <NavLink
+                            to="/admin/facilities"
+                            onClick={
+                                closeMobileSidebar
+                            }
+                            className={({ isActive }) =>
+                                `rems-nav-link ${
+                                    isActive
+                                        ? "active"
+                                        : ""
+                                }`
+                            }
+                        >
+
+                            <i className="bi bi-calendar2-check" />
+
+                            <span>
+                                Facilities & Amenities
+                            </span>
+
+                        </NavLink>
+
+
+                        {/* FACILITIES BOOKINGS */}
+
+                        <NavLink
+                            to="/admin/facility-bookings"
+                            onClick={
+                                closeMobileSidebar
+                            }
+                            className={({ isActive }) =>
+                                `rems-nav-link ${
+                                    isActive
+                                        ? "active"
+                                        : ""
+                                }`
+                            }
+                        >
+
+                            <i className="bi bi-journal-check" />
+
+                            <span>
+                                Facility Bookings
+                            </span>
+
+                        </NavLink>
+
+
                     </nav>
 
                 </div>
