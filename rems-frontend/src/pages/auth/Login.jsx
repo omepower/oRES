@@ -1784,7 +1784,7 @@ export default function Login() {
                             </div>
 
                             <div className="rems-login-brand-caption">
-                                Real Estate Management System
+                                Residential Estate Management System
                             </div>
 
                         </div>
@@ -2098,7 +2098,7 @@ export default function Login() {
                             oRES
                         </strong>
 
-                        . Real Estate Management System.
+                        . Residential Estate Management System.
 
                     </div>
 

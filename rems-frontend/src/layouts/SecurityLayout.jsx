@@ -491,7 +491,7 @@ export default function SecurityLayout() {
 
                             <div className="rems-topbar-subtitle">
 
-                                Real Estate Management System
+                                Residential Estate Management System
 
                             </div>
 

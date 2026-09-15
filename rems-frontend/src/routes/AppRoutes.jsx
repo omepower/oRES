@@ -75,6 +75,9 @@ import Facilities
 import FacilityBookings
     from "../pages/admin/FacilityBookings";
 
+import AuditComplianceCenter
+    from "../pages/admin/AuditComplianceCenter";
+
 // ============================================================
 // SHARED RESIDENT PAGES
 // ============================================================
@@ -326,6 +329,15 @@ export default function AppRoutes() {
                         element={
                             <FacilityBookings />
                         }
+                    />
+
+                    {/* ====================================================
+                                 AUDIT & COMPLIANCE   
+                    ==================================================== */}
+
+                    <Route
+                        path="/admin/audit"
+                        element={<AuditComplianceCenter />}
                     />
 
                 </Route>

@@ -458,6 +458,30 @@ export default function AdminLayout() {
 
                         </NavLink>
 
+                         {/* AUDIT & COMPLIANCE */}
+
+                        <NavLink
+                            to="/admin/audit"
+                            onClick={
+                                closeMobileSidebar
+                            }
+                            className={({ isActive }) =>
+                                `rems-nav-link ${
+                                    isActive
+                                        ? "active"
+                                        : ""
+                                }`
+                            }
+                        >
+
+                            <i className="bi bi-clipboard-check" />
+
+                            <span>
+                                Audit & Compliance Center
+                            </span>
+
+                        </NavLink>
+
 
                     </nav>
 
@@ -547,7 +571,7 @@ export default function AdminLayout() {
 
                             <div className="rems-topbar-subtitle">
 
-                                Real Estate Management System
+                                Residential Estate Management System
 
                             </div>
 

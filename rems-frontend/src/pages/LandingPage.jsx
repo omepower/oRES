@@ -2685,7 +2685,7 @@ export default function LandingPage() {
                             </div>
 
                             <div className="rems-landing-brand-caption">
-                                Real Estate Management System
+                                Residential Estate Management System
                             </div>
 
                         </div>
