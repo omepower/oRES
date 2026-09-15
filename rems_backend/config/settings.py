@@ -13,8 +13,8 @@ SECRET_KEY = "django-insecure-rems-development-key"
 
 DEBUG = True
 
-
-ALLOWED_HOSTS = ['localhost','127.0.0.1','192.168.18.53']
+ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = ['localhost','127.0.0.1','192.168.18.53']
 
 
 # ============================================================
