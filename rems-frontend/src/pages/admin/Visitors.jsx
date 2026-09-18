@@ -30,7 +30,7 @@ import VisitorDetailsModal
     from "../../components/visitors/VisitorDetailsModal";
 
 import VisitorQrModal
-    from "../../components/visitors/VisitorQrModal";
+    from "../../components/visitors/VisitorQRModal";
 
 
 export default function Visitors() {

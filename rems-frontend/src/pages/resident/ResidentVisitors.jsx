@@ -22,7 +22,7 @@ import ResidentVisitorInvitationModal
     from "../../components/visitors/ResidentVisitorInvitationModal";
 
 import VisitorQrModal
-    from "../../components/visitors/VisitorQrModal";
+    from "../../components/visitors/VisitorQRModal";
 
 import VisitorDetailsModal
     from "../../components/visitors/VisitorDetailsModal";
