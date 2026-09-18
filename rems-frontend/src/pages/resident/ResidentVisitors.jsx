@@ -21,8 +21,8 @@ import {
 import ResidentVisitorInvitationModal
     from "../../components/visitors/ResidentVisitorInvitationModal";
 
-import VisitorQRModal
-    from "../../components/visitors/VisitorQRModal";
+import VisitorQrModal
+    from "../../components/visitors/VisitorQrModal";
 
 import VisitorDetailsModal
     from "../../components/visitors/VisitorDetailsModal";

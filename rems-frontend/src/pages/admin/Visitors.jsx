@@ -29,8 +29,8 @@ import VisitorTable
 import VisitorDetailsModal
     from "../../components/visitors/VisitorDetailsModal";
 
-import VisitorQRModal
-    from "../../components/visitors/VisitorQRModal";
+import VisitorQrModal
+    from "../../components/visitors/VisitorQrModal";
 
 
 export default function Visitors() {

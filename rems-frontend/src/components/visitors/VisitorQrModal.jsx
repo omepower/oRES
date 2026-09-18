@@ -4,7 +4,7 @@ import {
 } from "qrcode.react";
 
 
-export default function VisitorQRModal({
+export default function VisitorQrModal({
     show,
     invitation,
     qrValue,
