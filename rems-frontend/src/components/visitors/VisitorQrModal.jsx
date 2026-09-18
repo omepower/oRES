@@ -167,7 +167,7 @@ export default function VisitorQRModal({
                         <div className="rems-qr-label">
 
                             Present this QR code
-                            at the gate.
+                            at the entry gate.
 
                         </div>
 

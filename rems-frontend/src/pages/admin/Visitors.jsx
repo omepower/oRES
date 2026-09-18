@@ -29,7 +29,7 @@ import VisitorTable
 import VisitorDetailsModal
     from "../../components/visitors/VisitorDetailsModal";
 
-import VisitorQrModal
+import VisitorQRModal
     from "../../components/visitors/VisitorQRModal";
 
 
